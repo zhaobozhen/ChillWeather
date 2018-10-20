@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">ChillWeather</string>
+    <string name="air_quality">空气质量</string>
+    <string name="aqi_value">AQI指数</string>
+    <string name="pm2_5_value">PM2.5指数</string>
+    <string name="forecast_string">预报</string>
+    <string name="life_suggestion">生活建议</string>
 </resources>
