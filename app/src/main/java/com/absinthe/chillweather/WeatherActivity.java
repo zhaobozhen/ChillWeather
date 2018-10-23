@@ -115,6 +115,14 @@ public class WeatherActivity extends AppCompatActivity {
         } else {
             loadBingPic();
         }
+        swipeRefresh.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefresh.setRefreshing(true);
+                requestWeather(mWeatherId);
+            }
+        });
+        swipeRefresh.setRefreshing(false);
     }
 
     /**
