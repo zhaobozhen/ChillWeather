@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/city_manage"
+            android:icon="@drawable/ic_city_manage"
+            android:title="@string/city_manage"/>
+    </group>
+
+    <item android:title="@string/others">
+        <menu>
+            <item
+                android:id="@+id/change_theme"
+                android:icon="@drawable/ic_change_theme"
+                android:title="@string/theme"/>
+            <item
+                android:id="@+id/settings"
+                android:icon="@drawable/ic_setting"
+                android:title="@string/settings"/>
+        </menu>
+    </item>
+
+</menu>

@@ -5,4 +5,8 @@
     <string name="pm2_5_value">PM2.5指数</string>
     <string name="forecast_string">预报</string>
     <string name="life_suggestion">生活建议</string>
+    <string name="city_manage">城市管理</string>
+    <string name="others">其他</string>
+    <string name="theme">主题</string>
+    <string name="settings">设置</string>
 </resources>

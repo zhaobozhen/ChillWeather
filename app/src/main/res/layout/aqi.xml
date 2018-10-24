@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/aqi_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="15dp"
-    android:background="#8000">
+    android:background="@drawable/bg_border"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
@@ -14,7 +14,7 @@
         android:layout_marginTop="15dp"
         android:text="@string/air_quality"
         android:textColor="#fff"
-        android:textSize="20sp"/>
+        android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,10 +28,10 @@
             android:layout_weight="1">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true">
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/aqi_text"
@@ -39,14 +39,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textColor="#fff"
-                    android:textSize="40sp"/>
+                    android:textSize="40sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/aqi_value"
-                    android:textColor="#fff"/>
+                    android:textColor="#fff" />
             </LinearLayout>
 
         </RelativeLayout>
@@ -57,10 +57,10 @@
             android:layout_weight="1">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true">
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/pm25_text"
@@ -68,14 +68,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textColor="#fff"
-                    android:textSize="40sp"/>
+                    android:textSize="40sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/pm2_5_value"
-                    android:textColor="#fff"/>
+                    android:textColor="#fff" />
             </LinearLayout>
 
         </RelativeLayout>

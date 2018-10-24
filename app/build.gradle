@@ -6,7 +6,7 @@ android {
         applicationId "com.absinthe.chillweather"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 47
+        versionCode 58
         versionName "1.0-alpha"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -22,6 +22,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'org.litepal.android:java:3.0.0'
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     implementation 'com.google.code.gson:gson:2.8.5'
