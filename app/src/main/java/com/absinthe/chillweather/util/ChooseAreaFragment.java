@@ -2,9 +2,7 @@ package com.absinthe.chillweather.util;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -96,6 +94,7 @@ public class ChooseAreaFragment extends Fragment {
                     } else if (getActivity() instanceof CityManagerActivity) {
                         Intent intent = new Intent(getActivity(), WeatherActivity.class);
                         intent.putExtra("weather_id", weatherId);
+                        WeatherActivity.isNeedRefresh = true;
                         startActivity(intent);
                         getActivity().finish();
                     }
