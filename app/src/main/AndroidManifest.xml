@@ -26,9 +26,9 @@
         <service
             android:name=".service.AutoUpdateService"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true"></service>
 
-        </service>
+        <activity android:name=".CityManagerActivity"></activity>
     </application>
 
 </manifest>

@@ -2,7 +2,9 @@ package com.absinthe.chillweather.util;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.absinthe.chillweather.CityManagerActivity;
 import com.absinthe.chillweather.MainActivity;
 import com.absinthe.chillweather.R;
 import com.absinthe.chillweather.WeatherActivity;
@@ -84,12 +87,17 @@ public class ChooseAreaFragment extends Fragment {
                         Intent intent = new Intent(getActivity(), WeatherActivity.class);
                         intent.putExtra("weather_id", weatherId);
                         startActivity(intent);
-                        Objects.requireNonNull(getActivity()).finish();
+                        getActivity().finish();
                     } else if (getActivity() instanceof WeatherActivity) {
                         WeatherActivity activity = (WeatherActivity) getActivity();
                         activity.drawerLayout.closeDrawers();
                         activity.swipeRefresh.setRefreshing(true);
                         activity.requestWeather(weatherId);
+                    } else if (getActivity() instanceof CityManagerActivity) {
+                        Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                        intent.putExtra("weather_id", weatherId);
+                        startActivity(intent);
+                        getActivity().finish();
                     }
 
                 }
@@ -112,7 +120,7 @@ public class ChooseAreaFragment extends Fragment {
      * 查询全国所有的省，优先从数据库查询
      */
     private void queryProvinces() {
-        titleText.setText("中国");
+        titleText.setText("选择城市");
         backButton.setVisibility(View.GONE);
         provinceList = LitePal.findAll(Province.class);
         if (provinceList.size() > 0) {

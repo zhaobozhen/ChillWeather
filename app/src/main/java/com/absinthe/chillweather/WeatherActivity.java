@@ -1,6 +1,7 @@
 package com.absinthe.chillweather;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
@@ -40,7 +41,6 @@ public class WeatherActivity extends AppCompatActivity {
     private String mWeatherId;
     private ScrollView weatherLayout;
     private TextView titleCity;
-    private TextView titleUpdateTime;
     private TextView degreeText;
     private TextView weatherInfoText;
     private LinearLayout forecastLayout;
@@ -65,7 +65,6 @@ public class WeatherActivity extends AppCompatActivity {
         //初始化各个控件
         weatherLayout = findViewById(R.id.weather_layout);
         titleCity = findViewById(R.id.title_city);
-        titleUpdateTime = findViewById(R.id.title_update_time);
         degreeText = findViewById(R.id.degree_text);
         weatherInfoText = findViewById(R.id.weather_info_text);
         forecastLayout = findViewById(R.id.forecast_layout);
@@ -92,10 +91,19 @@ public class WeatherActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                drawerLayout.closeDrawers();
+                switch (menuItem.getItemId()) {
+                    case R.id.city_manage:
+                        Intent intent = new Intent(WeatherActivity.this, CityManagerActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+                }
+
                 return true;
             }
         });
+
+
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String weatherString = prefs.getString("weather", null);
@@ -103,8 +111,15 @@ public class WeatherActivity extends AppCompatActivity {
             //有缓存时直接解析天气数据
             Weather weather = Utility.handleWeatherResponse(weatherString);
             assert weather != null;
-            mWeatherId = weather.basic.cityId;
-            showWeatherInfo(weather);
+            Intent intent = getIntent();
+            String tmp = intent.getStringExtra("weather_id");
+            if (tmp != null && (!tmp.equals(weather.basic.cityId))) {
+                mWeatherId = tmp;
+                requestWeather(mWeatherId);
+            } else {
+                mWeatherId = weather.basic.cityId;
+                showWeatherInfo(weather);
+            }
         } else {
             //无缓存时去服务器查询天气
             mWeatherId = getIntent().getStringExtra("weather_id");
@@ -182,14 +197,13 @@ public class WeatherActivity extends AppCompatActivity {
     /**
      * 处理并展示Weather实体类中的数据
      */
+    @SuppressLint("SetTextI18n")
     private void showWeatherInfo(Weather weather) {
         String cityName = weather.basic.cityName;
-        String updateTime = weather.basic.update.updateTime;
         String degree = weather.now.temperature + "°C";
         String weatherInfo = weather.now.more.info;
 
         titleCity.setText(cityName);
-        titleUpdateTime.setText(updateTime);
         degreeText.setText(degree);
         weatherInfoText.setText(weatherInfo);
 
@@ -203,17 +217,17 @@ public class WeatherActivity extends AppCompatActivity {
 
             dateText.setText(forecast.date);
             infoText.setText(forecast.more.info);
-            maxText.setText(forecast.temperature.max);
-            minText.setText(forecast.temperature.min);
+            maxText.setText(forecast.temperature.max + "°C");
+            minText.setText(forecast.temperature.min + "°C");
             forecastLayout.addView(view);
         }
         if (weather.aqi != null) {
             aqiText.setText(weather.aqi.city.aqi);
             pm25Text.setText(weather.aqi.city.pm25);
         }
-        String comfort = "舒适度" + weather.suggestion.comfort.info;
-        String carWash = "洗车指数" + weather.suggestion.carWash.info;
-        String sport = "运动建议" + weather.suggestion.sport.info;
+        String comfort = "舒适度：" + weather.suggestion.comfort.info;
+        String carWash = "洗车指数：" + weather.suggestion.carWash.info;
+        String sport = "运动建议：" + weather.suggestion.sport.info;
         comfortText.setText(comfort);
         carWashText.setText(carWash);
         sportText.setText(sport);

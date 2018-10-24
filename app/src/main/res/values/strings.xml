@@ -9,4 +9,6 @@
     <string name="others">其他</string>
     <string name="theme">主题</string>
     <string name="settings">设置</string>
+    <string name="major">主要</string>
+    <string name="about">关于</string>
 </resources>
