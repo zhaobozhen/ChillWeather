@@ -94,6 +94,7 @@ public class ChooseAreaFragment extends Fragment {
                     } else if (getActivity() instanceof CityManagerActivity) {
                         Intent intent = new Intent(getActivity(), WeatherActivity.class);
                         intent.putExtra("weather_id", weatherId);
+                        WeatherActivity.isNeedRefresh = true;
                         startActivity(intent);
                         getActivity().finish();
                     }

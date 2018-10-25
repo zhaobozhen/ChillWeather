@@ -36,6 +36,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class WeatherActivity extends AppCompatActivity {
+    public static boolean isNeedRefresh = true;
     public SwipeRefreshLayout swipeRefresh;
     public DrawerLayout drawerLayout;
     private String mWeatherId;
@@ -140,14 +141,18 @@ public class WeatherActivity extends AppCompatActivity {
         } else {
             loadBingPic();
         }
-        swipeRefresh.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefresh.setRefreshing(true);
-                requestWeather(mWeatherId);
-            }
-        });
-        swipeRefresh.setRefreshing(false);
+
+        if (isNeedRefresh) {
+            swipeRefresh.post(new Runnable() {
+                @Override
+                public void run() {
+                    swipeRefresh.setRefreshing(true);
+                    requestWeather(mWeatherId);
+                }
+            });
+            swipeRefresh.setRefreshing(false);
+            isNeedRefresh = false;
+        }
     }
 
     /**
