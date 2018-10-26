@@ -1,14 +1,16 @@
-package com.absinthe.chillweather.util;
+package com.absinthe.chillweather;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -16,26 +18,27 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.absinthe.chillweather.CityManagerActivity;
-import com.absinthe.chillweather.MainActivity;
-import com.absinthe.chillweather.R;
-import com.absinthe.chillweather.WeatherActivity;
 import com.absinthe.chillweather.db.City;
 import com.absinthe.chillweather.db.County;
 import com.absinthe.chillweather.db.Province;
+import com.absinthe.chillweather.util.HttpUtil;
+import com.absinthe.chillweather.util.Utility;
+import com.tencent.map.geolocation.TencentLocation;
+import com.tencent.map.geolocation.TencentLocationListener;
+import com.tencent.map.geolocation.TencentLocationManager;
+import com.tencent.map.geolocation.TencentLocationRequest;
 
 import org.litepal.LitePal;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class ChooseAreaFragment extends Fragment {
+public class ChooseAreaActivity extends AppCompatActivity implements TencentLocationListener {
     public static final int LEVEL_PROVINCE = 0;
     public static final int LEVEL_CITY = 1;
     public static final int LEVEL_COUNTY = 2;
@@ -44,7 +47,7 @@ public class ChooseAreaFragment extends Fragment {
     private TextView titleText;
     private Button backButton;
     private ListView listView;
-    private ArrayAdapter<String> adapter;
+    private ArrayAdapter adapter;
     private List<String> dataList = new ArrayList<>();
 
     private List<Province> provinceList;    //省列表
@@ -55,21 +58,37 @@ public class ChooseAreaFragment extends Fragment {
     private City selectedCity;  //选中的城市
     private int currentLevel;   //当前选中的级别
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.choose_area, container, false);
-        titleText = view.findViewById(R.id.title_text);
-        backButton = view.findViewById(R.id.back_button);
-        listView = view.findViewById(R.id.list_view);
-        adapter = new ArrayAdapter<>(Objects.requireNonNull(getContext()), android.R.layout.simple_list_item_1, dataList);
-        listView.setAdapter(adapter);
-        return view;
-    }
+    private TencentLocationManager mLocationManager;    //腾讯定位SDK
+    private String str; //从返回的定位数据中截取城市名
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_choose_area);
+        titleText = findViewById(R.id.title_text);
+        backButton = findViewById(R.id.back_button);
+        listView = findViewById(R.id.list_view);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_2, dataList);
+        listView.setAdapter(adapter);
+
+        //运行时权限申请
+        List<String> permissionList = new ArrayList<>();
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            permissionList.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
+                != PackageManager.PERMISSION_GRANTED) {
+            permissionList.add(Manifest.permission.READ_PHONE_STATE);
+        }
+
+        if (!permissionList.isEmpty()) {
+            String[] permissions = permissionList.toArray(new String[0]);
+            ActivityCompat.requestPermissions(this, permissions, 1);
+        } else {
+            requestLocation();
+        }
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -81,24 +100,10 @@ public class ChooseAreaFragment extends Fragment {
                     queryCounties();
                 } else if (currentLevel == LEVEL_COUNTY) {
                     String weatherId = String.valueOf(countyList.get(i).getWeatherId());
-                    if (getActivity() instanceof MainActivity) {
-                        Intent intent = new Intent(getActivity(), WeatherActivity.class);
-                        intent.putExtra("weather_id", weatherId);
-                        startActivity(intent);
-                        getActivity().finish();
-                    } else if (getActivity() instanceof WeatherActivity) {
-                        WeatherActivity activity = (WeatherActivity) getActivity();
-                        activity.drawerLayout.closeDrawers();
-                        activity.swipeRefresh.setRefreshing(true);
-                        activity.requestWeather(weatherId);
-                    } else if (getActivity() instanceof CityManagerActivity) {
-                        Intent intent = new Intent(getActivity(), WeatherActivity.class);
-                        intent.putExtra("weather_id", weatherId);
-                        WeatherActivity.isNeedRefresh = true;
-                        startActivity(intent);
-                        getActivity().finish();
-                    }
-
+                    Intent intent = new Intent(ChooseAreaActivity.this, WeatherActivity.class);
+                    intent.putExtra("weather_id", weatherId);
+                    startActivity(intent);
+                    finish();
                 }
             }
         });
@@ -113,6 +118,35 @@ public class ChooseAreaFragment extends Fragment {
             }
         });
         queryProvinces();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mLocationManager.removeUpdates(this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0) {
+                    for (int result : grantResults) {
+                        if (result != PackageManager.PERMISSION_GRANTED) {
+                            Toast.makeText(this, "You must allow all permissions to run the app", Toast.LENGTH_SHORT).show();
+                            finish();
+                            return;
+                        }
+                    }
+                    requestLocation();
+                } else {
+                    Toast.makeText(this, "Unknown errors", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     /**
@@ -181,11 +215,11 @@ public class ChooseAreaFragment extends Fragment {
         HttpUtil.sendOkHttpRequest(address, new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                Objects.requireNonNull(getActivity()).runOnUiThread(new Runnable() {
+                runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         closeProgressDialog();
-                        Toast.makeText(getContext(), "加载失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "加载失败", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -203,7 +237,7 @@ public class ChooseAreaFragment extends Fragment {
                     result = Utility.handleCountyResponse(responseText, selectedCity.getId());
                 }
                 if (result) {
-                    Objects.requireNonNull(getActivity()).runOnUiThread(new Runnable() {
+                    runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             closeProgressDialog();
@@ -221,9 +255,45 @@ public class ChooseAreaFragment extends Fragment {
         });
     }
 
+    private void requestLocation() {
+        mLocationManager = TencentLocationManager.getInstance(this);
+        TencentLocationRequest request = TencentLocationRequest.create().setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_ADMIN_AREA);
+        mLocationManager.requestLocationUpdates(request, this);
+    }
+
+    @Override
+    public void onLocationChanged(TencentLocation tencentLocation, int i, String s) {
+        if (i == TencentLocation.ERROR_OK) {
+            // 定位成功
+            str = tencentLocation.getAddress();
+            //提取城市名
+            getCityName();
+        }
+    }
+
+    @Override
+    public void onStatusUpdate(String s, int i, String s1) {
+        //ignore
+    }
+    public void getCityName() {
+        int head = 0;
+        int tail = 0;
+
+        for (int i = 0; i < str.length(); i++) {
+            if ("省".equals(str.substring(i,i+1))) {
+                head = i+1;
+            }
+            if ("市".equals(str.substring(i,i+1))) {
+                tail = i;
+            }
+        }
+        str = str.substring(head,tail);
+        Log.d("mLocation","SubString:"+str);
+    }
+
     private void showProgressDialog() {
         if (progressDialog == null) {
-            progressDialog = new ProgressDialog(getActivity());
+            progressDialog = new ProgressDialog(this);
             progressDialog.setMessage("正在加载……");
             progressDialog.setCanceledOnTouchOutside(false);
         }

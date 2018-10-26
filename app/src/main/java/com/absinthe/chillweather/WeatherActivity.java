@@ -94,17 +94,13 @@ public class WeatherActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.city_manage:
-                        Intent intent = new Intent(WeatherActivity.this, CityManagerActivity.class);
+                        Intent intent = new Intent(WeatherActivity.this, ChooseAreaActivity.class);
                         startActivity(intent);
-                        finish();
                         break;
                 }
-
                 return true;
             }
         });
-
-
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String weatherString = prefs.getString("weather", null);

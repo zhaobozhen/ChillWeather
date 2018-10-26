@@ -23,15 +23,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        File dir = new File(DB_PATH);
-        dir.mkdir();
-        dbHelper = new DBManager(this);
-        dbHelper.openDatabase();
-        dbHelper.closeDatabase();
-
+        //获取用户偏好数据
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (prefs.getString("weather", null) != null) {
             Intent intent = new Intent(this, WeatherActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            File dir = new File(DB_PATH);
+            dir.mkdir();
+            dbHelper = new DBManager(this);
+            dbHelper.openDatabase();
+            dbHelper.closeDatabase();
+            Intent intent = new Intent(MainActivity.this, ChooseAreaActivity.class);
             startActivity(intent);
             finish();
         }
