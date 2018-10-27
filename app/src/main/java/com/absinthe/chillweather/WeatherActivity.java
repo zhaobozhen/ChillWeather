@@ -96,7 +96,7 @@ public class WeatherActivity extends AppCompatActivity {
                     case R.id.city_manage:
                         Intent intent = new Intent(WeatherActivity.this, ChooseAreaActivity.class);
                         startActivity(intent);
-                        finish();
+                        drawerLayout.closeDrawers();
                         break;
                 }
                 return true;

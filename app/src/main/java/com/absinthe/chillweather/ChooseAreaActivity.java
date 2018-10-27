@@ -11,7 +11,6 @@ import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +25,7 @@ import com.absinthe.chillweather.db.County;
 import com.absinthe.chillweather.db.Province;
 import com.absinthe.chillweather.util.HttpUtil;
 import com.absinthe.chillweather.util.Utility;
+import com.google.android.material.snackbar.Snackbar;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
 import com.tencent.map.geolocation.TencentLocationManager;
@@ -54,7 +54,6 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
     private ListView listView;
     private ArrayAdapter adapter;
     private List<String> dataList = new ArrayList<>();
-    private Toolbar toolbar;
 
     private List<Province> provinceList;    //省列表
     private List<City> cityList;    //市列表
@@ -76,7 +75,7 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
         listView = findViewById(R.id.list_view);
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, dataList);
         listView.setAdapter(adapter);
-        toolbar = findViewById(R.id.choose_area_toolbar);
+        Toolbar toolbar = findViewById(R.id.choose_area_toolbar);
 
         setSupportActionBar(toolbar);
 
@@ -277,6 +276,7 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
             str = tencentLocation.getDistrict();
             str = str.substring(0, str.length()-1);
             closeProgressDialog();
+            Snackbar.make(listView, "定位成功，点击右上角图标以切换城市。", Snackbar.LENGTH_LONG).show();
         } else {
             Toast.makeText(this, "定位失败", Toast.LENGTH_SHORT).show();
             closeProgressDialog();
@@ -339,14 +339,4 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
         getMenuInflater().inflate(R.menu.choose_area_toolbar_menu, menu);
         return true;
     }
-
-    private void delay(int ms){
-        try {
-            Thread.currentThread();
-            Thread.sleep(ms);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
 }
