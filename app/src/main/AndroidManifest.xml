@@ -46,7 +46,8 @@
         <service
             android:name=".service.AutoUpdateService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true">
+        </service>
 
         <activity android:name=".ChooseAreaActivity"></activity>
     </application>

@@ -5,12 +5,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import com.google.android.material.navigation.NavigationView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -96,6 +96,7 @@ public class WeatherActivity extends AppCompatActivity {
                     case R.id.city_manage:
                         Intent intent = new Intent(WeatherActivity.this, ChooseAreaActivity.class);
                         startActivity(intent);
+                        finish();
                         break;
                 }
                 return true;
@@ -112,6 +113,7 @@ public class WeatherActivity extends AppCompatActivity {
             String tmp = intent.getStringExtra("weather_id");
             if (tmp != null && (!tmp.equals(weather.basic.cityId))) {
                 mWeatherId = tmp;
+                weatherLayout.setVisibility(View.INVISIBLE);
                 requestWeather(mWeatherId);
             } else {
                 mWeatherId = weather.basic.cityId;

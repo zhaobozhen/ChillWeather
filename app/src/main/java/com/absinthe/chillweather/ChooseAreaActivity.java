@@ -5,15 +5,18 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,12 +30,15 @@ import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
 import com.tencent.map.geolocation.TencentLocationManager;
 import com.tencent.map.geolocation.TencentLocationRequest;
+import com.wyt.searchbox.SearchFragment;
+import com.wyt.searchbox.custom.IOnSearchClickListener;
 
 import org.litepal.LitePal;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -45,10 +51,10 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
 
     private ProgressDialog progressDialog;
     private TextView titleText;
-    private Button backButton;
     private ListView listView;
     private ArrayAdapter adapter;
     private List<String> dataList = new ArrayList<>();
+    private Toolbar toolbar;
 
     private List<Province> provinceList;    //省列表
     private List<City> cityList;    //市列表
@@ -59,6 +65,7 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
     private int currentLevel;   //当前选中的级别
 
     private TencentLocationManager mLocationManager;    //腾讯定位SDK
+    private TencentLocationRequest request;
     private String str; //从返回的定位数据中截取城市名
 
     @Override
@@ -66,10 +73,22 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_area);
         titleText = findViewById(R.id.title_text);
-        backButton = findViewById(R.id.back_button);
         listView = findViewById(R.id.list_view);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_2, dataList);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, dataList);
         listView.setAdapter(adapter);
+        toolbar = findViewById(R.id.choose_area_toolbar);
+
+        setSupportActionBar(toolbar);
+
+        SearchFragment searchFragment = SearchFragment.newInstance();
+        searchFragment.setOnSearchClickListener(new IOnSearchClickListener() {
+            @Override
+            public void OnSearchClick(String keyword) {
+                //这里处理逻辑
+                Toast.makeText(ChooseAreaActivity.this, keyword, Toast.LENGTH_SHORT).show();
+            }
+        });
+        //searchFragment.show(getSupportFragmentManager(),SearchFragment.TAG);
 
         //运行时权限申请
         List<String> permissionList = new ArrayList<>();
@@ -82,11 +101,15 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
             permissionList.add(Manifest.permission.READ_PHONE_STATE);
         }
 
+        mLocationManager = TencentLocationManager.getInstance(this);
+        request = TencentLocationRequest.create().setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_ADMIN_AREA);
+
         if (!permissionList.isEmpty()) {
             String[] permissions = permissionList.toArray(new String[0]);
             ActivityCompat.requestPermissions(this, permissions, 1);
         } else {
-            requestLocation();
+            showProgressDialog();
+            mLocationManager.requestLocationUpdates(request, this);
         }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -107,16 +130,7 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
                 }
             }
         });
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (currentLevel == LEVEL_COUNTY) {
-                    queryCities();
-                } else if (currentLevel == LEVEL_CITY) {
-                    queryProvinces();
-                }
-            }
-        });
+
         queryProvinces();
     }
 
@@ -138,7 +152,7 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
                             return;
                         }
                     }
-                    requestLocation();
+                    mLocationManager.requestLocationUpdates(request, this);
                 } else {
                     Toast.makeText(this, "Unknown errors", Toast.LENGTH_SHORT).show();
                     finish();
@@ -154,7 +168,8 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
      */
     private void queryProvinces() {
         titleText.setText("选择城市");
-        backButton.setVisibility(View.GONE);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
         provinceList = LitePal.findAll(Province.class);
         if (provinceList.size() > 0) {
             dataList.clear();
@@ -171,9 +186,9 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
     }
 
     private void queryCities() {
-        titleText.setText(selectedProvince.getProvinceName());
-        backButton.setVisibility(View.VISIBLE);
-        cityList = LitePal.where("provinceid = ?", String.valueOf(selectedProvince.getId())).find(City.class);
+        //titleText.setText(selectedProvince.getProvinceName());
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        cityList = LitePal.where("provinceId = ?", String.valueOf(selectedProvince.getId())).find(City.class);
 
         if (cityList.size() > 0) {
             dataList.clear();
@@ -191,8 +206,8 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
     }
 
     private void queryCounties() {
-        titleText.setText(selectedCity.getCityName());
-        backButton.setVisibility(View.VISIBLE);
+        //titleText.setText(selectedCity.getCityName());
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         countyList = LitePal.where("cityid = ?", String.valueOf(selectedCity.getId())).find(County.class);
         if (countyList.size() > 0) {
             dataList.clear();
@@ -255,19 +270,16 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
         });
     }
 
-    private void requestLocation() {
-        mLocationManager = TencentLocationManager.getInstance(this);
-        TencentLocationRequest request = TencentLocationRequest.create().setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_ADMIN_AREA);
-        mLocationManager.requestLocationUpdates(request, this);
-    }
-
     @Override
     public void onLocationChanged(TencentLocation tencentLocation, int i, String s) {
         if (i == TencentLocation.ERROR_OK) {
             // 定位成功
-            str = tencentLocation.getAddress();
-            //提取城市名
-            getCityName();
+            str = tencentLocation.getDistrict();
+            str = str.substring(0, str.length()-1);
+            closeProgressDialog();
+        } else {
+            str = "哈尔滨";
+            closeProgressDialog();
         }
     }
 
@@ -275,26 +287,11 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
     public void onStatusUpdate(String s, int i, String s1) {
         //ignore
     }
-    public void getCityName() {
-        int head = 0;
-        int tail = 0;
-
-        for (int i = 0; i < str.length(); i++) {
-            if ("省".equals(str.substring(i,i+1))) {
-                head = i+1;
-            }
-            if ("市".equals(str.substring(i,i+1))) {
-                tail = i;
-            }
-        }
-        str = str.substring(head,tail);
-        Log.d("mLocation","SubString:"+str);
-    }
 
     private void showProgressDialog() {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage("正在加载……");
+            progressDialog.setMessage("定位中……");
             progressDialog.setCanceledOnTouchOutside(false);
         }
         progressDialog.show();
@@ -305,4 +302,47 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
             progressDialog.dismiss();
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                switch (currentLevel) {
+                    case LEVEL_COUNTY:
+                        queryCities();
+                        break;
+                    case LEVEL_CITY:
+                        queryProvinces();
+                        break;
+                }
+                break;
+            case R.id.location:
+                countyList = LitePal.where("countyName = ?", str).find(County.class);
+
+                String weatherId = countyList.get(0).getWeatherId();
+                Intent intent = new Intent(ChooseAreaActivity.this, WeatherActivity.class);
+                intent.putExtra("weather_id", weatherId);
+                startActivity(intent);
+                finish();
+                break;
+            default:
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.choose_area_toolbar_menu, menu);
+        return true;
+    }
+
+    private void delay(int ms){
+        try {
+            Thread.currentThread();
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
