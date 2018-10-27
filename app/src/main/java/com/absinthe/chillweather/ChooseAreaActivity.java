@@ -24,8 +24,6 @@ import android.widget.Toast;
 import com.absinthe.chillweather.db.City;
 import com.absinthe.chillweather.db.County;
 import com.absinthe.chillweather.db.Province;
-import com.absinthe.chillweather.util.HttpUtil;
-import com.absinthe.chillweather.util.Utility;
 import com.google.android.material.snackbar.Snackbar;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
@@ -36,14 +34,9 @@ import com.wyt.searchbox.custom.IOnSearchClickListener;
 
 import org.litepal.LitePal;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 public class ChooseAreaActivity extends AppCompatActivity implements TencentLocationListener {
     public static final int LEVEL_PROVINCE = 0;
@@ -68,6 +61,8 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
     private TencentLocationRequest request;
     private String str; //从返回的定位数据中截取城市名
 
+    SearchFragment searchFragment;  //搜索框
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,15 +75,24 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
 
         setSupportActionBar(toolbar);
 
-        SearchFragment searchFragment = SearchFragment.newInstance();
+        searchFragment = SearchFragment.newInstance();
         searchFragment.setOnSearchClickListener(new IOnSearchClickListener() {
             @Override
             public void OnSearchClick(String keyword) {
                 //这里处理逻辑
-                Toast.makeText(ChooseAreaActivity.this, keyword, Toast.LENGTH_SHORT).show();
+                countyList = LitePal.where("countyName = ?", keyword).find(County.class);
+                if (countyList.size() != 0) {
+                    dataList.clear();
+                    dataList.add(countyList.get(0).getCountyName());
+                    adapter.notifyDataSetChanged();
+                    listView.setSelection(0);
+                    currentLevel = LEVEL_COUNTY;
+                } else {
+                    Snackbar.make(listView, "没有查找到该城市。", Snackbar.LENGTH_LONG).show();
+                }
             }
         });
-        //searchFragment.show(getSupportFragmentManager(),SearchFragment.TAG);
+
 
         //运行时权限申请
         List<String> permissionList = new ArrayList<>();
@@ -268,6 +272,9 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
                 intent.putExtra("weather_id", weatherId);
                 startActivity(intent);
                 finish();
+                break;
+            case R.id.area_search:
+                searchFragment.show(getSupportFragmentManager(),SearchFragment.TAG);
                 break;
             default:
         }

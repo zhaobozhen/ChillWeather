@@ -5,5 +5,10 @@
         android:id="@+id/location"
         android:icon="@drawable/ic_location"
         android:title="@string/location"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/area_search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search"
+        app:showAsAction="ifRoom"/>
 </menu>

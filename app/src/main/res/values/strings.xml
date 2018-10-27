@@ -16,4 +16,5 @@
     <string name="sun_duration">日照时间</string>
     <string name="sun_rise">日出</string>
     <string name="sun_set">日落</string>
+    <string name="search">搜索</string>
 </resources>

@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
+
+import com.absinthe.chillweather.util.ViewFade;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -242,7 +244,8 @@ public class WeatherActivity extends AppCompatActivity {
         comfortText.setText(comfort);
         carWashText.setText(carWash);
         sportText.setText(sport);
-        weatherLayout.setVisibility(View.VISIBLE);
+        ViewFade.fadeIn(weatherLayout, 0F, 1F, 250);
+        //weatherLayout.setVisibility(View.VISIBLE);
 
     }
 
