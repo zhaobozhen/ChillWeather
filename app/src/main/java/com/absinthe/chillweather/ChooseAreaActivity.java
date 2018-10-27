@@ -278,8 +278,11 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
             str = str.substring(0, str.length()-1);
             closeProgressDialog();
         } else {
-            str = "哈尔滨";
+            Toast.makeText(this, "定位失败", Toast.LENGTH_SHORT).show();
             closeProgressDialog();
+            Intent intent = new Intent(this, WeatherActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 
@@ -293,6 +296,7 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
             progressDialog = new ProgressDialog(this);
             progressDialog.setMessage("定位中……");
             progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.setCancelable(false);
         }
         progressDialog.show();
     }
