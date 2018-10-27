@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class Forecast {
     public String date;
+    public String sr;   //日出时间
+    public String ss;   //日落时间
 
     @SerializedName("tmp")
     public Temperature temperature;

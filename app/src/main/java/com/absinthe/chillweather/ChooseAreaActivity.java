@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -169,104 +170,43 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
         titleText.setText("选择城市");
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
+
         provinceList = LitePal.findAll(Province.class);
-        if (provinceList.size() > 0) {
-            dataList.clear();
-            for (Province province : provinceList) {
-                dataList.add(province.getProvinceName());
-            }
-            adapter.notifyDataSetChanged();
-            listView.setSelection(0);
-            currentLevel = LEVEL_PROVINCE;
-        } else {
-            String address = "http://guolin.tech/api/china";
-            queryFromServer(address, "province");
+        dataList.clear();
+        for (Province province : provinceList) {
+            dataList.add(province.getProvinceName());
         }
+        adapter.notifyDataSetChanged();
+        listView.setSelection(0);
+        currentLevel = LEVEL_PROVINCE;
     }
 
     private void queryCities() {
         //titleText.setText(selectedProvince.getProvinceName());
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        cityList = LitePal.where("provinceId = ?", String.valueOf(selectedProvince.getId())).find(City.class);
 
-        if (cityList.size() > 0) {
-            dataList.clear();
-            for (City city : cityList) {
-                dataList.add(city.getCityName());
-            }
-            adapter.notifyDataSetChanged();
-            listView.setSelection(0);
-            currentLevel = LEVEL_CITY;
-        } else {
-            int provinceCode = selectedProvince.getProvinceCode();
-            String address = "http://guolin.tech/api/china/" + provinceCode;
-            queryFromServer(address, "city");
+        cityList = LitePal.where("provinceId = ?", String.valueOf(selectedProvince.getId())).find(City.class);
+        dataList.clear();
+        for (City city : cityList) {
+            dataList.add(city.getCityName());
         }
+        adapter.notifyDataSetChanged();
+        listView.setSelection(0);
+        currentLevel = LEVEL_CITY;
     }
 
     private void queryCounties() {
         //titleText.setText(selectedCity.getCityName());
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
         countyList = LitePal.where("cityid = ?", String.valueOf(selectedCity.getId())).find(County.class);
-        if (countyList.size() > 0) {
-            dataList.clear();
-            for (County county : countyList) {
-                dataList.add(county.getCountyName());
-            }
-            adapter.notifyDataSetChanged();
-            listView.setSelection(0);
-            currentLevel = LEVEL_COUNTY;
-        } else {
-            int provinceCode = selectedProvince.getProvinceCode();
-            int cityCode = selectedCity.getCityCode();
-            String address = "http://guolin.tech/api/china/" + provinceCode + "/" + cityCode;
-            queryFromServer(address, "county");
+        dataList.clear();
+        for (County county : countyList) {
+            dataList.add(county.getCountyName());
         }
-    }
-
-    private void queryFromServer(String address, final String type) {
-        showProgressDialog();
-        HttpUtil.sendOkHttpRequest(address, new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        closeProgressDialog();
-                        Toast.makeText(getApplicationContext(), "加载失败", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                assert response.body() != null;
-                String responseText = response.body().string();
-                boolean result = false;
-                if ("province".equals(type)) {
-                    result = Utility.handleProvinceResponse(responseText);
-                } else if ("city".equals(type)) {
-                    result = Utility.handleCityResponse(responseText, selectedProvince.getId());
-                } else if ("county".equals(type)) {
-                    result = Utility.handleCountyResponse(responseText, selectedCity.getId());
-                }
-                if (result) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            closeProgressDialog();
-                            if ("province".equals(type)) {
-                                queryProvinces();
-                            } else if ("city".equals(type)) {
-                                queryCities();
-                            } else if ("county".equals(type)) {
-                                queryCounties();
-                            }
-                        }
-                    });
-                }
-            }
-        });
+        adapter.notifyDataSetChanged();
+        listView.setSelection(0);
+        currentLevel = LEVEL_COUNTY;
     }
 
     @Override
@@ -332,6 +272,19 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
             default:
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (currentLevel == LEVEL_COUNTY) {
+            queryCities();
+        } else if (currentLevel == LEVEL_CITY) {
+            queryProvinces();
+        } else if (currentLevel == LEVEL_PROVINCE) {
+            Intent intent = new Intent(this, WeatherActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override

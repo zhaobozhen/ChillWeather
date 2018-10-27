@@ -12,6 +12,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -47,6 +48,8 @@ public class WeatherActivity extends AppCompatActivity {
     private LinearLayout forecastLayout;
     private TextView aqiText;
     private TextView pm25Text;
+    private TextView sunRiseText;
+    private TextView sunSetText;
     private TextView comfortText;
     private TextView carWashText;
     private TextView sportText;
@@ -71,6 +74,8 @@ public class WeatherActivity extends AppCompatActivity {
         forecastLayout = findViewById(R.id.forecast_layout);
         aqiText = findViewById(R.id.aqi_text);
         pm25Text = findViewById(R.id.pm25_text);
+        sunRiseText = findViewById(R.id.sun_rise);
+        sunSetText = findViewById(R.id.sun_set);
         comfortText = findViewById(R.id.comfort_text);
         carWashText = findViewById(R.id.car_wash_text);
         sportText = findViewById(R.id.sport_text);
@@ -96,6 +101,7 @@ public class WeatherActivity extends AppCompatActivity {
                     case R.id.city_manage:
                         Intent intent = new Intent(WeatherActivity.this, ChooseAreaActivity.class);
                         startActivity(intent);
+                        finish();
                         drawerLayout.closeDrawers();
                         break;
                 }
@@ -228,6 +234,8 @@ public class WeatherActivity extends AppCompatActivity {
             aqiText.setText(weather.aqi.city.aqi);
             pm25Text.setText(weather.aqi.city.pm25);
         }
+        //sunRiseText.setText(weather.forecastList.get(0).sr);
+        //sunSetText.setText(weather.forecastList.get(0).ss);
         String comfort = "舒适度：" + weather.suggestion.comfort.info;
         String carWash = "洗车指数：" + weather.suggestion.carWash.info;
         String sport = "运动建议：" + weather.suggestion.sport.info;

@@ -7,10 +7,13 @@
     <string name="life_suggestion">生活建议</string>
     <string name="city_manage">城市管理</string>
     <string name="others">其他</string>
-    <string name="theme">主题</string>
-    <string name="settings">设置</string>
+    <string name="theme">主题（没做完）</string>
+    <string name="settings">设置（没做完）</string>
     <string name="major">主要</string>
-    <string name="about">关于</string>
+    <string name="about">关于（没做完）</string>
     <string name="back">返回</string>
     <string name="location">定位</string>
+    <string name="sun_duration">日照时间</string>
+    <string name="sun_rise">日出</string>
+    <string name="sun_set">日落</string>
 </resources>

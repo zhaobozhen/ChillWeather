@@ -1,6 +1,7 @@
 package com.absinthe.chillweather.util;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.absinthe.chillweather.db.City;
 import com.absinthe.chillweather.db.County;
@@ -89,6 +90,7 @@ public class Utility {
             JSONObject jsonObject = new JSONObject(response);
             JSONArray jsonArray = jsonObject.getJSONArray("HeWeather");
             String weatherContent = jsonArray.getJSONObject(0).toString();
+            Log.d("HeWeather",weatherContent);
             return new Gson().fromJson(weatherContent, Weather.class);
         } catch (Exception e) {
             e.printStackTrace();
