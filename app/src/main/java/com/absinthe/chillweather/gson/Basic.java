@@ -8,10 +8,4 @@ public class Basic {
 
     @SerializedName("cid")
     public String cityId;
-
-    public Update update;
-    public class Update {
-        @SerializedName("loc")
-        public String updateTime;
-    }
 }

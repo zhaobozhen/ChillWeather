@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 
+import com.absinthe.chillweather.gson.Suggestion;
 import com.absinthe.chillweather.util.ViewFade;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
@@ -48,13 +49,11 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView degreeText;
     private TextView weatherInfoText;
     private LinearLayout forecastLayout;
-    private TextView aqiText;
-    private TextView pm25Text;
     private TextView sunRiseText;
     private TextView sunSetText;
     private TextView comfortText;
-    private TextView carWashText;
-    private TextView sportText;
+    private TextView dressingText;
+    private TextView uvText;
     private ImageView bingPicImg;
     private long mExitTime;
 
@@ -74,13 +73,11 @@ public class WeatherActivity extends AppCompatActivity {
         degreeText = findViewById(R.id.degree_text);
         weatherInfoText = findViewById(R.id.weather_info_text);
         forecastLayout = findViewById(R.id.forecast_layout);
-        aqiText = findViewById(R.id.aqi_text);
-        pm25Text = findViewById(R.id.pm25_text);
         sunRiseText = findViewById(R.id.sun_rise);
         sunSetText = findViewById(R.id.sun_set);
         comfortText = findViewById(R.id.comfort_text);
-        carWashText = findViewById(R.id.car_wash_text);
-        sportText = findViewById(R.id.sport_text);
+        dressingText = findViewById(R.id.dressing_text);
+        uvText = findViewById(R.id.uv_text);
         bingPicImg = findViewById(R.id.bing_pic_img);
         drawerLayout = findViewById(R.id.drawer_layout);
         Button navButton = findViewById(R.id.nav_button);
@@ -103,8 +100,8 @@ public class WeatherActivity extends AppCompatActivity {
                     case R.id.city_manage:
                         Intent intent = new Intent(WeatherActivity.this, ChooseAreaActivity.class);
                         startActivity(intent);
-                        finish();
                         drawerLayout.closeDrawers();
+                        finish();
                         break;
                 }
                 return true;
@@ -165,7 +162,9 @@ public class WeatherActivity extends AppCompatActivity {
      * 根据天气ID请求城市天气信息
      */
     public void requestWeather(final String weatherId) {
-        String weatherUrl = "http://guolin.tech/api/weather?cityid=" + weatherId + "&key=2be849896dec411faff5cdae2dae045a";
+        String weatherUrl = "https://free-api.heweather.com/s6/weather?location=" + weatherId
+                + "&key=2be849896dec411faff5cdae2dae045a";
+        Log.d("HeWeather", weatherId);
         HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -208,11 +207,12 @@ public class WeatherActivity extends AppCompatActivity {
     /**
      * 处理并展示Weather实体类中的数据
      */
+
     @SuppressLint("SetTextI18n")
     private void showWeatherInfo(Weather weather) {
         String cityName = weather.basic.cityName;
         String degree = weather.now.temperature + "°C";
-        String weatherInfo = weather.now.more.info;
+        String weatherInfo = weather.now.info;
 
         titleCity.setText(cityName);
         degreeText.setText(degree);
@@ -220,33 +220,42 @@ public class WeatherActivity extends AppCompatActivity {
 
         forecastLayout.removeAllViews();
         for (Forecast forecast : weather.forecastList) {
-            View view = LayoutInflater.from(this).inflate(R.layout.forecast_item, forecastLayout, false);
+            View view = LayoutInflater.from(this)
+                    .inflate(R.layout.forecast_item, forecastLayout, false);
             TextView dateText = view.findViewById(R.id.date_text);
             TextView infoText = view.findViewById(R.id.info_text);
             TextView maxText = view.findViewById(R.id.max_text);
             TextView minText = view.findViewById(R.id.min_text);
 
             dateText.setText(forecast.date);
-            infoText.setText(forecast.more.info);
-            maxText.setText(forecast.temperature.max + "°C");
-            minText.setText(forecast.temperature.min + "°C");
+            infoText.setText(forecast.dayCondition);
+            maxText.setText(forecast.temperatureMax + "°C");
+            minText.setText(forecast.temperatureMin + "°C");
             forecastLayout.addView(view);
         }
-        if (weather.aqi != null) {
-            aqiText.setText(weather.aqi.city.aqi);
-            pm25Text.setText(weather.aqi.city.pm25);
-        }
-        //sunRiseText.setText(weather.forecastList.get(0).sr);
-        //sunSetText.setText(weather.forecastList.get(0).ss);
-        String comfort = "舒适度：" + weather.suggestion.comfort.info;
-        String carWash = "洗车指数：" + weather.suggestion.carWash.info;
-        String sport = "运动建议：" + weather.suggestion.sport.info;
-        comfortText.setText(comfort);
-        carWashText.setText(carWash);
-        sportText.setText(sport);
-        ViewFade.fadeIn(weatherLayout, 0F, 1F, 250);
-        //weatherLayout.setVisibility(View.VISIBLE);
+        sunRiseText.setText(weather.forecastList.get(0).sunrise);
+        sunSetText.setText(weather.forecastList.get(0).sunset);
 
+        String comfort;
+        String dressing;
+        String ultraviolet;
+        for (Suggestion suggestion : weather.suggestionList) {
+            switch (suggestion.lifeType) {
+                case "comf":
+                    comfort = "舒适度：" + suggestion.detail;
+                    comfortText.setText(comfort);
+                    break;
+                case "drsg":
+                    dressing = "穿衣指数：" + suggestion.detail;
+                    dressingText.setText(dressing);
+                    break;
+                case "uv":
+                    ultraviolet = "紫外线指数：" + suggestion.detail;
+                    uvText.setText(ultraviolet);
+                    break;
+            }
+        }
+        ViewFade.fadeIn(weatherLayout, 0F, 1F, 250);
     }
 
     private void loadBingPic() {
@@ -284,7 +293,6 @@ public class WeatherActivity extends AppCompatActivity {
                 mExitTime = System.currentTimeMillis();
             } else {
                 finish();
-
             }
             return true;
         }

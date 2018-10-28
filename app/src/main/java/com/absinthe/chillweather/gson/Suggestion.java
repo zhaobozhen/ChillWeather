@@ -3,26 +3,12 @@ package com.absinthe.chillweather.gson;
 import com.google.gson.annotations.SerializedName;
 
 public class Suggestion {
-    @SerializedName("comf")
-    public Comfort comfort;
+    @SerializedName("brf")
+    public String comfort;  //生活指数
 
-    @SerializedName("cw")
-    public CarWash carWash;
+    @SerializedName("txt")
+    public String detail;   //详细信息
 
-    public Sport sport;
-
-    public class Comfort {
-        @SerializedName("txt")
-        public String info;
-    }
-
-    public class CarWash {
-        @SerializedName("txt")
-        public String info;
-    }
-
-    public class Sport {
-        @SerializedName("txt")
-        public String info;
-    }
+    @SerializedName("type")
+    public String lifeType; //生活指数类型
 }

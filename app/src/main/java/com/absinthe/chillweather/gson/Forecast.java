@@ -4,22 +4,31 @@ import com.google.gson.annotations.SerializedName;
 
 public class Forecast {
     public String date;
-    public String sr;   //日出时间
-    public String ss;   //日落时间
 
-    @SerializedName("tmp")
-    public Temperature temperature;
+    @SerializedName("tmp_max")
+    public String temperatureMax;
 
-    @SerializedName("cond")
-    public More more;
+    @SerializedName("tmp_min")
+    public String temperatureMin;
 
-    public class Temperature {
-        public String max;
-        public String min;
-    }
+    @SerializedName("sr")
+    public String sunrise;
 
-    public class More {
-        @SerializedName("txt_d")
-        public String info;
-    }
+    @SerializedName("ss")
+    public String sunset;
+
+    @SerializedName("cond_txt_d")
+    public String dayCondition; //白天天气状况
+
+    @SerializedName("wind_dir")
+    public String windDirection; //风向
+
+    @SerializedName("wind_sc")
+    public String windPower;    //风力
+
+    @SerializedName("hum")
+    public String humidity; //湿度
+
+    @SerializedName("pop")
+    public String rainProbability; //降水概率
 }
