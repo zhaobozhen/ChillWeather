@@ -42,6 +42,7 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
     public static final int LEVEL_PROVINCE = 0;
     public static final int LEVEL_CITY = 1;
     public static final int LEVEL_COUNTY = 2;
+    public static String mWeatherId = null;
 
     private ProgressDialog progressDialog;
     private TextView titleText;
@@ -126,10 +127,7 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
                     selectedCity = cityList.get(i);
                     queryCounties();
                 } else if (currentLevel == LEVEL_COUNTY) {
-                    String weatherId = String.valueOf(countyList.get(i).getWeatherId());
-                    Intent intent = new Intent(ChooseAreaActivity.this, WeatherActivity.class);
-                    intent.putExtra("weather_id", weatherId);
-                    startActivity(intent);
+                    mWeatherId = String.valueOf(countyList.get(i).getWeatherId());
                     finish();
                 }
             }
@@ -221,11 +219,10 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
             str = str.substring(0, str.length()-1);
             closeProgressDialog();
             Snackbar.make(listView, "定位成功，点击右上角图标以切换城市。", Snackbar.LENGTH_LONG).show();
+            mLocationManager.removeUpdates(this);
         } else {
             Toast.makeText(this, "定位失败", Toast.LENGTH_SHORT).show();
             closeProgressDialog();
-            Intent intent = new Intent(this, WeatherActivity.class);
-            startActivity(intent);
             finish();
         }
     }
@@ -267,10 +264,7 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
             case R.id.location:
                 countyList = LitePal.where("countyName = ?", str).find(County.class);
 
-                String weatherId = countyList.get(0).getWeatherId();
-                Intent intent = new Intent(ChooseAreaActivity.this, WeatherActivity.class);
-                intent.putExtra("weather_id", weatherId);
-                startActivity(intent);
+                mWeatherId = countyList.get(0).getWeatherId();
                 finish();
                 break;
             case R.id.area_search:

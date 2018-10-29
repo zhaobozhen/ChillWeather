@@ -101,7 +101,6 @@ public class WeatherActivity extends AppCompatActivity {
                         Intent intent = new Intent(WeatherActivity.this, ChooseAreaActivity.class);
                         startActivity(intent);
                         drawerLayout.closeDrawers();
-                        finish();
                         break;
                 }
                 return true;
@@ -155,6 +154,14 @@ public class WeatherActivity extends AppCompatActivity {
             });
             swipeRefresh.setRefreshing(false);
             isNeedRefresh = false;
+        }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (ChooseAreaActivity.mWeatherId != null) {
+            requestWeather(ChooseAreaActivity.mWeatherId);
         }
     }
 
@@ -253,6 +260,7 @@ public class WeatherActivity extends AppCompatActivity {
                     ultraviolet = "紫外线指数：" + suggestion.detail;
                     uvText.setText(ultraviolet);
                     break;
+                default:
             }
         }
         ViewFade.fadeIn(weatherLayout, 0F, 1F, 250);
