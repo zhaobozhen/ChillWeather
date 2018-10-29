@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.absinthe.chillweather.gson.Weather;
 import com.absinthe.chillweather.util.DBManager;
 
 import java.io.File;
@@ -35,7 +36,9 @@ public class MainActivity extends AppCompatActivity {
             dbHelper = new DBManager(this);
             dbHelper.openDatabase();
             dbHelper.closeDatabase();
-            Intent intent = new Intent(MainActivity.this, ChooseAreaActivity.class);
+            Intent intent = new Intent(MainActivity.this, WeatherActivity.class);
+            startActivity(intent);
+            intent = new Intent(MainActivity.this, ChooseAreaActivity.class);
             startActivity(intent);
             finish();
         }

@@ -28,7 +28,7 @@ public class ViewFade {
         // ends, we disable the button first to block click.
         view.setEnabled(false);
         Animation animation = new AlphaAnimation(1F, 0F);
-        animation.setDuration(400);
+        animation.setDuration(150);
         view.startAnimation(animation);
         view.setVisibility(View.GONE);
     }

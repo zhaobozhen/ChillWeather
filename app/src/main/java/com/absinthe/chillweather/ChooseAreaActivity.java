@@ -1,8 +1,9 @@
 package com.absinthe.chillweather;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -11,7 +12,7 @@ import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.util.Log;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,7 +43,6 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
     public static final int LEVEL_PROVINCE = 0;
     public static final int LEVEL_CITY = 1;
     public static final int LEVEL_COUNTY = 2;
-    public static String mWeatherId = null;
 
     private ProgressDialog progressDialog;
     private TextView titleText;
@@ -68,6 +68,7 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_area);
+        @SuppressLint("CommitPrefEdits") final SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
         titleText = findViewById(R.id.title_text);
         listView = findViewById(R.id.list_view);
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, dataList);
@@ -76,6 +77,7 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
 
         setSupportActionBar(toolbar);
 
+        //城市搜索框
         searchFragment = SearchFragment.newInstance();
         searchFragment.setOnSearchClickListener(new IOnSearchClickListener() {
             @Override
@@ -93,7 +95,6 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
                 }
             }
         });
-
 
         //运行时权限申请
         List<String> permissionList = new ArrayList<>();
@@ -127,12 +128,12 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
                     selectedCity = cityList.get(i);
                     queryCounties();
                 } else if (currentLevel == LEVEL_COUNTY) {
-                    mWeatherId = String.valueOf(countyList.get(i).getWeatherId());
+                    editor.putString("weather_id", countyList.get(i).getWeatherId());
+                    editor.apply();
                     finish();
                 }
             }
         });
-
         queryProvinces();
     }
 
@@ -264,7 +265,9 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
             case R.id.location:
                 countyList = LitePal.where("countyName = ?", str).find(County.class);
 
-                mWeatherId = countyList.get(0).getWeatherId();
+                @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+                editor.putString("weather_id", countyList.get(0).getWeatherId());
+                editor.apply();
                 finish();
                 break;
             case R.id.area_search:
@@ -282,8 +285,6 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
         } else if (currentLevel == LEVEL_CITY) {
             queryProvinces();
         } else if (currentLevel == LEVEL_PROVINCE) {
-            Intent intent = new Intent(this, WeatherActivity.class);
-            startActivity(intent);
             finish();
         }
     }

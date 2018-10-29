@@ -6,7 +6,7 @@ android {
         applicationId "com.absinthe.chillweather"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 225
+        versionCode 239
         versionName "1.0-alpha"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -23,6 +23,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
     implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'org.litepal.android:java:3.0.0'
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     implementation 'com.google.code.gson:gson:2.8.5'

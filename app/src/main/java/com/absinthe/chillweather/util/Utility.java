@@ -6,6 +6,7 @@ import android.util.Log;
 import com.absinthe.chillweather.db.City;
 import com.absinthe.chillweather.db.County;
 import com.absinthe.chillweather.db.Province;
+import com.absinthe.chillweather.gson.BingPic;
 import com.absinthe.chillweather.gson.Weather;
 import com.google.gson.Gson;
 
@@ -92,6 +93,22 @@ public class Utility {
             String weatherContent = jsonArray.getJSONObject(0).toString();
             Log.d("HeWeather",weatherContent);
             return new Gson().fromJson(weatherContent, Weather.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 将返回的JSON数据解析成BingPic实体类
+     */
+    public static BingPic handleBingPicResponse(String response) {
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONArray("images");
+            String picContent = jsonArray.getJSONObject(0).toString();
+            Log.d("HeWeather",picContent);
+            return new Gson().fromJson(picContent, BingPic.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
