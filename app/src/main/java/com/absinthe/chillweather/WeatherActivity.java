@@ -48,10 +48,14 @@ public class WeatherActivity extends AppCompatActivity {
     private ScrollView weatherLayout;
     private TextView titleCity;
     private TextView degreeText;
+    private TextView feelDegreeText;
     private TextView weatherInfoText;
     private LinearLayout forecastLayout;
     private TextView sunRiseText;
     private TextView sunSetText;
+    private TextView windDirectionText;
+    private TextView windPowerText;
+    private TextView humidityText;
     private TextView comfortText;
     private TextView dressingText;
     private TextView uvText;
@@ -72,10 +76,14 @@ public class WeatherActivity extends AppCompatActivity {
         weatherLayout = findViewById(R.id.weather_layout);
         titleCity = findViewById(R.id.title_city);
         degreeText = findViewById(R.id.degree_text);
+        feelDegreeText = findViewById(R.id.feel_degree_text);
         weatherInfoText = findViewById(R.id.weather_info_text);
         forecastLayout = findViewById(R.id.forecast_layout);
         sunRiseText = findViewById(R.id.sun_rise);
         sunSetText = findViewById(R.id.sun_set);
+        windDirectionText = findViewById(R.id.wind_direction);
+        windPowerText = findViewById(R.id.wind_power);
+        humidityText = findViewById(R.id.humidity);
         comfortText = findViewById(R.id.comfort_text);
         dressingText = findViewById(R.id.dressing_text);
         uvText = findViewById(R.id.uv_text);
@@ -229,10 +237,12 @@ public class WeatherActivity extends AppCompatActivity {
     private void showWeatherInfo(Weather weather) {
         String cityName = weather.basic.cityName;
         String degree = weather.now.temperature + "°C";
+        String feelDegree = "体感 " + weather.now.feelTemperature + "°C";
         String weatherInfo = weather.now.info;
 
         titleCity.setText(cityName);
         degreeText.setText(degree);
+        feelDegreeText.setText(feelDegree);
         weatherInfoText.setText(weatherInfo);
 
         forecastLayout.removeAllViews();
@@ -252,6 +262,9 @@ public class WeatherActivity extends AppCompatActivity {
         }
         sunRiseText.setText(weather.forecastList.get(0).sunrise);
         sunSetText.setText(weather.forecastList.get(0).sunset);
+        windDirectionText.setText(weather.now.windDirection);
+        windPowerText.setText(weather.now.windPower);
+        humidityText.setText(weather.now.humidity);
 
         String comfort;
         String dressing;

@@ -38,6 +38,7 @@
                     <include layout="@layout/now" />
                     <include layout="@layout/forecast" />
                     <include layout="@layout/sun_rise_set" />
+                    <include layout="@layout/wind_direction"/>
                     <include layout="@layout/suggestion" />
 
                 </LinearLayout>

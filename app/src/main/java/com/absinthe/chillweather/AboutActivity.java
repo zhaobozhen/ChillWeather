@@ -1,6 +1,7 @@
 package com.absinthe.chillweather;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 
 import com.danielstone.materialaboutlibrary.ConvenienceBuilder;
@@ -57,7 +58,8 @@ public class AboutActivity extends MaterialAboutActivity {
                     .setOnClickAction(new MaterialAboutItemOnClickAction() {
                         @Override
                         public void onClick() {
-
+                            Intent intent = new Intent(getApplicationContext(), AboutLicensesActivity.class);
+                            startActivity(intent);
                         }
                     })
                     .build());
@@ -84,74 +86,78 @@ public class AboutActivity extends MaterialAboutActivity {
                     .setOnClickAction(ConvenienceBuilder.createWebsiteOnClickAction(context, Uri.parse("https://github.com/zhaobozhen")))
                     .build());
 
-            MaterialAboutCard materialAboutLibraryLicenseCard1 = ConvenienceBuilder.createLicenseCard(context,
-                    new IconicsDrawable(context)
-                            .icon(CommunityMaterial.Icon.cmd_book)
-                            .color(ContextCompat.getColor(context, colorIcon))
-                            .sizeDp(18),
-                    "Android-Iconics", "2018", "Mike Penz",
-                    OpenSourceLicense.APACHE_2);
-
-            MaterialAboutCard materialAboutLibraryLicenseCard2 = ConvenienceBuilder.createLicenseCard(context,
-                    new IconicsDrawable(context)
-                            .icon(CommunityMaterial.Icon.cmd_book)
-                            .color(ContextCompat.getColor(context, colorIcon))
-                            .sizeDp(18),
-                    "material-about-library", "2016", "Daniel Stone",
-                    OpenSourceLicense.APACHE_2);
-
-            MaterialAboutCard materialAboutLibraryLicenseCard3 = ConvenienceBuilder.createLicenseCard(context,
-                    new IconicsDrawable(context)
-                            .icon(CommunityMaterial.Icon.cmd_book)
-                            .color(ContextCompat.getColor(context, colorIcon))
-                            .sizeDp(18),
-                    "SearchDialog", "2016", "wenwenwen888",
-                    OpenSourceLicense.APACHE_2);
-
-            MaterialAboutCard materialAboutLibraryLicenseCard4 = ConvenienceBuilder.createLicenseCard(context,
-                    new IconicsDrawable(context)
-                            .icon(CommunityMaterial.Icon.cmd_book)
-                            .color(ContextCompat.getColor(context, colorIcon))
-                            .sizeDp(18),
-                    "Glide", "2014", "Google, Inc",
-                    OpenSourceLicense.BSD);
-
-            MaterialAboutCard materialAboutLibraryLicenseCard5 = ConvenienceBuilder.createLicenseCard(context,
-                    new IconicsDrawable(context)
-                            .icon(CommunityMaterial.Icon.cmd_book)
-                            .color(ContextCompat.getColor(context, colorIcon))
-                            .sizeDp(18),
-                    "Gson", "2008", "Google, Inc",
-                    OpenSourceLicense.APACHE_2);
-
-            MaterialAboutCard materialAboutLibraryLicenseCard6 = ConvenienceBuilder.createLicenseCard(context,
-                    new IconicsDrawable(context)
-                            .icon(CommunityMaterial.Icon.cmd_book)
-                            .color(ContextCompat.getColor(context, colorIcon))
-                            .sizeDp(18),
-                    "OkHttp", "2018", "square",
-                    OpenSourceLicense.APACHE_2);
-
-            MaterialAboutCard materialAboutLibraryLicenseCard7 = ConvenienceBuilder.createLicenseCard(context,
-                    new IconicsDrawable(context)
-                            .icon(CommunityMaterial.Icon.cmd_book)
-                            .color(ContextCompat.getColor(context, colorIcon))
-                            .sizeDp(18),
-                    "LitePal", "2018", "Tony Green",
-                    OpenSourceLicense.APACHE_2);
-
             return new MaterialAboutList(cardBuilder.build(),
-                    authorCardBuilder.build(),
-                    materialAboutLibraryLicenseCard2,
-                    materialAboutLibraryLicenseCard3,
-                    materialAboutLibraryLicenseCard4,
-                    materialAboutLibraryLicenseCard5,
-                    materialAboutLibraryLicenseCard6,
-                    materialAboutLibraryLicenseCard7);
+                    authorCardBuilder.build());
     }
 
         @Override
         protected CharSequence getActivityTitle() {
         return getString(R.string.mal_title_about);
+    }
+
+    public static MaterialAboutList createMaterialAboutLicenseList(final Context context, int colorIcon) {
+        MaterialAboutCard materialAboutLibraryLicenseCard1 = ConvenienceBuilder.createLicenseCard(context,
+                new IconicsDrawable(context)
+                        .icon(CommunityMaterial.Icon.cmd_book)
+                        .color(ContextCompat.getColor(context, colorIcon))
+                        .sizeDp(18),
+                "Android-Iconics", "2018", "Mike Penz",
+                OpenSourceLicense.APACHE_2);
+
+        MaterialAboutCard materialAboutLibraryLicenseCard2 = ConvenienceBuilder.createLicenseCard(context,
+                new IconicsDrawable(context)
+                        .icon(CommunityMaterial.Icon.cmd_book)
+                        .color(ContextCompat.getColor(context, colorIcon))
+                        .sizeDp(18),
+                "material-about-library", "2016", "Daniel Stone",
+                OpenSourceLicense.APACHE_2);
+
+        MaterialAboutCard materialAboutLibraryLicenseCard3 = ConvenienceBuilder.createLicenseCard(context,
+                new IconicsDrawable(context)
+                        .icon(CommunityMaterial.Icon.cmd_book)
+                        .color(ContextCompat.getColor(context, colorIcon))
+                        .sizeDp(18),
+                "SearchDialog", "2016", "wenwenwen888",
+                OpenSourceLicense.APACHE_2);
+
+        MaterialAboutCard materialAboutLibraryLicenseCard4 = ConvenienceBuilder.createLicenseCard(context,
+                new IconicsDrawable(context)
+                        .icon(CommunityMaterial.Icon.cmd_book)
+                        .color(ContextCompat.getColor(context, colorIcon))
+                        .sizeDp(18),
+                "Glide", "2014", "Google, Inc",
+                OpenSourceLicense.BSD);
+
+        MaterialAboutCard materialAboutLibraryLicenseCard5 = ConvenienceBuilder.createLicenseCard(context,
+                new IconicsDrawable(context)
+                        .icon(CommunityMaterial.Icon.cmd_book)
+                        .color(ContextCompat.getColor(context, colorIcon))
+                        .sizeDp(18),
+                "Gson", "2008", "Google, Inc",
+                OpenSourceLicense.APACHE_2);
+
+        MaterialAboutCard materialAboutLibraryLicenseCard6 = ConvenienceBuilder.createLicenseCard(context,
+                new IconicsDrawable(context)
+                        .icon(CommunityMaterial.Icon.cmd_book)
+                        .color(ContextCompat.getColor(context, colorIcon))
+                        .sizeDp(18),
+                "OkHttp", "2018", "square",
+                OpenSourceLicense.APACHE_2);
+
+        MaterialAboutCard materialAboutLibraryLicenseCard7 = ConvenienceBuilder.createLicenseCard(context,
+                new IconicsDrawable(context)
+                        .icon(CommunityMaterial.Icon.cmd_book)
+                        .color(ContextCompat.getColor(context, colorIcon))
+                        .sizeDp(18),
+                "LitePal", "2018", "Tony Green",
+                OpenSourceLicense.APACHE_2);
+
+        return new MaterialAboutList(materialAboutLibraryLicenseCard1,
+                materialAboutLibraryLicenseCard2,
+                materialAboutLibraryLicenseCard3,
+                materialAboutLibraryLicenseCard4,
+                materialAboutLibraryLicenseCard5,
+                materialAboutLibraryLicenseCard6,
+                materialAboutLibraryLicenseCard7);
     }
 }

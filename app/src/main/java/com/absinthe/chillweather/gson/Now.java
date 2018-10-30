@@ -20,9 +20,4 @@ public class Now {
 
     @SerializedName("hum")
     public String humidity; //湿度;
-
-    public class More {
-        @SerializedName("txt")
-        public String info;
-    }
 }

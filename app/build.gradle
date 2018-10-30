@@ -6,7 +6,7 @@ android {
         applicationId "com.absinthe.chillweather"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 247
+        versionCode 263
         versionName "1.0-alpha"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -32,6 +32,8 @@ dependencies {
     implementation 'com.github.daniel-stoneuk:material-about-library:2.4.2'
     implementation "com.mikepenz:iconics-core:3.1.0"
     implementation 'com.mikepenz:community-material-typeface:2.7.94.1@aar'
+    implementation 'moe.shizuku.preference:preference:3.0.0'
+    implementation 'moe.shizuku.preference:preference-dialog-android:3.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'

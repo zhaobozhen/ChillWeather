@@ -3,14 +3,14 @@
     <string name="air_quality">空气质量</string>
     <string name="aqi_value">AQI指数</string>
     <string name="pm2_5_value">PM2.5指数</string>
-    <string name="forecast_string">预报</string>
+    <string name="forecast_string">预报     </string>
     <string name="life_suggestion">生活建议</string>
     <string name="city_manage">城市管理</string>
     <string name="others">其他</string>
     <string name="theme">主题（没做完）</string>
     <string name="settings">设置（没做完）</string>
     <string name="major">主要</string>
-    <string name="about">关于（没做完）</string>
+    <string name="about">关于</string>
     <string name="back">返回</string>
     <string name="location">定位</string>
     <string name="sun_duration">日照时间</string>
@@ -19,4 +19,11 @@
     <string name="search">搜索</string>
     <string name="backgroundpic">backgroundPic</string>
     <string name="mal_title_about">关于</string>
+    <string name="weather_info">天气</string>
+    <string name="max">最高</string>
+    <string name="min">最低</string>
+    <string name="wind">风</string>
+    <string name="wind_direction">风向</string>
+    <string name="wind_power">风力</string>
+    <string name="humidity">湿度</string>
 </resources>

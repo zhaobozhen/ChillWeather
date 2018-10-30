@@ -15,6 +15,14 @@
         android:textSize="60sp"/>
 
     <TextView
+        android:id="@+id/feel_degree_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:textColor="#fff"
+        android:textSize="25sp"/>
+
+    <TextView
         android:id="@+id/weather_info_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

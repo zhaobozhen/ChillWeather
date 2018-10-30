@@ -30,7 +30,6 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning,RtlEnabled"
         tools:targetApi="donut">
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,7 +37,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".WeatherActivity" />
 
         <meta-data
@@ -48,13 +46,14 @@
         <service
             android:name=".service.AutoUpdateService"
             android:enabled="true"
-            android:exported="true">
-        </service>
+            android:exported="true" />
 
         <activity android:name=".ChooseAreaActivity" />
-
         <activity
             android:name=".AboutActivity"
+            android:theme="@style/AppTheme.MaterialAboutActivity" />
+        <activity
+            android:name=".AboutLicensesActivity"
             android:theme="@style/AppTheme.MaterialAboutActivity"/>
     </application>
 
