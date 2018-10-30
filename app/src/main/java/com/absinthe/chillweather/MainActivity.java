@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.absinthe.chillweather.gson.Weather;
 import com.absinthe.chillweather.util.DBManager;
 
 import java.io.File;

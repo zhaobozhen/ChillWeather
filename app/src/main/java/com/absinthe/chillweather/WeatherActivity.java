@@ -104,6 +104,11 @@ public class WeatherActivity extends AppCompatActivity {
                         startActivity(intent);
                         drawerLayout.closeDrawers();
                         break;
+                    case R.id.about:
+                        intent = new Intent(WeatherActivity.this, AboutActivity.class);
+                        startActivity(intent);
+                        drawerLayout.closeDrawers();
+                        break;
                 }
                 return true;
             }
@@ -288,6 +293,7 @@ public class WeatherActivity extends AppCompatActivity {
                 assert response.body() != null;
                 final String content = response.body().string();
                 final BingPic bingPic = Utility.handleBingPicResponse(content);
+                assert bingPic != null;
                 final String pic = "http://cn.bing.com" + bingPic.picUrl;
                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
                 editor.putString("bing_pic", pic);

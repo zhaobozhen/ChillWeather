@@ -30,6 +30,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning,RtlEnabled"
         tools:targetApi="donut">
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,9 +38,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".WeatherActivity">
-        </activity>
+
+        <activity android:name=".WeatherActivity" />
 
         <meta-data
             android:name="TencentMapSDK"
@@ -51,7 +51,11 @@
             android:exported="true">
         </service>
 
-        <activity android:name=".ChooseAreaActivity"></activity>
+        <activity android:name=".ChooseAreaActivity" />
+
+        <activity
+            android:name=".AboutActivity"
+            android:theme="@style/AppTheme.MaterialAboutActivity"/>
     </application>
 
 </manifest>

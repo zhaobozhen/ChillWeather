@@ -17,4 +17,6 @@
     <string name="sun_rise">日出</string>
     <string name="sun_set">日落</string>
     <string name="search">搜索</string>
+    <string name="backgroundpic">backgroundPic</string>
+    <string name="mal_title_about">关于</string>
 </resources>

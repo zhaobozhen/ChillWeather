@@ -9,7 +9,8 @@
         android:id="@+id/bing_pic_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/backgroundpic" />
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
@@ -54,8 +55,6 @@
             app:headerLayout="@layout/nav_header">
 
         </com.google.android.material.navigation.NavigationView>
-
-
 
     </androidx.drawerlayout.widget.DrawerLayout>
 
