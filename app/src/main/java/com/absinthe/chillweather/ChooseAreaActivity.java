@@ -68,7 +68,8 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_area);
-        @SuppressLint("CommitPrefEdits") final SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        @SuppressLint("CommitPrefEdits")
+        final SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
         titleText = findViewById(R.id.title_text);
         listView = findViewById(R.id.list_view);
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, dataList);

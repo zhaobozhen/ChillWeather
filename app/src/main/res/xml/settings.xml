@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="通知栏">
+
+        <SwitchPreference
+            android:key="on_notification_switch"
+            android:title="启动通知栏（施工中）"
+            android:summaryOn="On"
+            android:summaryOff="Off" />
+
+        <SwitchPreference
+            android:key="day_night_weather_switch"
+            android:title="早晚天气提醒（施工中）"
+            android:summaryOn="On"
+            android:summaryOff="Off" />
+
+        <SimpleMenuPreference
+            android:key="day_weather_time_drop_down"
+            android:title="早晨通知时间（施工中）"
+            android:summary="%s" />
+
+        <SimpleMenuPreference
+            android:key="night_weather_time_drop_down"
+            android:title="傍晚通知时间（施工中）"
+            android:summary="%s" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="后台">
+
+        <SwitchPreference
+            android:key="refresh_background_switch"
+            android:title="后台刷新天气（施工中）"
+            android:summaryOn="On"
+            android:summaryOff="Off" />
+
+        <SimpleMenuPreference
+            android:key="refresh_mode_drop_down"
+            android:title="后台刷新模式（施工中）"
+            android:summary="%s" />
+
+        <SimpleMenuPreference
+            android:key="refresh_freq_drop_down"
+            android:title="刷新频率（施工中）"
+            android:summary="%s" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="自定义">
+
+        <EditTextPreference
+            android:key="change_weather_api_edit_text"
+            android:title="更换和风天气接口"
+            android:summary="%s"
+            android:hint="如果不知道这是什么就不用更改"
+            android:singleLine="true"/>
+
+        <SwitchPreference
+            android:key="auto_locate_switch"
+            android:title="自动定位（施工中）"
+            android:summaryOn="On"
+            android:summaryOff="Off" />
+
+        <SwitchPreference
+            android:key="auto_check_update_switch"
+            android:title="自动检查更新（施工中）"
+            android:summaryOn="On"
+            android:summaryOff="Off" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

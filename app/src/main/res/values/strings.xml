@@ -8,7 +8,7 @@
     <string name="city_manage">城市管理</string>
     <string name="others">其他</string>
     <string name="theme">主题（没做完）</string>
-    <string name="settings">设置（没做完）</string>
+    <string name="settings">设置</string>
     <string name="major">主要</string>
     <string name="about">关于</string>
     <string name="back">返回</string>
@@ -17,7 +17,7 @@
     <string name="sun_rise">日出</string>
     <string name="sun_set">日落</string>
     <string name="search">搜索</string>
-    <string name="backgroundpic">backgroundPic</string>
+    <string name="background_pic">backgroundPic</string>
     <string name="mal_title_about">关于</string>
     <string name="weather_info">天气</string>
     <string name="max">最高</string>
@@ -26,4 +26,6 @@
     <string name="wind_direction">风向</string>
     <string name="wind_power">风力</string>
     <string name="humidity">湿度</string>
+
+
 </resources>

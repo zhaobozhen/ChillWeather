@@ -117,6 +117,11 @@ public class WeatherActivity extends AppCompatActivity {
                         startActivity(intent);
                         drawerLayout.closeDrawers();
                         break;
+                    case R.id.settings:
+                        intent = new Intent(WeatherActivity.this, SettingsActivity.class);
+                        startActivity(intent);
+                        drawerLayout.closeDrawers();
+                        break;
                 }
                 return true;
             }
