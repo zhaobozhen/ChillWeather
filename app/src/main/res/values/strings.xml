@@ -7,7 +7,6 @@
     <string name="life_suggestion">生活建议</string>
     <string name="city_manage">城市管理</string>
     <string name="others">其他</string>
-    <string name="theme">主题（没做完）</string>
     <string name="settings">设置</string>
     <string name="major">主要</string>
     <string name="about">关于</string>
@@ -26,6 +25,14 @@
     <string name="wind_direction">风向</string>
     <string name="wind_power">风力</string>
     <string name="humidity">湿度</string>
+    <string name="not_searched_this_city">没有查找到该城市。</string>
+    <string name="you_must_allow_all_permissions">You must allow all permissions to run the app</string>
+    <string name="unknown_errors">Unknown errors</string>
+    <string name="choose_city">选择城市</string>
+    <string name="located_success_and_tap_to_change">定位成功，点击右上角图标以切换城市。</string>
+    <string name="located_failed">定位失败</string>
+    <string name="failed_to_acquire_weather_info">获取天气信息失败</string>
+    <string name="tap_again_to_quit">再按一次退出程序</string>
 
 
 </resources>

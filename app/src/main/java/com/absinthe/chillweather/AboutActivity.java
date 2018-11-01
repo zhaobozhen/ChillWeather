@@ -152,12 +152,21 @@ public class AboutActivity extends MaterialAboutActivity {
                 "LitePal", "2018", "Tony Green",
                 OpenSourceLicense.APACHE_2);
 
+        MaterialAboutCard materialAboutLibraryLicenseCard8 = ConvenienceBuilder.createLicenseCard(context,
+                new IconicsDrawable(context)
+                        .icon(CommunityMaterial.Icon.cmd_book)
+                        .color(ContextCompat.getColor(context, colorIcon))
+                        .sizeDp(18),
+                "MaterialPreference", "2018", "Rikka",
+                OpenSourceLicense.APACHE_2);
+
         return new MaterialAboutList(materialAboutLibraryLicenseCard1,
                 materialAboutLibraryLicenseCard2,
                 materialAboutLibraryLicenseCard3,
                 materialAboutLibraryLicenseCard4,
                 materialAboutLibraryLicenseCard5,
                 materialAboutLibraryLicenseCard6,
-                materialAboutLibraryLicenseCard7);
+                materialAboutLibraryLicenseCard7,
+                materialAboutLibraryLicenseCard8);
     }
 }

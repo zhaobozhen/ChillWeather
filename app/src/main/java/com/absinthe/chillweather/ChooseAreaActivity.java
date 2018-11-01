@@ -92,10 +92,12 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
                     listView.setSelection(0);
                     currentLevel = LEVEL_COUNTY;
                 } else {
-                    Snackbar.make(listView, "没有查找到该城市。", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(listView, getString(R.string.not_searched_this_city), Snackbar.LENGTH_LONG).show();
                 }
             }
         });
+
+        LitePal.initialize(getApplicationContext());
 
         //运行时权限申请
         List<String> permissionList = new ArrayList<>();
@@ -151,14 +153,14 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
                 if (grantResults.length > 0) {
                     for (int result : grantResults) {
                         if (result != PackageManager.PERMISSION_GRANTED) {
-                            Toast.makeText(this, "You must allow all permissions to run the app", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, getString(R.string.you_must_allow_all_permissions), Toast.LENGTH_SHORT).show();
                             finish();
                             return;
                         }
                     }
                     mLocationManager.requestLocationUpdates(request, this);
                 } else {
-                    Toast.makeText(this, "Unknown errors", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.unknown_errors), Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 break;
@@ -171,7 +173,7 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
      * 查询全国所有的省，优先从数据库查询
      */
     private void queryProvinces() {
-        titleText.setText("选择城市");
+        titleText.setText(getString(R.string.choose_city));
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
@@ -220,10 +222,10 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
             str = tencentLocation.getDistrict();
             str = str.substring(0, str.length()-1);
             closeProgressDialog();
-            Snackbar.make(listView, "定位成功，点击右上角图标以切换城市。", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(listView, getString(R.string.located_success_and_tap_to_change), Snackbar.LENGTH_LONG).show();
             mLocationManager.removeUpdates(this);
         } else {
-            Toast.makeText(this, "定位失败", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.located_failed), Toast.LENGTH_SHORT).show();
             closeProgressDialog();
             finish();
         }

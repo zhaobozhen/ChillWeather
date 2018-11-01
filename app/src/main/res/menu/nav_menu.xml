@@ -12,10 +12,6 @@
     <item android:title="@string/others">
         <menu>
             <item
-                android:id="@+id/change_theme"
-                android:icon="@drawable/ic_change_theme"
-                android:title="@string/theme"/>
-            <item
                 android:id="@+id/settings"
                 android:icon="@drawable/ic_setting"
                 android:title="@string/settings"/>

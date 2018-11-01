@@ -11,6 +11,7 @@ import com.absinthe.chillweather.gson.BingPic;
 import com.absinthe.chillweather.gson.Suggestion;
 import com.absinthe.chillweather.util.ViewFade;
 import com.google.android.material.navigation.NavigationView;
+
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -41,6 +42,8 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class WeatherActivity extends AppCompatActivity {
+    public static final String WEATHER_API_URL = "https://free-api.heweather.com/s6/weather?location=";
+    public static final String HEWEATHER_KEY = "&key=2be849896dec411faff5cdae2dae045a";
     public static boolean isNeedRefresh = true;
     public SwipeRefreshLayout swipeRefresh;
     public DrawerLayout drawerLayout;
@@ -192,8 +195,7 @@ public class WeatherActivity extends AppCompatActivity {
      */
 
     public void requestWeather(final String weatherId) {
-        String weatherUrl = "https://free-api.heweather.com/s6/weather?location=" + weatherId
-                + "&key=2be849896dec411faff5cdae2dae045a";
+        String weatherUrl = WEATHER_API_URL + weatherId + HEWEATHER_KEY;
         Log.d("HeWeather", weatherId);
         HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
             @Override
@@ -202,7 +204,7 @@ public class WeatherActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(WeatherActivity.this, "获取天气信息失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(WeatherActivity.this, getString(R.string.failed_to_acquire_weather_info), Toast.LENGTH_SHORT).show();
                         swipeRefresh.setRefreshing(false);
                     }
                 });
@@ -224,7 +226,7 @@ public class WeatherActivity extends AppCompatActivity {
                             mWeatherId = weather.basic.cityId;
                             showWeatherInfo(weather);
                         } else {
-                            Toast.makeText(WeatherActivity.this, "获取天气信息失败", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(WeatherActivity.this, getString(R.string.failed_to_acquire_weather_info), Toast.LENGTH_SHORT).show();
                         }
                         swipeRefresh.setRefreshing(false);
                     }
@@ -336,7 +338,7 @@ public class WeatherActivity extends AppCompatActivity {
             if (drawerLayout.isDrawerOpen(findViewById(R.id.nav_view))) {
                 drawerLayout.closeDrawers();
             } else if ((System.currentTimeMillis() - mExitTime) > 2000) {
-                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.tap_again_to_quit), Toast.LENGTH_SHORT).show();
                 mExitTime = System.currentTimeMillis();
             } else {
                 finish();
