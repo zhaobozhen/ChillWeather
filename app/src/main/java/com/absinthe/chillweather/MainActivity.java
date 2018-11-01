@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         //获取用户偏好数据
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (prefs.getString("weather", null) != null) {
+        if (prefs.getString("weather_id", null) != null) {
             Intent intent = new Intent(this, WeatherActivity.class);
             startActivity(intent);
             finish();
@@ -35,9 +35,9 @@ public class MainActivity extends AppCompatActivity {
             dbHelper = new DBManager(this);
             dbHelper.openDatabase();
             dbHelper.closeDatabase();
-            Intent intent = new Intent(MainActivity.this, WeatherActivity.class);
-            startActivity(intent);
-            intent = new Intent(MainActivity.this, ChooseAreaActivity.class);
+            //Intent intent = new Intent(MainActivity.this, WeatherActivity.class);
+            //startActivity(intent);
+            Intent intent = new Intent(MainActivity.this, ChooseAreaActivity.class);
             startActivity(intent);
             finish();
         }

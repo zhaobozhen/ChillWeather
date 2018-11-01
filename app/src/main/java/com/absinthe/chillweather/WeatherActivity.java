@@ -1,8 +1,14 @@
 package com.absinthe.chillweather;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
@@ -12,6 +18,7 @@ import com.absinthe.chillweather.gson.Suggestion;
 import com.absinthe.chillweather.util.ViewFade;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.core.app.NotificationCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -131,25 +138,22 @@ public class WeatherActivity extends AppCompatActivity {
         });
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String weatherString = prefs.getString("weather", null);
-        if (weatherString != null ) {
-            //有缓存时直接解析天气数据
-            Weather weather = Utility.handleWeatherResponse(weatherString);
-            assert weather != null;
-            String tmp = prefs.getString("weather_id", null);
-            if (tmp != null && (!tmp.equals(weather.basic.cityId))) {
-                mWeatherId = tmp;
-                weatherLayout.setVisibility(View.INVISIBLE);
-                requestWeather(mWeatherId);
-            } else {
-                mWeatherId = weather.basic.cityId;
-                showWeatherInfo(weather);
-            }
-        } else {
-            //无缓存时去服务器查询天气
-            mWeatherId = prefs.getString("weather_id", null);
-            weatherLayout.setVisibility(View.INVISIBLE);
-            requestWeather(mWeatherId);
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            String CHANNEL_ID = "weather_channel";
+            CharSequence name = "天气通知栏";
+            String Description = "For my little honey.";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+            mChannel.setDescription(Description);
+            mChannel.enableLights(true);
+            mChannel.setLightColor(Color.RED);
+            mChannel.enableVibration(true);
+            mChannel.setShowBadge(false);
+            mChannel.setVibrationPattern(new long[]{0});
+            mChannel.setSound(null, null);
+            manager.createNotificationChannel(mChannel);
         }
 
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -180,13 +184,31 @@ public class WeatherActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onResume() {
+        super.onResume();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String weatherId = prefs.getString("weather_id", null);
-        if (weatherId != null && !weatherId.equals(mWeatherId)) {
-            ViewFade.fadeOut(weatherLayout);
-            requestWeather(weatherId);
+
+        String weatherString = prefs.getString("weather", null);
+        Weather weather = Utility.handleWeatherResponse(weatherString);
+        assert weather != null;
+        String tmp = prefs.getString("weather_id", null);
+
+        if (weatherString != null ) {
+            if (tmp != null && (!tmp.equals(weather.basic.cityId))) {
+                //无缓存时去服务器查询天气
+                mWeatherId = tmp;
+                weatherLayout.setVisibility(View.INVISIBLE);
+                requestWeather(mWeatherId);
+            } else {
+                //有缓存时直接解析天气数据
+                mWeatherId = weather.basic.cityId;
+                showWeatherInfo(weather);
+            }
+        } else {
+            //无缓存时去服务器查询天气
+            mWeatherId = prefs.getString("weather_id", null);
+            weatherLayout.setVisibility(View.INVISIBLE);
+            requestWeather(mWeatherId);
         }
     }
 
@@ -229,6 +251,8 @@ public class WeatherActivity extends AppCompatActivity {
                             Toast.makeText(WeatherActivity.this, getString(R.string.failed_to_acquire_weather_info), Toast.LENGTH_SHORT).show();
                         }
                         swipeRefresh.setRefreshing(false);
+
+                        onWeatherNotification();
                     }
                 });
             }
@@ -294,6 +318,7 @@ public class WeatherActivity extends AppCompatActivity {
             }
         }
         ViewFade.fadeIn(weatherLayout, 0F, 1F, 150);
+        onWeatherNotification();
     }
 
     /**
@@ -326,6 +351,35 @@ public class WeatherActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    private void onWeatherNotification() {
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        //manager.cancel(1);
+
+        SharedPreferences settings = getApplicationContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
+        boolean isNotified = settings.getBoolean("on_notification_switch", false);
+        if (isNotified) {
+            Intent intent = new Intent(getApplicationContext(), WeatherActivity.class);
+            PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
+            Notification notification = new NotificationCompat.Builder(getApplicationContext(), "weather_channel")
+                    .setContentTitle(titleCity.getText() + " " + degreeText.getText() + " " + weatherInfoText.getText())
+                    .setContentText("小白兔守护中..")
+                    .setWhen(System.currentTimeMillis())
+                    .setSmallIcon(R.drawable.ic_noti_logo)
+                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_round))
+                    .setContentIntent(pi)
+                    .setAutoCancel(true)
+                    .setPriority(NotificationCompat.PRIORITY_MAX)
+                    .setDefaults(NotificationCompat.FLAG_ONLY_ALERT_ONCE)
+                    .setVibrate(new long[]{0})
+                    .setOngoing(true)
+                    .build();
+            manager.notify(1, notification);
+        } else {
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            notificationManager.cancel(1);
+        }
     }
 
     /**

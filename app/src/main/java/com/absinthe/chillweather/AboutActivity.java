@@ -69,8 +69,8 @@ public class AboutActivity extends MaterialAboutActivity {
 //        authorCardBuilder.titleColor(ContextCompat.getColor(c, R.color.colorAccent));
 
             authorCardBuilder.addItem(new MaterialAboutActionItem.Builder()
-                    .text("大可爱")
-                    .subText("To 小可爱")
+                    .text("小白兔")
+                    .subText("To 小花猫")
                     .icon(new IconicsDrawable(context)
                             .icon(CommunityMaterial.Icon.cmd_account)
                             .color(ContextCompat.getColor(context, colorIcon))

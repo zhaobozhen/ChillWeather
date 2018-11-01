@@ -3,6 +3,7 @@ package com.absinthe.chillweather;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -133,6 +134,8 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
                 } else if (currentLevel == LEVEL_COUNTY) {
                     editor.putString("weather_id", countyList.get(i).getWeatherId());
                     editor.apply();
+                    Intent intent = new Intent(getApplicationContext(), WeatherActivity.class);
+                    startActivity(intent);
                     finish();
                 }
             }
@@ -271,6 +274,8 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
                 @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
                 editor.putString("weather_id", countyList.get(0).getWeatherId());
                 editor.apply();
+                Intent intent = new Intent(getApplicationContext(), WeatherActivity.class);
+                startActivity(intent);
                 finish();
                 break;
             case R.id.area_search:

@@ -6,7 +6,7 @@
 
         <SwitchPreference
             android:key="on_notification_switch"
-            android:title="启动通知栏（施工中）"
+            android:title="启动通知栏"
             android:summaryOn="On"
             android:summaryOff="Off" />
 

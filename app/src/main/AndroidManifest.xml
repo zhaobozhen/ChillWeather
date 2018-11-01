@@ -35,7 +35,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WeatherActivity" />
+        <activity android:name=".WeatherActivity"
+            android:launchMode="singleTask"/>
 
         <meta-data
             android:name="TencentMapSDK"
