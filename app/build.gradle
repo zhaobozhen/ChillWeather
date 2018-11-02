@@ -6,8 +6,8 @@ android {
         applicationId "com.absinthe.chillweather"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 338
-        versionName "1.0-alpha"
+        versionCode 351
+        versionName "1.0-alpha2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -36,7 +36,7 @@ dependencies {
     implementation 'moe.shizuku.preference:preference:3.0.0'
     implementation 'moe.shizuku.preference:preference-dialog-android:3.0.0'
     implementation 'moe.shizuku.preference:preference-simplemenu:3.0.0'
-    implementation 'com.github.garretyoder:Colorful:2.3.4'
+    implementation 'mi-appstore:xiaomi-update-sdk:4.0.3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'

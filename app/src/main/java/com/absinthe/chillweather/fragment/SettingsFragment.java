@@ -1,27 +1,24 @@
-package com.absinthe.chillweather;
+package com.absinthe.chillweather.fragment;
 
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.absinthe.chillweather.gson.Weather;
+import com.absinthe.chillweather.BuildConfig;
+import com.absinthe.chillweather.ChooseAreaActivity;
+import com.absinthe.chillweather.R;
+import com.absinthe.chillweather.WeatherActivity;
+import com.absinthe.chillweather.service.AutoUpdateService;
 import com.absinthe.chillweather.util.Utility;
 
 import java.util.Objects;
 
-import androidx.core.app.NotificationCompat;
 import moe.shizuku.preference.ListPreference;
 import moe.shizuku.preference.Preference;
 import moe.shizuku.preference.PreferenceFragment;
-
-import static android.content.Context.NOTIFICATION_SERVICE;
 
 /**
  * An example of the usage of {@link PreferenceFragment}.
@@ -111,12 +108,29 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             case "auto_locate_switch":
                 ChooseAreaActivity.mAutoLocation = !ChooseAreaActivity.mAutoLocation;
                 break;
+            case "refresh_background_switch":
+                if (sharedPreferences.getBoolean(key, false)) {
+                    Intent intent = new Intent(getContext(), AutoUpdateService.class);
+                    Objects.requireNonNull(getActivity()).startService(intent);
+                    getPreferenceScreen().findPreference("refresh_mode_drop_down").setEnabled(true);
+                    getPreferenceScreen().findPreference("refresh_mode_drop_down").setShouldDisableView(false);
+                    getPreferenceScreen().findPreference("refresh_freq_drop_down").setEnabled(true);
+                    getPreferenceScreen().findPreference("refresh_freq_drop_down").setShouldDisableView(false);
+                } else {
+                    Intent intent = new Intent(getContext(), AutoUpdateService.class);
+                    Objects.requireNonNull(getActivity()).stopService(intent);
+                    getPreferenceScreen().findPreference("refresh_mode_drop_down").setEnabled(false);
+                    getPreferenceScreen().findPreference("refresh_mode_drop_down").setShouldDisableView(true);
+                    getPreferenceScreen().findPreference("refresh_freq_drop_down").setEnabled(false);
+                    getPreferenceScreen().findPreference("refresh_freq_drop_down").setShouldDisableView(true);
+                }
+                break;
         }
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        Log.d(TAG, "onPreferenceChange: key = "+preference.getKey()+", newValue = "+newValue.toString());
+        Log.d(TAG, "onPreferenceChange: key = " + preference.getKey() + ", newValue = " + newValue.toString());
         return true;
     }
 

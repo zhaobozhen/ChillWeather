@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 
 import com.absinthe.chillweather.gson.BingPic;
 import com.absinthe.chillweather.gson.Suggestion;
+import com.absinthe.chillweather.service.AutoUpdateService;
 import com.absinthe.chillweather.util.ViewFade;
 import com.google.android.material.navigation.NavigationView;
 
@@ -54,6 +55,7 @@ public class WeatherActivity extends AppCompatActivity {
     public static Weather weather;
     public static boolean isNeedRefresh = true;
     public static boolean mOnGoingNotification;  //天气常驻通知栏
+    public static boolean mRefreshService;  //后台刷新
 
     public SwipeRefreshLayout swipeRefresh;
     public DrawerLayout drawerLayout;
@@ -109,6 +111,12 @@ public class WeatherActivity extends AppCompatActivity {
 
         SharedPreferences settings = getApplicationContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
         mOnGoingNotification =  settings.getBoolean("on_notification_switch", false);
+        mRefreshService = settings.getBoolean("refresh_background_switch", false);
+
+        //如果开启后台刷新则取消每次开启刷新
+        if (settings.getBoolean("refresh_background_switch", false)) {
+            isNeedRefresh = false;
+        }
 
         navButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,6 +143,11 @@ public class WeatherActivity extends AppCompatActivity {
                         break;
                     case R.id.settings:
                         intent = new Intent(WeatherActivity.this, SettingsActivity.class);
+                        startActivity(intent);
+                        drawerLayout.closeDrawers();
+                        break;
+                    case R.id.check_update:
+                        intent = new Intent(WeatherActivity.this, UpdateActivity.class);
                         startActivity(intent);
                         drawerLayout.closeDrawers();
                         break;
@@ -324,6 +337,11 @@ public class WeatherActivity extends AppCompatActivity {
         }
         ViewFade.fadeIn(weatherLayout, 0F, 1F, 150);
         Utility.handleOnGoingNotification(getApplicationContext());
+
+        if (mRefreshService) {
+            Intent intent = new Intent(this, AutoUpdateService.class);
+            startService(intent);
+        }
     }
 
     /**
