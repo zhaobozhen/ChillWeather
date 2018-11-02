@@ -1,14 +1,27 @@
 package com.absinthe.chillweather;
 
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.absinthe.chillweather.gson.Weather;
+import com.absinthe.chillweather.util.Utility;
+
+import java.util.Objects;
+
+import androidx.core.app.NotificationCompat;
 import moe.shizuku.preference.ListPreference;
 import moe.shizuku.preference.Preference;
 import moe.shizuku.preference.PreferenceFragment;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 /**
  * An example of the usage of {@link PreferenceFragment}.
@@ -87,11 +100,23 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         Log.d(TAG, "onSharedPreferenceChanged " + key);
+        switch (key) {
+            case "on_notification_switch":
+                WeatherActivity.mOnGoingNotification = !WeatherActivity.mOnGoingNotification;
+                Utility.handleOnGoingNotification(Objects.requireNonNull(getActivity()));
+                break;
+            case "change_weather_api_edit_text":
+                WeatherActivity.HEWEATHER_KEY = Objects.requireNonNull(sharedPreferences.getString(key, null));
+                break;
+            case "auto_locate_switch":
+                ChooseAreaActivity.mAutoLocation = !ChooseAreaActivity.mAutoLocation;
+                break;
+        }
     }
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        //Log.d(TAG, onPreferenceChange: key = %1$s, newValue = %2$s, preference.getKey(), newValue.toString()));
+        Log.d(TAG, "onPreferenceChange: key = "+preference.getKey()+", newValue = "+newValue.toString());
         return true;
     }
 

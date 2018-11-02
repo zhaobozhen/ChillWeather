@@ -59,9 +59,10 @@
 
         <SwitchPreference
             android:key="auto_locate_switch"
-            android:title="自动定位（施工中）"
+            android:title="自动定位"
             android:summaryOn="On"
-            android:summaryOff="Off" />
+            android:summaryOff="Off"
+            android:defaultValue="true"/>
 
         <SwitchPreference
             android:key="auto_check_update_switch"

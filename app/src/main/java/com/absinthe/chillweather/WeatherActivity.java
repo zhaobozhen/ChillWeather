@@ -50,8 +50,11 @@ import okhttp3.Response;
 
 public class WeatherActivity extends AppCompatActivity {
     public static final String WEATHER_API_URL = "https://free-api.heweather.com/s6/weather?location=";
-    public static final String HEWEATHER_KEY = "&key=2be849896dec411faff5cdae2dae045a";
+    public static String HEWEATHER_KEY = "&key=2be849896dec411faff5cdae2dae045a";
+    public static Weather weather;
     public static boolean isNeedRefresh = true;
+    public static boolean mOnGoingNotification;  //天气常驻通知栏
+
     public SwipeRefreshLayout swipeRefresh;
     public DrawerLayout drawerLayout;
     private String mWeatherId;
@@ -103,6 +106,9 @@ public class WeatherActivity extends AppCompatActivity {
 
         swipeRefresh = findViewById(R.id.swipe_refresh);
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
+
+        SharedPreferences settings = getApplicationContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
+        mOnGoingNotification =  settings.getBoolean("on_notification_switch", false);
 
         navButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,7 +195,7 @@ public class WeatherActivity extends AppCompatActivity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         String weatherString = prefs.getString("weather", null);
-        Weather weather = Utility.handleWeatherResponse(weatherString);
+        weather = Utility.handleWeatherResponse(weatherString);
         assert weather != null;
         String tmp = prefs.getString("weather_id", null);
 
@@ -236,7 +242,7 @@ public class WeatherActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 assert response.body() != null;
                 final String responseText = response.body().string();
-                final Weather weather = Utility.handleWeatherResponse(responseText);
+                weather = Utility.handleWeatherResponse(responseText);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -251,8 +257,7 @@ public class WeatherActivity extends AppCompatActivity {
                             Toast.makeText(WeatherActivity.this, getString(R.string.failed_to_acquire_weather_info), Toast.LENGTH_SHORT).show();
                         }
                         swipeRefresh.setRefreshing(false);
-
-                        onWeatherNotification();
+                        Utility.handleOnGoingNotification(getApplicationContext());
                     }
                 });
             }
@@ -318,7 +323,7 @@ public class WeatherActivity extends AppCompatActivity {
             }
         }
         ViewFade.fadeIn(weatherLayout, 0F, 1F, 150);
-        onWeatherNotification();
+        Utility.handleOnGoingNotification(getApplicationContext());
     }
 
     /**
@@ -351,35 +356,6 @@ public class WeatherActivity extends AppCompatActivity {
                 });
             }
         });
-    }
-
-    private void onWeatherNotification() {
-        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        //manager.cancel(1);
-
-        SharedPreferences settings = getApplicationContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
-        boolean isNotified = settings.getBoolean("on_notification_switch", false);
-        if (isNotified) {
-            Intent intent = new Intent(getApplicationContext(), WeatherActivity.class);
-            PendingIntent pi = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
-            Notification notification = new NotificationCompat.Builder(getApplicationContext(), "weather_channel")
-                    .setContentTitle(titleCity.getText() + " " + degreeText.getText() + " " + weatherInfoText.getText())
-                    .setContentText("小白兔守护中..")
-                    .setWhen(System.currentTimeMillis())
-                    .setSmallIcon(R.drawable.ic_noti_logo)
-                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_round))
-                    .setContentIntent(pi)
-                    .setAutoCancel(true)
-                    .setPriority(NotificationCompat.PRIORITY_MAX)
-                    .setDefaults(NotificationCompat.FLAG_ONLY_ALERT_ONCE)
-                    .setVibrate(new long[]{0})
-                    .setOngoing(true)
-                    .build();
-            manager.notify(1, notification);
-        } else {
-            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            notificationManager.cancel(1);
-        }
     }
 
     /**

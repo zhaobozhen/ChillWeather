@@ -1,5 +1,6 @@
 package com.absinthe.chillweather;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Environment;
@@ -23,7 +24,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //获取用户偏好数据
+        initSharedPreferences();
+    }
+
+    private void initSharedPreferences() {
+        //获取设置偏好数据
+
+        //获取天气偏好数据
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (prefs.getString("weather_id", null) != null) {
             Intent intent = new Intent(this, WeatherActivity.class);
@@ -35,8 +42,6 @@ public class MainActivity extends AppCompatActivity {
             dbHelper = new DBManager(this);
             dbHelper.openDatabase();
             dbHelper.closeDatabase();
-            //Intent intent = new Intent(MainActivity.this, WeatherActivity.class);
-            //startActivity(intent);
             Intent intent = new Intent(MainActivity.this, ChooseAreaActivity.class);
             startActivity(intent);
             finish();

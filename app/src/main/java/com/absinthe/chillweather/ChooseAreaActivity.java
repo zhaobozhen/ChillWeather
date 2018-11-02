@@ -3,6 +3,7 @@ package com.absinthe.chillweather;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,6 +46,7 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
     public static final int LEVEL_PROVINCE = 0;
     public static final int LEVEL_CITY = 1;
     public static final int LEVEL_COUNTY = 2;
+    public static boolean mAutoLocation;    //自动定位
 
     private ProgressDialog progressDialog;
     private TextView titleText;
@@ -117,10 +120,15 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
         if (!permissionList.isEmpty()) {
             String[] permissions = permissionList.toArray(new String[0]);
             ActivityCompat.requestPermissions(this, permissions, 1);
-        } else {
+        }
+
+        SharedPreferences settings = getApplicationContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
+        mAutoLocation = settings.getBoolean("auto_locate_switch", true);
+        if (mAutoLocation) {
             showProgressDialog();
             mLocationManager.requestLocationUpdates(request, this);
         }
+        Log.d("AutoLocation", ""+mAutoLocation);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -271,7 +279,7 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
             case R.id.location:
                 countyList = LitePal.where("countyName = ?", str).find(County.class);
 
-                @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
                 editor.putString("weather_id", countyList.get(0).getWeatherId());
                 editor.apply();
                 Intent intent = new Intent(getApplicationContext(), WeatherActivity.class);
