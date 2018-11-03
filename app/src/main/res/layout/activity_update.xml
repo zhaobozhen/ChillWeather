@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".UpdateActivity">
 
+<<<<<<< HEAD
     <TextView
         android:id="@+id/textView"
         android:layout_width="221dp"
@@ -17,4 +18,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+=======
+>>>>>>> b458b155240ebc8636c29f69b2338e2252c8ee05
 </androidx.constraintlayout.widget.ConstraintLayout>
