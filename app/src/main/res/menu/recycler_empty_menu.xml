@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/recycler_undo_menu"
+        android:title="@string/menu_undo_data"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/recycler_clear_menu"
+        android:title="@string/menu_clear_data"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/recycler_generate_menu"
+        android:title="@string/menu_add_data"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/recycler_diff_menu"
+        android:title="@string/menu_diff_data"
+        app:showAsAction="never"/>
+
+</menu>

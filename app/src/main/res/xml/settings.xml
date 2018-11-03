@@ -14,17 +14,21 @@
             android:key="day_night_weather_switch"
             android:title="早晚天气提醒（施工中）"
             android:summaryOn="On"
-            android:summaryOff="Off" />
+            android:summaryOff="Off"/>
 
         <SimpleMenuPreference
             android:key="day_weather_time_drop_down"
             android:title="早晨通知时间（施工中）"
-            android:summary="%s" />
+            android:summary="%s"
+            android:enabled="false"
+            android:shouldDisableView="true"/>
 
         <SimpleMenuPreference
             android:key="night_weather_time_drop_down"
             android:title="傍晚通知时间（施工中）"
-            android:summary="%s" />
+            android:summary="%s"
+            android:enabled="false"
+            android:shouldDisableView="true"/>
 
     </PreferenceCategory>
 
@@ -32,19 +36,23 @@
 
         <SwitchPreference
             android:key="refresh_background_switch"
-            android:title="后台刷新天气（施工中）"
+            android:title="后台刷新天气"
             android:summaryOn="On"
             android:summaryOff="Off" />
 
         <SimpleMenuPreference
             android:key="refresh_mode_drop_down"
             android:title="后台刷新模式（施工中）"
-            android:summary="%s" />
+            android:summary="%s"
+            android:enabled="false"
+            android:shouldDisableView="true"/>
 
         <SimpleMenuPreference
             android:key="refresh_freq_drop_down"
-            android:title="刷新频率（施工中）"
-            android:summary="%s" />
+            android:title="刷新频率"
+            android:summary="%s"
+            android:enabled="false"
+            android:shouldDisableView="true"/>
 
     </PreferenceCategory>
 
@@ -52,7 +60,7 @@
 
         <EditTextPreference
             android:key="change_weather_api_edit_text"
-            android:title="更换和风天气接口"
+            android:title="更换和风天气API Key"
             android:summary="%s"
             android:hint="如果不知道这是什么就不用更改"
             android:singleLine="true"/>

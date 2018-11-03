@@ -16,6 +16,10 @@
                 android:icon="@drawable/ic_setting"
                 android:title="@string/settings"/>
             <item
+                android:id="@+id/check_update"
+                android:icon="@drawable/ic_check_update"
+                android:title="@string/check_update"/>
+            <item
                 android:id="@+id/about"
                 android:icon="@drawable/ic_about"
                 android:title="@string/about"/>
