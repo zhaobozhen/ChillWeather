@@ -55,14 +55,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         }
         listPreference.setOnPreferenceChangeListener(this);
 
-        listPreference = (ListPreference) findPreference("refresh_mode_drop_down");
-        listPreference.setEntries(new CharSequence[]{"刷新所有城市", "只刷新当前城市"});
-        listPreference.setEntryValues(new CharSequence[]{"0", "1"});
-        if (listPreference.getValue() == null) {
-            listPreference.setValueIndex(0);
-        }
-        listPreference.setOnPreferenceChangeListener(this);
-
         listPreference = (ListPreference) findPreference("refresh_freq_drop_down");
         listPreference.setEntries(new CharSequence[]{"30分钟", "1小时", "2小时", "3小时"});
         listPreference.setEntryValues(new CharSequence[]{"0", "1", "2", "3"});
