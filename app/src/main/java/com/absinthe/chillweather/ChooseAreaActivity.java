@@ -28,6 +28,10 @@ import android.widget.Toast;
 import com.absinthe.chillweather.db.City;
 import com.absinthe.chillweather.db.County;
 import com.absinthe.chillweather.db.Province;
+import com.absinthe.chillweather.fragment.CityManagerFragment;
+import com.absinthe.chillweather.model.CityItem;
+import com.absinthe.chillweather.model.CityModel;
+import com.absinthe.chillweather.util.SharedPrefsStrListUtil;
 import com.google.android.material.snackbar.Snackbar;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
@@ -41,6 +45,7 @@ import org.litepal.LitePal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 public class ChooseAreaActivity extends AppCompatActivity implements TencentLocationListener {
     public static final int LEVEL_PROVINCE = 0;
@@ -140,10 +145,11 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
                     selectedCity = cityList.get(i);
                     queryCounties();
                 } else if (currentLevel == LEVEL_COUNTY) {
-                    editor.putString("weather_id", countyList.get(i).getWeatherId());
-                    editor.apply();
-                    Intent intent = new Intent(getApplicationContext(), WeatherActivity.class);
-                    startActivity(intent);
+                    SharedPrefsStrListUtil.putStrValueInList(getApplicationContext(),
+                            "city",
+                            countyList.get(i).getCountyName(),
+                            countyList.get(i).getWeatherId(),
+                            CityManagerFragment.imgs[new Random().nextInt(12)]);
                     finish();
                 }
             }

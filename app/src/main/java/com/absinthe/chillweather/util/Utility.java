@@ -66,7 +66,7 @@ public class Utility {
             PendingIntent pi = PendingIntent.getActivity(context, 0, intent, 0);
             Weather weather = WeatherActivity.weather;
             Notification notification = new NotificationCompat.Builder(context, "weather_channel")
-                    .setContentTitle(weather.basic.cityName + " " + weather.now.temperature + " " + weather.now.info)
+                    .setContentTitle(weather.basic.cityName + " " + weather.now.temperature + "℃ " + weather.now.info)
                     .setContentText("小白兔守护中..")
                     .setWhen(System.currentTimeMillis())
                     .setSmallIcon(R.drawable.ic_noti_logo)

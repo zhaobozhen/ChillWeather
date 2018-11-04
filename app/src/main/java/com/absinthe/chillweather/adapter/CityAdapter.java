@@ -8,29 +8,29 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.absinthe.chillweather.R;
-import com.absinthe.chillweather.model.Month;
-import com.absinthe.chillweather.model.MonthHeader;
-import com.absinthe.chillweather.model.MonthItem;
+import com.absinthe.chillweather.model.CityModel;
+import com.absinthe.chillweather.model.CityHeader;
+import com.absinthe.chillweather.model.CityItem;
 import com.thesurix.gesturerecycler.GestureAdapter;
 import com.thesurix.gesturerecycler.GestureViewHolder;
 
 import androidx.annotation.LayoutRes;
 
-public class MonthsAdapter extends GestureAdapter<MonthItem, GestureViewHolder> {
+public class CityAdapter extends GestureAdapter<CityItem, GestureViewHolder> {
 
     private final Context mCtx;
     private final int mItemResId;
 
-    public MonthsAdapter(final Context ctx, @LayoutRes final int itemResId) {
+    public CityAdapter(final Context ctx, @LayoutRes final int itemResId) {
         mCtx = ctx;
         mItemResId = itemResId;
     }
 
     @Override
     public GestureViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
-        if (viewType == MonthItem.MonthItemType.MONTH.ordinal()) {
+        if (viewType == CityItem.CityItemType.CITY.ordinal()) {
             final View itemView = LayoutInflater.from(parent.getContext()).inflate(mItemResId, parent, false);
-            return new MonthViewHolder(itemView);
+            return new CityViewHolder(itemView);
         } else {
             final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_item, parent, false);
             return new HeaderViewHolder(itemView);
@@ -40,17 +40,17 @@ public class MonthsAdapter extends GestureAdapter<MonthItem, GestureViewHolder> 
     @Override
     public void onBindViewHolder(final GestureViewHolder holder, final int position) {
         super.onBindViewHolder(holder, position);
-        final MonthItem monthItem = getItem(position);
+        final CityItem cityItem = getItem(position);
 
-        if (monthItem.getType() == MonthItem.MonthItemType.MONTH) {
-            final MonthViewHolder monthViewHolder = (MonthViewHolder) holder;
-            final Month month = (Month) monthItem;
-            monthViewHolder.mMonthText.setText(month.getName());
+        if (cityItem.getType() == CityItem.CityItemType.CITY) {
+            final CityViewHolder cityViewHolder = (CityViewHolder) holder;
+            final CityModel city = (CityModel) cityItem;
+            cityViewHolder.mCityText.setText(city.getName());
 
-            Glide.with(mCtx).load(month.getDrawableId()).apply(RequestOptions.centerCropTransform()).into(monthViewHolder.mMonthPicture);
+            Glide.with(mCtx).load(city.getDrawableId()).apply(RequestOptions.centerCropTransform()).into(cityViewHolder.mCityPicture);
         } else {
             final HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
-            final MonthHeader monthHeader = (MonthHeader) monthItem;
+            final CityHeader monthHeader = (CityHeader) cityItem;
             headerViewHolder.mHeaderText.setText(monthHeader.getName());
         }
     }

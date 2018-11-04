@@ -66,7 +66,6 @@ public class AboutActivity extends MaterialAboutActivity {
 
             MaterialAboutCard.Builder authorCardBuilder = new MaterialAboutCard.Builder();
             authorCardBuilder.title("作者");
-//        authorCardBuilder.titleColor(ContextCompat.getColor(c, R.color.colorAccent));
 
             authorCardBuilder.addItem(new MaterialAboutActionItem.Builder()
                     .text("小白兔")
@@ -160,6 +159,22 @@ public class AboutActivity extends MaterialAboutActivity {
                 "MaterialPreference", "2018", "Rikka",
                 OpenSourceLicense.APACHE_2);
 
+        MaterialAboutCard materialAboutLibraryLicenseCard9 = ConvenienceBuilder.createLicenseCard(context,
+                new IconicsDrawable(context)
+                        .icon(CommunityMaterial.Icon.cmd_book)
+                        .color(ContextCompat.getColor(context, colorIcon))
+                        .sizeDp(18),
+                "Gesture Recycler", "2018", "thesurix",
+                OpenSourceLicense.APACHE_2);
+
+        MaterialAboutCard materialAboutLibraryLicenseCard10 = ConvenienceBuilder.createLicenseCard(context,
+                new IconicsDrawable(context)
+                        .icon(CommunityMaterial.Icon.cmd_book)
+                        .color(ContextCompat.getColor(context, colorIcon))
+                        .sizeDp(18),
+                "Butter Knife", "2013", "Jake Wharton",
+                OpenSourceLicense.APACHE_2);
+
         return new MaterialAboutList(materialAboutLibraryLicenseCard1,
                 materialAboutLibraryLicenseCard2,
                 materialAboutLibraryLicenseCard3,
@@ -167,6 +182,8 @@ public class AboutActivity extends MaterialAboutActivity {
                 materialAboutLibraryLicenseCard5,
                 materialAboutLibraryLicenseCard6,
                 materialAboutLibraryLicenseCard7,
-                materialAboutLibraryLicenseCard8);
+                materialAboutLibraryLicenseCard8,
+                materialAboutLibraryLicenseCard9,
+                materialAboutLibraryLicenseCard10);
     }
 }

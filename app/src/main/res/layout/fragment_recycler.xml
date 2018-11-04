@@ -1,26 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_placeholder"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <RelativeLayout
+        android:id="@+id/relative_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </RelativeLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_add"
+        app:elevation="12dp"
+        app:pressedTranslationZ="12dp"
+        app:layout_anchor="@id/relative_recycler_view"
+        app:layout_anchorGravity="bottom|end"
+        app:backgroundTint="#E91E63"
+        app:rippleColor="#F48fB1"
+        app:borderWidth="0dp"/>
 
     <RelativeLayout
         android:id="@+id/empty_root"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <ImageView
             android:id="@+id/empty_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_empty_list"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,18 +53,8 @@
             android:layout_centerHorizontal="true"
             android:textAppearance="@android:style/TextAppearance.Large"
             android:textColor="@color/colorPrimary"
-            android:text="No data"/>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/add_city"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            app:elevation="12dp"
-            app:pressedTranslationZ="12dp"/>
+            android:text="点击右下角添加城市"/>
 
     </RelativeLayout>
-</FrameLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

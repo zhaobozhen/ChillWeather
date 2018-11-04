@@ -1,29 +1,24 @@
 package com.absinthe.chillweather;
 
 import android.annotation.SuppressLint;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 
-import com.absinthe.chillweather.fragment.CityManagerFragment;
 import com.absinthe.chillweather.gson.BingPic;
 import com.absinthe.chillweather.gson.Suggestion;
 import com.absinthe.chillweather.service.AutoUpdateService;
 import com.absinthe.chillweather.util.ViewFade;
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.core.app.NotificationCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -54,6 +49,7 @@ import okhttp3.Response;
 public class WeatherActivity extends AppCompatActivity {
     public static final String WEATHER_API_URL = "https://free-api.heweather.com/s6/weather?location=";
     public static String HEWEATHER_KEY = "&key=2be849896dec411faff5cdae2dae045a";
+    public static String mWeatherId;
     public static Weather weather;
     public static boolean isNeedRefresh = true;
     public static boolean mOnGoingNotification;  //天气常驻通知栏
@@ -61,7 +57,6 @@ public class WeatherActivity extends AppCompatActivity {
 
     public SwipeRefreshLayout swipeRefresh;
     public DrawerLayout drawerLayout;
-    private String mWeatherId;
     private ScrollView weatherLayout;
     private TextView titleCity;
     private TextView degreeText;
@@ -210,25 +205,22 @@ public class WeatherActivity extends AppCompatActivity {
         super.onResume();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
+        mWeatherId = prefs.getString("weather_id", null);
         String weatherString = prefs.getString("weather", null);
         weather = Utility.handleWeatherResponse(weatherString);
         assert weather != null;
-        String tmp = prefs.getString("weather_id", null);
 
         if (weatherString != null ) {
-            if (tmp != null && (!tmp.equals(weather.basic.cityId))) {
+            if (mWeatherId != null && (!mWeatherId.equals(weather.basic.cityId))) {
                 //无缓存时去服务器查询天气
-                mWeatherId = tmp;
                 weatherLayout.setVisibility(View.INVISIBLE);
                 requestWeather(mWeatherId);
             } else {
                 //有缓存时直接解析天气数据
-                mWeatherId = weather.basic.cityId;
                 showWeatherInfo(weather);
             }
         } else {
             //无缓存时去服务器查询天气
-            mWeatherId = prefs.getString("weather_id", null);
             weatherLayout.setVisibility(View.INVISIBLE);
             requestWeather(mWeatherId);
         }
@@ -267,7 +259,6 @@ public class WeatherActivity extends AppCompatActivity {
                                     .getDefaultSharedPreferences(WeatherActivity.this).edit();
                             editor.putString("weather", responseText);
                             editor.apply();
-                            mWeatherId = weather.basic.cityId;
                             showWeatherInfo(weather);
                         } else {
                             Toast.makeText(WeatherActivity.this, getString(R.string.failed_to_acquire_weather_info), Toast.LENGTH_SHORT).show();
@@ -288,14 +279,18 @@ public class WeatherActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void showWeatherInfo(Weather weather) {
         String cityName = weather.basic.cityName;
-        String degree = weather.now.temperature + "°C";
-        String feelDegree = "体感 " + weather.now.feelTemperature + "°C";
+        String degree = weather.now.temperature + "℃";
+        String feelDegree = "体感 " + weather.now.feelTemperature + "℃";
         String weatherInfo = weather.now.info;
+        Typeface typeface = Typeface.createFromAsset(getAssets(),"GoogleSans-Regular.ttf");
 
         titleCity.setText(cityName);
         degreeText.setText(degree);
         feelDegreeText.setText(feelDegree);
         weatherInfoText.setText(weatherInfo);
+
+        degreeText.setTypeface(typeface);
+        feelDegreeText.setTypeface(typeface);
 
         forecastLayout.removeAllViews();
         for (Forecast forecast : weather.forecastList) {
@@ -306,10 +301,15 @@ public class WeatherActivity extends AppCompatActivity {
             TextView maxText = view.findViewById(R.id.max_text);
             TextView minText = view.findViewById(R.id.min_text);
 
-            dateText.setText(forecast.date);
+            dateText.setText(forecast.date.substring(5, 7) + "月" + forecast.date.substring(8, 10) + "日");
             infoText.setText(forecast.dayCondition);
-            maxText.setText(forecast.temperatureMax + "°C");
-            minText.setText(forecast.temperatureMin + "°C");
+            maxText.setText(forecast.temperatureMax + "℃");
+            minText.setText(forecast.temperatureMin + "℃");
+
+            dateText.setTypeface(typeface);
+            maxText.setTypeface(typeface);
+            minText.setTypeface(typeface);
+
             forecastLayout.addView(view);
         }
         sunRiseText.setText(weather.forecastList.get(0).sunrise);
@@ -317,6 +317,11 @@ public class WeatherActivity extends AppCompatActivity {
         windDirectionText.setText(weather.now.windDirection);
         windPowerText.setText(weather.now.windPower);
         humidityText.setText(weather.now.humidity);
+
+        sunRiseText.setTypeface(typeface);
+        sunSetText.setTypeface(typeface);
+        windPowerText.setTypeface(typeface);
+        humidityText.setTypeface(typeface);
 
         String comfort;
         String dressing;

@@ -130,7 +130,12 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".UpdateActivity"></activity>
+        <activity
+            android:name=".UpdateActivity"
+            android:label="检查更新"
+            android:theme="@style/AppTheme.CityList"
+            android:parentActivityName=".WeatherActivity">
+        </activity>
     </application>
 
 </manifest>

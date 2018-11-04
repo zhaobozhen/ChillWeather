@@ -6,18 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".UpdateActivity">
 
-<<<<<<< HEAD
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="221dp"
-        android:layout_height="93dp"
-        android:text="暂未部署"
-        android:textAlignment="center"
-        android:textAppearance="@android:style/TextAppearance.Material.Display1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-=======
->>>>>>> b458b155240ebc8636c29f69b2338e2252c8ee05
+    <WebView
+        android:id="@+id/update_web_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </WebView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

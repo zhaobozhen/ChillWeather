@@ -3,6 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="forecast_text_size">16sp</dimen>
 
     <!-- Misc -->
     <dimen name="logo_size">200dp</dimen>
@@ -21,7 +22,7 @@
 
     <!-- Linear item -->
     <dimen name="linear_item_height">80dp</dimen>
-    <dimen name="linear_text_width">80dp</dimen>
+    <dimen name="linear_text_width">100dp</dimen>
     <dimen name="linear_text_padding">20dp</dimen>
 
     <!-- Grid item -->

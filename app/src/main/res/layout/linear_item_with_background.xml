@@ -10,7 +10,9 @@
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="false">
 
-    <FrameLayout android:layout_width="match_parent" android:layout_height="@dimen/linear_item_height">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/linear_item_height">
 
         <ViewStub
             android:id="@+id/month_background_stub"
@@ -25,22 +27,27 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/month_text"
+            <RelativeLayout
                 android:layout_width="@dimen/linear_text_width"
-                android:layout_height="match_parent"
-                android:paddingLeft="@dimen/linear_text_padding"
-                android:paddingRight="@dimen/linear_text_padding"
-                android:textColor="@android:color/white"
-                android:background="@color/indigo_500"
-                android:gravity="center_vertical"/>
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/manage_city_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="20sp"
+                    android:textColor="@android:color/white"
+                    android:background="@color/amber_500"
+                    android:gravity="center"/>
+
+            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/month_image"
+                    android:id="@+id/city_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
 
@@ -48,13 +55,13 @@
                     android:id="@+id/mont_drag"
                     android:layout_width="@dimen/drag_view_size"
                     android:layout_height="@dimen/drag_view_size"
-                    android:layout_marginRight="@dimen/drag_view_margin"
                     android:layout_marginEnd="@dimen/drag_view_margin"
-                    android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"/>
             </RelativeLayout>
+
         </LinearLayout>
 
     </FrameLayout>
+
 </androidx.cardview.widget.CardView>

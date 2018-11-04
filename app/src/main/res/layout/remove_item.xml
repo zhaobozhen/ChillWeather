@@ -8,12 +8,11 @@
 
     <ImageView
         android:id="@+id/remove_del_view"
-        android:layout_width="@dimen/remove_item_icon_size"
-        android:layout_height="@dimen/remove_item_icon_size"
-        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/ic_ok"
+        android:src="@drawable/ic_delete"
         tools:ignore="ContentDescription" />
 
 </RelativeLayout>

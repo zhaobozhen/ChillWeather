@@ -40,12 +40,6 @@
             android:summaryOn="On"
             android:summaryOff="Off" />
 
-        <SimpleMenuPreference
-            android:key="refresh_mode_drop_down"
-            android:title="后台刷新模式（施工中）"
-            android:summary="%s"
-            android:enabled="false"
-            android:shouldDisableView="true"/>
 
         <SimpleMenuPreference
             android:key="refresh_freq_drop_down"

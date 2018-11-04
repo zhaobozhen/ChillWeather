@@ -13,6 +13,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * 导入预置城市数据库
+ */
+
 public class DBManager {
     private final int BUFFER_SIZE = 400000;
     public static final String DB_NAME = "chill_weather.db"; //保存的数据库文件名

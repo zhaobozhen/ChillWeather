@@ -112,15 +112,11 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 if (sharedPreferences.getBoolean(key, false)) {
                     Intent intent = new Intent(getContext(), AutoUpdateService.class);
                     Objects.requireNonNull(getActivity()).startService(intent);
-                    getPreferenceScreen().findPreference("refresh_mode_drop_down").setEnabled(true);
-                    getPreferenceScreen().findPreference("refresh_mode_drop_down").setShouldDisableView(false);
                     getPreferenceScreen().findPreference("refresh_freq_drop_down").setEnabled(true);
                     getPreferenceScreen().findPreference("refresh_freq_drop_down").setShouldDisableView(false);
                 } else {
                     Intent intent = new Intent(getContext(), AutoUpdateService.class);
                     Objects.requireNonNull(getActivity()).stopService(intent);
-                    getPreferenceScreen().findPreference("refresh_mode_drop_down").setEnabled(false);
-                    getPreferenceScreen().findPreference("refresh_mode_drop_down").setShouldDisableView(true);
                     getPreferenceScreen().findPreference("refresh_freq_drop_down").setEnabled(false);
                     getPreferenceScreen().findPreference("refresh_freq_drop_down").setShouldDisableView(true);
                 }
