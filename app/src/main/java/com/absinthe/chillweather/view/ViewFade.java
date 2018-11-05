@@ -1,4 +1,4 @@
-package com.absinthe.chillweather.util;
+package com.absinthe.chillweather.view;
 
 import android.view.View;
 import android.view.animation.AlphaAnimation;

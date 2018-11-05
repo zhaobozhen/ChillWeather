@@ -84,4 +84,54 @@ public class Utility {
             notificationManager.cancel(1);
         }
     }
+
+    public static int WeatherIconSelector(String weatherInfo, int hour) {
+        boolean isNight = hour > 17 || hour < 6;
+        Log.d("WeatherIcon", weatherInfo);
+        switch (weatherInfo) {
+            case "晴":
+                if (isNight) {
+                    return R.drawable.night_sunny;
+                } else {
+                    Log.d("WeatherIcon", "Sunny");
+                    return R.drawable.sunny;
+                }
+            case "多云":
+            case "少云":
+            case "阴":
+                if (isNight) {
+                    return R.drawable.night_cloudy;
+                } else {
+                    Log.d("WeatherIcon", "Cloudy");
+                    return R.drawable.cloudy;
+                }
+            case "晴间多云":
+                return R.drawable.sunny_cloudy;
+            case "阵雨":
+            case "强阵雨":
+                return R.drawable.shower;
+            case "雷阵雨":
+            case "强雷阵雨":
+                return R.drawable.thunder_shower;
+            case "小雨":
+                return R.drawable.light_rain;
+            case "中雨":
+            case "雨":
+                return R.drawable.mid_rain;
+            case "大雨":
+                return R.drawable.heavy_rain;
+            case "暴雨":
+                return R.drawable.large_heavy_rain;
+            case "小雪":
+                return R.drawable.light_snow;
+            case "中雪":
+            case "雪":
+                return R.drawable.mid_snow;
+            case "大雪":
+                return R.drawable.heavy_snow;
+            case "暴雪":
+                return R.drawable.large_heavy_snow;
+        }
+        return 0;
+    }
 }

@@ -14,7 +14,8 @@ import androidx.annotation.NonNull;
 import com.absinthe.chillweather.gson.BingPic;
 import com.absinthe.chillweather.gson.Suggestion;
 import com.absinthe.chillweather.service.AutoUpdateService;
-import com.absinthe.chillweather.util.ViewFade;
+import com.absinthe.chillweather.view.SunView;
+import com.absinthe.chillweather.view.ViewFade;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.core.view.GravityCompat;
@@ -41,6 +42,7 @@ import com.absinthe.chillweather.util.Utility;
 import com.bumptech.glide.Glide;
 
 import java.io.IOException;
+import java.util.Calendar;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -68,6 +70,7 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView windDirectionText;
     private TextView windPowerText;
     private TextView humidityText;
+    private SunView sunView;
     private TextView comfortText;
     private TextView dressingText;
     private TextView uvText;
@@ -96,6 +99,7 @@ public class WeatherActivity extends AppCompatActivity {
         windDirectionText = findViewById(R.id.wind_direction);
         windPowerText = findViewById(R.id.wind_power);
         humidityText = findViewById(R.id.humidity);
+        sunView = findViewById(R.id.sun_view);
         comfortText = findViewById(R.id.comfort_text);
         dressingText = findViewById(R.id.dressing_text);
         uvText = findViewById(R.id.uv_text);
@@ -298,17 +302,16 @@ public class WeatherActivity extends AppCompatActivity {
                     .inflate(R.layout.forecast_item, forecastLayout, false);
             TextView dateText = view.findViewById(R.id.date_text);
             TextView infoText = view.findViewById(R.id.info_text);
-            TextView maxText = view.findViewById(R.id.max_text);
-            TextView minText = view.findViewById(R.id.min_text);
+            TextView maxMinText = view.findViewById(R.id.max_min_text);
+            ImageView weatherIcon = view.findViewById(R.id.weather_icon);
 
-            dateText.setText(forecast.date.substring(5, 7) + "月" + forecast.date.substring(8, 10) + "日");
+            dateText.setText(Integer.valueOf(forecast.date.substring(5, 7)) + "月" + Integer.valueOf(forecast.date.substring(8, 10)) + "日");
             infoText.setText(forecast.dayCondition);
-            maxText.setText(forecast.temperatureMax + "℃");
-            minText.setText(forecast.temperatureMin + "℃");
+            maxMinText.setText(forecast.temperatureMax + "℃" + " / " + forecast.temperatureMin + "℃");
+            weatherIcon.setImageResource(Utility.WeatherIconSelector(forecast.dayCondition, Calendar.getInstance().get(Calendar.HOUR_OF_DAY)));
 
             dateText.setTypeface(typeface);
-            maxText.setTypeface(typeface);
-            minText.setTypeface(typeface);
+            maxMinText.setTypeface(typeface);
 
             forecastLayout.addView(view);
         }
@@ -322,6 +325,16 @@ public class WeatherActivity extends AppCompatActivity {
         sunSetText.setTypeface(typeface);
         windPowerText.setTypeface(typeface);
         humidityText.setTypeface(typeface);
+
+        sunView.setSunrise(Integer.valueOf(weather.forecastList.get(0).sunrise.substring(0, 2)),
+                Integer.valueOf(weather.forecastList.get(0).sunrise.substring(3)));
+        sunView.setSunset(Integer.valueOf(weather.forecastList.get(0).sunset.substring(0, 2)),
+                Integer.valueOf(weather.forecastList.get(0).sunrise.substring(3)));
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        // 设置当前时间
+        sunView.setCurrentTime(hour, minute);
 
         String comfort;
         String dressing;

@@ -4,4 +4,15 @@
         <attr name="min" format="integer" />
         <attr name="max" format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="SunView">
+        <attr name="svTrackColor" format="color"/>
+        <attr name="svSunColor" format="color"/>
+        <attr name="svMainColor" format="color"/>
+        <attr name="svSunRadius" format="dimension"/>
+        <attr name="svTrackWidth" format="dimension"/>
+        <attr name="svTextSize" format="dimension"/>
+        <attr name="svTextOffset" format="dimension"/>
+        <attr name="svPadding" format="dimension"/>
+    </declare-styleable>
 </resources>

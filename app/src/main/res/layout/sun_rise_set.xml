@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sun="http://schemas.android.com/apk/res-auto"
     android:id="@+id/sun_rise_set_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,6 +16,20 @@
         android:text="@string/sun_duration"
         android:textColor="#fff"
         android:textSize="20sp" />
+
+    <com.absinthe.chillweather.view.SunView
+        android:id="@+id/sun_view"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        sun:svMainColor="#FE8109"
+        sun:svTrackColor="#FE8109"
+        sun:svSunColor="#FED300"
+        sun:svSunRadius="9dp"
+        sun:svTrackWidth="1dp"
+        sun:svTextSize="10sp"
+        sun:svTextOffset="20dp"
+        sun:svPadding="10dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"

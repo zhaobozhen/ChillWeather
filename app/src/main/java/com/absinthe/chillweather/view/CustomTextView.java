@@ -1,10 +1,12 @@
-package com.absinthe.chillweather.util;
+package com.absinthe.chillweather.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.TextView;
+
+import com.absinthe.chillweather.util.FontCache;
 
 @SuppressLint("AppCompatCustomView")
 public class CustomTextView extends TextView {

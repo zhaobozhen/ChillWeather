@@ -4,7 +4,6 @@ import com.absinthe.chillweather.ChooseAreaActivity;
 import com.absinthe.chillweather.R;
 import com.absinthe.chillweather.WeatherActivity;
 import com.absinthe.chillweather.adapter.CityAdapter;
-import com.absinthe.chillweather.model.CityModel;
 import com.absinthe.chillweather.model.CityItem;
 import com.absinthe.chillweather.util.SharedPrefsStrListUtil;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -23,7 +22,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Objects;
 
 

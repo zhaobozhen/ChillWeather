@@ -77,8 +77,6 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_area);
-        @SuppressLint("CommitPrefEdits")
-        final SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
         titleText = findViewById(R.id.title_text);
         listView = findViewById(R.id.list_view);
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, dataList);
@@ -117,10 +115,6 @@ public class ChooseAreaActivity extends AppCompatActivity implements TencentLoca
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
                 != PackageManager.PERMISSION_GRANTED) {
             permissionList.add(Manifest.permission.READ_PHONE_STATE);
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
 
         mLocationManager = TencentLocationManager.getInstance(this);
