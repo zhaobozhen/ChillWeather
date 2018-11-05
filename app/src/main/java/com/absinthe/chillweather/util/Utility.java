@@ -19,6 +19,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -73,6 +74,7 @@ public class Utility {
                     .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher_round))
                     .setContentIntent(pi)
                     .setAutoCancel(true)
+                    .setColor(ContextCompat.getColor(context, R.color.orange_A100))
                     .setPriority(NotificationCompat.PRIORITY_MAX)
                     .setDefaults(NotificationCompat.FLAG_ONLY_ALERT_ONCE)
                     .setVibrate(new long[]{0})

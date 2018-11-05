@@ -187,8 +187,7 @@ public class CityManagerFragment extends BaseFragment implements TencentLocation
 
         if (!permissionList.isEmpty()) {
             Log.d("FAB_CLICK", "permissionList.isEmpty()");
-            String[] permissions = permissionList.toArray(new String[0]);
-            ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()), permissions, 1);
+            requestPermissions(new String[] {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_PHONE_STATE}, 1);
         } else {
             showProgressDialog();
             mLocationManager = TencentLocationManager.getInstance(getContext());
@@ -199,7 +198,6 @@ public class CityManagerFragment extends BaseFragment implements TencentLocation
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        Log.d("FAB_CLICK", "OUTonRequestPermissionsResult");
         switch (requestCode) {
             case 1:
                 if (grantResults.length > 0) {
