@@ -97,9 +97,6 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
             case "change_weather_api_edit_text":
                 WeatherActivity.HEWEATHER_KEY = Objects.requireNonNull(sharedPreferences.getString(key, null));
                 break;
-            case "auto_locate_switch":
-                ChooseAreaActivity.mAutoLocation = !ChooseAreaActivity.mAutoLocation;
-                break;
             case "refresh_background_switch":
                 if (sharedPreferences.getBoolean(key, false)) {
                     Intent intent = new Intent(getContext(), AutoUpdateService.class);

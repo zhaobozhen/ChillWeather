@@ -52,25 +52,24 @@
 
     <PreferenceCategory android:title="自定义">
 
+        <SwitchPreference
+            android:key="customize_background_switch"
+            android:title="自定义背景（施工中）"
+            android:summaryOn="On"
+            android:summaryOff="Off" />
+
+        <SwitchPreference
+            android:key="bing_update_switch"
+            android:title="必应每日一图（施工中）"
+            android:summaryOn="On"
+            android:summaryOff="Off" />
+
         <EditTextPreference
             android:key="change_weather_api_edit_text"
             android:title="更换和风天气API Key"
             android:summary="%s"
             android:hint="如果不知道这是什么就不用更改"
             android:singleLine="true"/>
-
-        <SwitchPreference
-            android:key="auto_locate_switch"
-            android:title="自动定位"
-            android:summaryOn="On"
-            android:summaryOff="Off"
-            android:defaultValue="true"/>
-
-        <SwitchPreference
-            android:key="auto_check_update_switch"
-            android:title="自动检查更新（施工中）"
-            android:summaryOn="On"
-            android:summaryOff="Off" />
 
     </PreferenceCategory>
 

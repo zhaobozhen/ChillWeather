@@ -29,7 +29,7 @@
     <string name="you_must_allow_all_permissions">You must allow all permissions to run the app</string>
     <string name="unknown_errors">Unknown errors</string>
     <string name="choose_city">选择城市</string>
-    <string name="located_success_and_tap_to_change">定位成功，点击右上角图标以切换城市。</string>
+    <string name="located_success_and_tap_to_change">定位成功。</string>
     <string name="located_failed">定位失败</string>
     <string name="failed_to_acquire_weather_info">获取天气信息失败</string>
     <string name="tap_again_to_quit">再按一次退出程序</string>
@@ -43,5 +43,6 @@
     <string name="grid_recycler_text">Grid Recycler</string>
     <string name="recycler_no_data_text">无数据</string>
     <string name="undo_text">撤销</string>
+    <string name="add_city">添加城市</string>
 
 </resources>

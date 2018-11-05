@@ -6,7 +6,7 @@ android {
         applicationId "com.absinthe.chillweather"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 454
+        versionCode 467
         versionName "1.0-alpha3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -38,6 +38,7 @@ dependencies {
     implementation 'moe.shizuku.preference:preference-simplemenu:3.0.0'
     implementation 'com.thesurix.gesturerecycler:gesture-recycler:1.6.0'
     implementation 'com.jakewharton:butterknife:9.0.0-rc1'
+    implementation 'io.github.yavski:fab-speed-dial:1.0.6'
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0'

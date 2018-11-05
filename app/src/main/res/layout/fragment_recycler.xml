@@ -17,20 +17,16 @@
 
     </RelativeLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_city"
+    <io.github.yavski.fabspeeddial.FabSpeedDial
+        android:id="@+id/add_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_add"
-        app:elevation="12dp"
-        app:pressedTranslationZ="12dp"
-        app:layout_anchor="@id/relative_recycler_view"
-        app:layout_anchorGravity="bottom|end"
-        app:backgroundTint="#E91E63"
-        app:rippleColor="#F48fB1"
-        app:borderWidth="0dp"/>
+        app:fabGravity="bottom_end"
+        app:fabMenu="@menu/fab_menu"
+        app:miniFabBackgroundTint="@android:color/white"
+        app:miniFabDrawableTint="?attr/colorPrimaryDark"
+        app:miniFabTitleTextColor="?attr/colorPrimaryDark" />
 
     <RelativeLayout
         android:id="@+id/empty_root"
