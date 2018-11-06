@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.absinthe.chillweather.R;
 import com.thesurix.gesturerecycler.GestureViewHolder;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,7 +37,7 @@ public class CityViewHolder extends GestureViewHolder {
     @BindView(R.id.month_background_stub)
     ViewStub mBackgroundView;
 
-    public CityViewHolder(final View view) {
+    CityViewHolder(final View view) {
         super(view);
         ButterKnife.bind(this, view);
     }
@@ -47,6 +48,7 @@ public class CityViewHolder extends GestureViewHolder {
         return mItemDrag;
     }
 
+    @NonNull
     @Override
     public View getForegroundView() {
         return mForegroundView == null ? super.getForegroundView() : mForegroundView;
@@ -103,20 +105,10 @@ public class CityViewHolder extends GestureViewHolder {
     }
 
     private ValueAnimator.AnimatorUpdateListener getBackgroundAnimatorListener(final TextView view, final ValueAnimator animator) {
-        return new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(final ValueAnimator valueAnimator) {
-                view.setBackgroundColor((int) animator.getAnimatedValue());
-            }
-        };
+        return valueAnimator -> view.setBackgroundColor((int) animator.getAnimatedValue());
     }
 
     private ValueAnimator.AnimatorUpdateListener getTextAnimatorListener(final TextView view, final ValueAnimator animator) {
-        return new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(final ValueAnimator valueAnimator) {
-                view.setTextColor((int) animator.getAnimatedValue());
-            }
-        };
+        return valueAnimator -> view.setTextColor((int) animator.getAnimatedValue());
     }
 }

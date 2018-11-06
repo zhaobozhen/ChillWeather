@@ -11,6 +11,7 @@ import com.thesurix.gesturerecycler.GestureManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,8 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class BaseFragment extends Fragment {
 
-    protected RecyclerView mRecyclerView;
-    protected GestureManager mGestureManager;
+    RecyclerView mRecyclerView;
+    GestureManager mGestureManager;
 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
@@ -31,7 +32,7 @@ public class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        mRecyclerView = new RecyclerView(getActivity());
+        mRecyclerView = new RecyclerView(Objects.requireNonNull(getActivity()));
         return mRecyclerView;
     }
 

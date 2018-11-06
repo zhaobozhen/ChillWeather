@@ -32,7 +32,6 @@ public class Utility {
             JSONObject jsonObject = new JSONObject(response);
             JSONArray jsonArray = jsonObject.getJSONArray("HeWeather6");
             String weatherContent = jsonArray.getJSONObject(0).toString();
-            Log.d("HeWeather",weatherContent);
             return new Gson().fromJson(weatherContent, Weather.class);
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,7 +47,6 @@ public class Utility {
             JSONObject jsonObject = new JSONObject(response);
             JSONArray jsonArray = jsonObject.getJSONArray("images");
             String picContent = jsonArray.getJSONObject(0).toString();
-            Log.d("HeWeather",picContent);
             return new Gson().fromJson(picContent, BingPic.class);
         } catch (Exception e) {
             e.printStackTrace();

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.absinthe.chillweather.BuildConfig;
-import com.absinthe.chillweather.ChooseAreaActivity;
 import com.absinthe.chillweather.R;
 import com.absinthe.chillweather.WeatherActivity;
 import com.absinthe.chillweather.service.AutoUpdateService;
@@ -110,6 +109,10 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                     getPreferenceScreen().findPreference("refresh_freq_drop_down").setShouldDisableView(true);
                 }
                 break;
+            case "bing_update_switch":
+                WeatherActivity.mOnBingPicSwitch = !WeatherActivity.mOnBingPicSwitch;
+                WeatherActivity.isNeedRefresh = true;
+                break;
         }
     }
 
@@ -118,5 +121,4 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         Log.d(TAG, "onPreferenceChange: key = " + preference.getKey() + ", newValue = " + newValue.toString());
         return true;
     }
-
 }

@@ -45,4 +45,8 @@
     <string name="undo_text">撤销</string>
     <string name="add_city">添加城市</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="customize_bg">自定义背景</string>
+
 </resources>

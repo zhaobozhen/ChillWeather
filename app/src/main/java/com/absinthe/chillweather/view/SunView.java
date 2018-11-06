@@ -49,13 +49,11 @@ public class SunView extends View {
     private float mCurrentProgress;
     private boolean isDraw = false;
     private DashPathEffect mDashPathEffect;
-    private Paint mTextPaint;
     private LinearGradient mBackgroundShader;
     private int sunColor;
     private Paint mSunStrokePaint;
     private float svSunSize;
     private float svTextSize;
-    private float textOffset;
     private float svPadding;
     private float svTrackWidth;
 
@@ -91,7 +89,6 @@ public class SunView extends View {
         sunColor = array.getColor(R.styleable.SunView_svSunColor, 0x00D3FE);
         svSunSize = array.getDimension(R.styleable.SunView_svSunRadius, 10);
         svTextSize = array.getDimension(R.styleable.SunView_svTextSize, 18);
-        textOffset = array.getDimension(R.styleable.SunView_svTextOffset, 10);
         svPadding = array.getDimension(R.styleable.SunView_svPadding, 10);
         svTrackWidth = array.getDimension(R.styleable.SunView_svTrackWidth, 3);
         array.recycle();
@@ -132,7 +129,6 @@ public class SunView extends View {
         textPaint.setColor(mainColor);
         textPaint.setStyle(Paint.Style.FILL);
         textPaint.setTextSize(svTextSize);
-        mTextPaint = textPaint;
         mDashPathEffect = new DashPathEffect(new float[]{6, 12}, 0);
     }
 
@@ -217,7 +213,14 @@ public class SunView extends View {
             float p0 = mSunrise[0]*60+mSunrise[1];// 起始分钟数
             float p1 = hour*60+minute-p0;// 当前时间总分钟数
             float p2 = mSunset[0]*60+mSunset[1]-p0;// 日落到日出总分钟数
-            float progress = p1/p2;
+            float progress;
+            if (p1 < 0) {
+                progress = 0f;
+            } else if (p1 > p2) {
+                progress = 1f;
+            } else {
+                progress = p1/p2;
+            }
             setProgress(progress);
             motionAnimation();
         }

@@ -53,16 +53,11 @@
     <PreferenceCategory android:title="自定义">
 
         <SwitchPreference
-            android:key="customize_background_switch"
-            android:title="自定义背景（施工中）"
-            android:summaryOn="On"
-            android:summaryOff="Off" />
-
-        <SwitchPreference
             android:key="bing_update_switch"
-            android:title="必应每日一图（施工中）"
+            android:title="必应每日一图"
             android:summaryOn="On"
-            android:summaryOff="Off" />
+            android:summaryOff="Off"
+            android:defaultValue="true"/>
 
         <EditTextPreference
             android:key="change_weather_api_edit_text"

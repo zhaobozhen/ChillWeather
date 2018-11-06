@@ -15,6 +15,7 @@ import com.thesurix.gesturerecycler.GestureAdapter;
 import com.thesurix.gesturerecycler.GestureViewHolder;
 
 import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 
 public class CityAdapter extends GestureAdapter<CityItem, GestureViewHolder> {
 
@@ -26,8 +27,9 @@ public class CityAdapter extends GestureAdapter<CityItem, GestureViewHolder> {
         mItemResId = itemResId;
     }
 
+    @NonNull
     @Override
-    public GestureViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+    public GestureViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
         if (viewType == CityItem.CityItemType.CITY.ordinal()) {
             final View itemView = LayoutInflater.from(parent.getContext()).inflate(mItemResId, parent, false);
             return new CityViewHolder(itemView);
@@ -38,7 +40,7 @@ public class CityAdapter extends GestureAdapter<CityItem, GestureViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final GestureViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final GestureViewHolder holder, final int position) {
         super.onBindViewHolder(holder, position);
         final CityItem cityItem = getItem(position);
 

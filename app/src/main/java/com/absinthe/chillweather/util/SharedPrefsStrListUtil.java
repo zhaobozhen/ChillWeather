@@ -12,7 +12,7 @@ import com.absinthe.chillweather.model.CityModel;
 
 public class SharedPrefsStrListUtil {
     /** 数据存储的XML名称 **/
-    public final static String SETTING = "SharedPrefsStrList";
+    private final static String SETTING = "SharedPrefsStrList";
 
     /**
      * 存储数据(Int)
@@ -25,7 +25,7 @@ public class SharedPrefsStrListUtil {
         Editor sp = context.getSharedPreferences(SETTING, Context.MODE_PRIVATE)
                 .edit();
         sp.putInt(key, value);
-        sp.commit();
+        sp.apply();
     }
 
     /**

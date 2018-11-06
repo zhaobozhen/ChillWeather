@@ -12,6 +12,10 @@
     <item android:title="@string/others">
         <menu>
             <item
+                android:id="@+id/customize_bg"
+                android:icon="@drawable/ic_customize_bg"
+                android:title="@string/customize_bg"/>
+            <item
                 android:id="@+id/settings"
                 android:icon="@drawable/ic_setting"
                 android:title="@string/settings"/>

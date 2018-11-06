@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 
@@ -26,7 +27,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -43,6 +43,7 @@ import com.bumptech.glide.Glide;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Objects;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -53,9 +54,10 @@ public class WeatherActivity extends AppCompatActivity {
     public static String HEWEATHER_KEY = "&key=2be849896dec411faff5cdae2dae045a";
     public static String mWeatherId;
     public static Weather weather;
-    public static boolean isNeedRefresh = true;
+    public static boolean isNeedRefresh;
     public static boolean mOnGoingNotification;  //天气常驻通知栏
     public static boolean mRefreshService;  //后台刷新
+    public static boolean mOnBingPicSwitch; //是否开启必应每日一图
 
     public SwipeRefreshLayout swipeRefresh;
     public DrawerLayout drawerLayout;
@@ -113,52 +115,47 @@ public class WeatherActivity extends AppCompatActivity {
         SharedPreferences settings = getApplicationContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
         mOnGoingNotification =  settings.getBoolean("on_notification_switch", false);
         mRefreshService = settings.getBoolean("refresh_background_switch", false);
+        mOnBingPicSwitch = settings.getBoolean("bing_update_switch", true);
 
         //如果开启后台刷新则取消每次开启刷新
-        if (settings.getBoolean("refresh_background_switch", false)) {
-            isNeedRefresh = false;
-        }
+        isNeedRefresh = !settings.getBoolean("refresh_background_switch", false);
 
-        navButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawerLayout.openDrawer(GravityCompat.START);
-            }
-        });
+        navButton.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.START));
 
         //注册侧滑导航栏
         NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                Intent intent;
-                switch (menuItem.getItemId()) {
-                    case R.id.city_manage:
-                        intent = new Intent(WeatherActivity.this, RecyclerActivity.class);
-                        startActivity(intent);
-                        drawerLayout.closeDrawers();
-                        break;
-                    case R.id.about:
-                        intent = new Intent(WeatherActivity.this, AboutActivity.class);
-                        startActivity(intent);
-                        drawerLayout.closeDrawers();
-                        break;
-                    case R.id.settings:
-                        intent = new Intent(WeatherActivity.this, SettingsActivity.class);
-                        startActivity(intent);
-                        drawerLayout.closeDrawers();
-                        break;
-                    case R.id.check_update:
-                        intent = new Intent(WeatherActivity.this, UpdateActivity.class);
-                        startActivity(intent);
-                        drawerLayout.closeDrawers();
-                        break;
-                }
-                return true;
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            Intent intent;
+            switch (menuItem.getItemId()) {
+                case R.id.city_manage:
+                    intent = new Intent(WeatherActivity.this, RecyclerActivity.class);
+                    startActivity(intent);
+                    drawerLayout.closeDrawers();
+                    break;
+                case R.id.customize_bg:
+                    intent = new Intent(WeatherActivity.this, ChooseBgActivity.class);
+                    startActivity(intent);
+                    drawerLayout.closeDrawers();
+                    break;
+                case R.id.about:
+                    intent = new Intent(WeatherActivity.this, AboutActivity.class);
+                    startActivity(intent);
+                    drawerLayout.closeDrawers();
+                    break;
+                case R.id.settings:
+                    intent = new Intent(WeatherActivity.this, SettingsActivity.class);
+                    startActivity(intent);
+                    drawerLayout.closeDrawers();
+                    break;
+                case R.id.check_update:
+                    intent = new Intent(WeatherActivity.this, UpdateActivity.class);
+                    startActivity(intent);
+                    drawerLayout.closeDrawers();
+                    break;
             }
+            return true;
         });
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -177,31 +174,7 @@ public class WeatherActivity extends AppCompatActivity {
             manager.createNotificationChannel(mChannel);
         }
 
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                requestWeather(mWeatherId);
-            }
-        });
-
-        String bingPic = prefs.getString("bing_pic", null);
-        if (bingPic != null) {
-            Glide.with(this).load(bingPic).into(bingPicImg);
-        } else {
-            loadBingPic();
-        }
-
-        if (isNeedRefresh) {
-            swipeRefresh.post(new Runnable() {
-                @Override
-                public void run() {
-                    swipeRefresh.setRefreshing(true);
-                    requestWeather(mWeatherId);
-                }
-            });
-            swipeRefresh.setRefreshing(false);
-            isNeedRefresh = false;
-        }
+        swipeRefresh.setOnRefreshListener(() -> requestWeather(mWeatherId));
     }
 
     @Override
@@ -210,23 +183,22 @@ public class WeatherActivity extends AppCompatActivity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         mWeatherId = prefs.getString("weather_id", null);
-        String weatherString = prefs.getString("weather", null);
-        weather = Utility.handleWeatherResponse(weatherString);
-        assert weather != null;
+        if (mWeatherId == null) {
+            finish();
+        }
 
-        if (weatherString != null ) {
-            if (mWeatherId != null && (!mWeatherId.equals(weather.basic.cityId))) {
-                //无缓存时去服务器查询天气
+        String weatherString = prefs.getString("weather", null);
+        if (weatherString != null) {
+            showWeatherInfo(Objects.requireNonNull(Utility.handleWeatherResponse(weatherString)));
+        }
+
+        if (isNeedRefresh) {
+            swipeRefresh.post(() -> {
+                swipeRefresh.setRefreshing(true);
                 weatherLayout.setVisibility(View.INVISIBLE);
                 requestWeather(mWeatherId);
-            } else {
-                //有缓存时直接解析天气数据
-                showWeatherInfo(weather);
-            }
-        } else {
-            //无缓存时去服务器查询天气
-            weatherLayout.setVisibility(View.INVISIBLE);
-            requestWeather(mWeatherId);
+            });
+            isNeedRefresh = false;
         }
     }
 
@@ -241,13 +213,7 @@ public class WeatherActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 e.printStackTrace();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(WeatherActivity.this, getString(R.string.failed_to_acquire_weather_info), Toast.LENGTH_SHORT).show();
-                        swipeRefresh.setRefreshing(false);
-                    }
-                });
+                Toast.makeText(WeatherActivity.this, getString(R.string.failed_to_acquire_weather_info), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -255,25 +221,23 @@ public class WeatherActivity extends AppCompatActivity {
                 assert response.body() != null;
                 final String responseText = response.body().string();
                 weather = Utility.handleWeatherResponse(responseText);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (weather != null && "ok".equals(weather.status)) {
-                            @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = PreferenceManager
-                                    .getDefaultSharedPreferences(WeatherActivity.this).edit();
-                            editor.putString("weather", responseText);
-                            editor.apply();
-                            showWeatherInfo(weather);
-                        } else {
-                            Toast.makeText(WeatherActivity.this, getString(R.string.failed_to_acquire_weather_info), Toast.LENGTH_SHORT).show();
-                        }
-                        swipeRefresh.setRefreshing(false);
-                        Utility.handleOnGoingNotification(getApplicationContext());
+                runOnUiThread(() -> {
+                    if (weather != null && "ok".equals(weather.status)) {
+                        @SuppressLint("CommitPrefEdits")
+                        SharedPreferences.Editor editor = PreferenceManager
+                                .getDefaultSharedPreferences(WeatherActivity.this).edit();
+                        editor.putString("weather", responseText);
+                        editor.apply();
+                        showWeatherInfo(weather);
+                    } else {
+                        Toast.makeText(WeatherActivity.this, getString(R.string.failed_to_acquire_weather_info), Toast.LENGTH_SHORT).show();
                     }
+                    Utility.handleOnGoingNotification(getApplicationContext());
                 });
             }
         });
-        loadBingPic();
+        loadBackgroundPic();
+        swipeRefresh.setRefreshing(false);
     }
 
     /**
@@ -365,6 +329,22 @@ public class WeatherActivity extends AppCompatActivity {
         }
     }
 
+    private void loadBackgroundPic() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String bingPic = prefs.getString("bing_pic", null);
+        String customBgUriString = prefs.getString("custom_bg_uri", null);
+        if ((customBgUriString != null) && !mOnBingPicSwitch) {
+            Uri customBgUri = Uri.parse(customBgUriString);
+            Glide.with(WeatherActivity.this).load(customBgUri).into(bingPicImg);
+        } else {
+            if (!isNeedRefresh && bingPic != null) {
+                Glide.with(this).load(bingPic).into(bingPicImg);
+            } else {
+                loadBingPic();
+            }
+        }
+    }
+
     /**
      * 加载必应每日一图为背景
      */
@@ -387,12 +367,7 @@ public class WeatherActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
                 editor.putString("bing_pic", pic);
                 editor.apply();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Glide.with(WeatherActivity.this).load(pic).into(bingPicImg);
-                    }
-                });
+                runOnUiThread(() -> Glide.with(WeatherActivity.this).load(pic).into(bingPicImg));
             }
         });
     }

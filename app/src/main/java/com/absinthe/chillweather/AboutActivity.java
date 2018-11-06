@@ -55,21 +55,18 @@ public class AboutActivity extends MaterialAboutActivity {
                             .icon(CommunityMaterial.Icon.cmd_book)
                             .color(ContextCompat.getColor(context, colorIcon))
                             .sizeDp(18))
-                    .setOnClickAction(new MaterialAboutItemOnClickAction() {
-                        @Override
-                        public void onClick() {
-                            Intent intent = new Intent(getApplicationContext(), AboutLicensesActivity.class);
-                            startActivity(intent);
-                        }
+                    .setOnClickAction(() -> {
+                        Intent intent = new Intent(getApplicationContext(), AboutLicensesActivity.class);
+                        startActivity(intent);
                     })
                     .build());
 
             MaterialAboutCard.Builder authorCardBuilder = new MaterialAboutCard.Builder();
-            authorCardBuilder.title("作者");
+            authorCardBuilder.title("Author");
 
             authorCardBuilder.addItem(new MaterialAboutActionItem.Builder()
-                    .text("小白兔")
-                    .subText("To 小花猫")
+                    .text("Rabbit")
+                    .subText("To Dear Puss")
                     .icon(new IconicsDrawable(context)
                             .icon(CommunityMaterial.Icon.cmd_account)
                             .color(ContextCompat.getColor(context, colorIcon))
@@ -175,6 +172,38 @@ public class AboutActivity extends MaterialAboutActivity {
                 "Butter Knife", "2013", "Jake Wharton",
                 OpenSourceLicense.APACHE_2);
 
+        MaterialAboutCard materialAboutLibraryLicenseCard11 = ConvenienceBuilder.createLicenseCard(context,
+                new IconicsDrawable(context)
+                        .icon(CommunityMaterial.Icon.cmd_book)
+                        .color(ContextCompat.getColor(context, colorIcon))
+                        .sizeDp(18),
+                "fab-speed-dial", "2016", "Yavor Ivanov",
+                OpenSourceLicense.APACHE_2);
+
+        MaterialAboutCard materialAboutLibraryLicenseCard12 = ConvenienceBuilder.createLicenseCard(context,
+                new IconicsDrawable(context)
+                        .icon(CommunityMaterial.Icon.cmd_book)
+                        .color(ContextCompat.getColor(context, colorIcon))
+                        .sizeDp(18),
+                "RxPermissions", "2015", "Thomas Bruyelle",
+                OpenSourceLicense.APACHE_2);
+
+        MaterialAboutCard materialAboutLibraryLicenseCard13 = ConvenienceBuilder.createLicenseCard(context,
+                new IconicsDrawable(context)
+                        .icon(CommunityMaterial.Icon.cmd_book)
+                        .color(ContextCompat.getColor(context, colorIcon))
+                        .sizeDp(18),
+                "Matisse", "2017", "Zhihu Inc.",
+                OpenSourceLicense.APACHE_2);
+
+        MaterialAboutCard materialAboutLibraryLicenseCard14 = ConvenienceBuilder.createLicenseCard(context,
+                new IconicsDrawable(context)
+                        .icon(CommunityMaterial.Icon.cmd_book)
+                        .color(ContextCompat.getColor(context, colorIcon))
+                        .sizeDp(18),
+                "RxJava", "2016", "RxJava Contributors.",
+                OpenSourceLicense.APACHE_2);
+
         return new MaterialAboutList(materialAboutLibraryLicenseCard1,
                 materialAboutLibraryLicenseCard2,
                 materialAboutLibraryLicenseCard3,
@@ -184,6 +213,10 @@ public class AboutActivity extends MaterialAboutActivity {
                 materialAboutLibraryLicenseCard7,
                 materialAboutLibraryLicenseCard8,
                 materialAboutLibraryLicenseCard9,
-                materialAboutLibraryLicenseCard10);
+                materialAboutLibraryLicenseCard10,
+                materialAboutLibraryLicenseCard11,
+                materialAboutLibraryLicenseCard12,
+                materialAboutLibraryLicenseCard13,
+                materialAboutLibraryLicenseCard14);
     }
 }

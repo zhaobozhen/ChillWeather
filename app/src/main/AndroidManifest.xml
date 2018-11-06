@@ -19,10 +19,10 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <!-- 访问手机当前状态, 需要某些信息用于网络定位 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="com.absinthe.chillweather.permission.MIPUSH_RECEIVE" />
-    <uses-permission android:name="com.xiaomi.market.sdk.UPDATE" />
 
     <permission
         android:name="com.absinthe.chillweather.permission.MIPUSH_RECEIVE"
@@ -54,21 +54,15 @@
             android:name="TencentMapSDK"
             android:value="NE6BZ-WLH6V-WLVPM-UGGQT-OZIUE-2EFR7" />
 
-        <activity android:name=".RecyclerActivity"
+        <activity
+            android:name=".RecyclerActivity"
             android:label="管理城市"
-            android:theme="@style/AppTheme.CityList"
-            android:parentActivityName=".WeatherActivity">
+            android:parentActivityName=".WeatherActivity"
+            android:theme="@style/AppTheme.CityList">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".WeatherActivity" />
         </activity>
-
-
-        <service
-            android:name=".service.AutoUpdateService"
-            android:enabled="true"
-            android:exported="true" />
-
         <activity android:name=".ChooseAreaActivity" />
         <activity
             android:name=".AboutActivity"
@@ -80,6 +74,10 @@
             android:name=".SettingsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <service
+            android:name=".service.AutoUpdateService"
+            android:enabled="true"
+            android:exported="true" />
         <service
             android:name="com.xiaomi.push.service.XMPushService"
             android:enabled="true"
@@ -102,7 +100,9 @@
             android:name="com.xiaomi.push.service.receivers.NetworkStatusReceiver"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action
+                    android:name="android.net.conn.CONNECTIVITY_CHANGE"
+                    tools:ignore="BatteryLife" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -133,9 +133,10 @@
         <activity
             android:name=".UpdateActivity"
             android:label="检查更新"
-            android:theme="@style/AppTheme.CityList"
-            android:parentActivityName=".WeatherActivity">
-        </activity>
+            android:parentActivityName=".WeatherActivity"
+            android:theme="@style/AppTheme.CityList" />
+
+        <activity android:name=".ChooseBgActivity" />
     </application>
 
 </manifest>

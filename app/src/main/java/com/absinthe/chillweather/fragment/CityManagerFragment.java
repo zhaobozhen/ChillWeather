@@ -8,6 +8,7 @@ import com.absinthe.chillweather.db.County;
 import com.absinthe.chillweather.model.CityItem;
 import com.absinthe.chillweather.util.SharedPrefsStrListUtil;
 import com.google.android.material.snackbar.Snackbar;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
 import com.tencent.map.geolocation.TencentLocationManager;
@@ -18,10 +19,10 @@ import com.thesurix.gesturerecycler.GestureManager;
 import com.thesurix.gesturerecycler.RecyclerItemTouchListener;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -33,7 +34,6 @@ import android.widget.Toast;
 
 import org.litepal.LitePal;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -41,17 +41,15 @@ import java.util.Random;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import io.github.yavski.fabspeeddial.FabSpeedDial;
 import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 
+
 public class CityManagerFragment extends BaseFragment implements TencentLocationListener {
 
     private CityAdapter mAdapter;
-    private FabSpeedDial fabSpeedDial;
     public static int[] imgs =
             {R.drawable.january,
             R.drawable.february,
@@ -74,7 +72,7 @@ public class CityManagerFragment extends BaseFragment implements TencentLocation
     public View onCreateView(@NonNull final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_recycler, container, false);
         mRecyclerView = rootView.findViewById(R.id.recycler_view);
-        fabSpeedDial = rootView.findViewById(R.id.add_fab);
+        FabSpeedDial fabSpeedDial = rootView.findViewById(R.id.add_fab);
         fabSpeedDial.setMenuListener(new SimpleMenuListenerAdapter() {
             @Override
             public boolean onMenuItemSelected(MenuItem menuItem) {
@@ -112,25 +110,20 @@ public class CityManagerFragment extends BaseFragment implements TencentLocation
             @Override
             public void onItemRemoved(final CityItem item, final int position) {
                 final Snackbar undoSnack = Snackbar.make(view, "城市已删除。", Snackbar.LENGTH_SHORT);
-                undoSnack.setAction(R.string.undo_text, new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        mAdapter.undoLast();
-                    }
-                });
+                undoSnack.setAction(R.string.undo_text, v -> mAdapter.undoLast());
                 undoSnack.show();
                 SharedPrefsStrListUtil.removeStrListItem(getContext(), "city", item.getName());
+                if (mAdapter.getItemCount() == 0) {
+                    SharedPreferences.Editor prefs = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
+                    prefs.remove("weather_id");
+                    prefs.apply();
+                }
             }
 
             @Override
             public void onItemReorder(final CityItem item, final int fromPos, final int toPos) {
                 final Snackbar undoSnack = Snackbar.make(view, "移动成功", Snackbar.LENGTH_SHORT);
-                undoSnack.setAction(R.string.undo_text, new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        mAdapter.undoLast();
-                    }
-                });
+                undoSnack.setAction(R.string.undo_text, v -> mAdapter.undoLast());
                 undoSnack.show();
             }
         });
@@ -153,6 +146,7 @@ public class CityManagerFragment extends BaseFragment implements TencentLocation
                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
                 editor.putString("weather_id", item.getWeatherId());
                 editor.apply();
+                WeatherActivity.isNeedRefresh = true;
                 Intent intent = new Intent(getActivity(), WeatherActivity.class);
                 startActivity(intent);
                 Objects.requireNonNull(getActivity()).finish();
@@ -172,55 +166,27 @@ public class CityManagerFragment extends BaseFragment implements TencentLocation
         return SharedPrefsStrListUtil.getStrListValue(getContext(), "city");
     }
 
+    @SuppressLint("CheckResult")
     private void cityLocated() {
         LitePal.initialize(getContext());
         //运行时权限申请
-        List<String> permissionList = new ArrayList<>();
-        if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            permissionList.add(Manifest.permission.ACCESS_COARSE_LOCATION);
-        }
-        if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getContext()), Manifest.permission.READ_PHONE_STATE)
-                != PackageManager.PERMISSION_GRANTED) {
-            permissionList.add(Manifest.permission.READ_PHONE_STATE);
-        }
+        final RxPermissions rxPermissions = new RxPermissions(this);
 
-        if (!permissionList.isEmpty()) {
-            Log.d("FAB_CLICK", "permissionList.isEmpty()");
-            requestPermissions(new String[] {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_PHONE_STATE}, 1);
-        } else {
-            showProgressDialog();
-            mLocationManager = TencentLocationManager.getInstance(getContext());
-            request = TencentLocationRequest.create().setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_ADMIN_AREA);
-            mLocationManager.requestLocationUpdates(request, this);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case 1:
-                if (grantResults.length > 0) {
-                    for (int result : grantResults) {
-                        if (result != PackageManager.PERMISSION_GRANTED) {
-                            Toast.makeText(getContext(), getString(R.string.you_must_allow_all_permissions), Toast.LENGTH_SHORT).show();
-                            Objects.requireNonNull(getActivity()).finish();
-                            return;
-                        }
+        rxPermissions
+                .request(Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.READ_PHONE_STATE)
+                .subscribe(granted -> {
+                    if (granted) {
+                        // All requested permissions are granted
+                        showProgressDialog();
+                        mLocationManager = TencentLocationManager.getInstance(getContext());
+                        request = TencentLocationRequest.create().setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_ADMIN_AREA);
+                        mLocationManager.requestLocationUpdates(request, this);
+                    } else {
+                        // At least one permission is denied
+                        Toast.makeText(getContext(), getString(R.string.you_must_allow_all_permissions), Toast.LENGTH_SHORT).show();
                     }
-                    Log.d("FAB_CLICK", "onRequestPermissionsResult");
-                    showProgressDialog();
-                    mLocationManager = TencentLocationManager.getInstance(getContext());
-                    request = TencentLocationRequest.create().setRequestLevel(TencentLocationRequest.REQUEST_LEVEL_ADMIN_AREA);
-                    mLocationManager.requestLocationUpdates(request, this);
-                } else {
-                    Toast.makeText(getContext(), getString(R.string.unknown_errors), Toast.LENGTH_SHORT).show();
-                    Objects.requireNonNull(getActivity()).finish();
-                }
-                break;
-            default:
-                break;
-        }
+                });
     }
 
     @Override

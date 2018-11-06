@@ -62,42 +62,36 @@ public class ChooseAreaActivity extends AppCompatActivity {
 
         //城市搜索框
         searchFragment = SearchFragment.newInstance();
-        searchFragment.setOnSearchClickListener(new IOnSearchClickListener() {
-            @Override
-            public void OnSearchClick(String keyword) {
-                //这里处理逻辑
-                countyList = LitePal.where("countyName = ?", keyword).find(County.class);
-                if (countyList.size() != 0) {
-                    dataList.clear();
-                    dataList.add(countyList.get(0).getCountyName());
-                    adapter.notifyDataSetChanged();
-                    listView.setSelection(0);
-                    currentLevel = LEVEL_COUNTY;
-                } else {
-                    Snackbar.make(listView, getString(R.string.not_searched_this_city), Snackbar.LENGTH_LONG).show();
-                }
+        searchFragment.setOnSearchClickListener(keyword -> {
+            //这里处理逻辑
+            countyList = LitePal.where("countyName = ?", keyword).find(County.class);
+            if (countyList.size() != 0) {
+                dataList.clear();
+                dataList.add(countyList.get(0).getCountyName());
+                adapter.notifyDataSetChanged();
+                listView.setSelection(0);
+                currentLevel = LEVEL_COUNTY;
+            } else {
+                Snackbar.make(listView, getString(R.string.not_searched_this_city), Snackbar.LENGTH_LONG).show();
             }
         });
 
         LitePal.initialize(getApplicationContext());
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (currentLevel == LEVEL_PROVINCE) {
-                    selectedProvince = provinceList.get(i);
-                    queryCities();
-                } else if (currentLevel == LEVEL_CITY) {
-                    selectedCity = cityList.get(i);
-                    queryCounties();
-                } else if (currentLevel == LEVEL_COUNTY) {
-                    SharedPrefsStrListUtil.putStrValueInList(getApplicationContext(),
-                            "city",
-                            countyList.get(i).getCountyName(),
-                            countyList.get(i).getWeatherId(),
-                            CityManagerFragment.imgs[new Random().nextInt(12)]);
-                    finish();
-                }
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            if (currentLevel == LEVEL_PROVINCE) {
+                selectedProvince = provinceList.get(i);
+                queryCities();
+            } else if (currentLevel == LEVEL_CITY) {
+                selectedCity = cityList.get(i);
+                queryCounties();
+            } else if (currentLevel == LEVEL_COUNTY) {
+                SharedPrefsStrListUtil.putStrValueInList(getApplicationContext(),
+                        "city",
+                        countyList.get(i).getCountyName(),
+                        countyList.get(i).getWeatherId(),
+                        CityManagerFragment.imgs[new Random().nextInt(12)]);
+                finish();
             }
         });
         queryProvinces();
