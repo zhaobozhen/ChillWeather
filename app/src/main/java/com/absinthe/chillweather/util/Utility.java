@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.absinthe.chillweather.MainActivity;
 import com.absinthe.chillweather.R;
 import com.absinthe.chillweather.WeatherActivity;
 import com.absinthe.chillweather.gson.BingPic;

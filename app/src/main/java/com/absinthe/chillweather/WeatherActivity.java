@@ -189,7 +189,8 @@ public class WeatherActivity extends AppCompatActivity {
 
         String weatherString = prefs.getString("weather", null);
         if (weatherString != null) {
-            showWeatherInfo(Objects.requireNonNull(Utility.handleWeatherResponse(weatherString)));
+            weather = Objects.requireNonNull(Utility.handleWeatherResponse(weatherString));
+            showWeatherInfo(weather);
         }
 
         if (isNeedRefresh) {
