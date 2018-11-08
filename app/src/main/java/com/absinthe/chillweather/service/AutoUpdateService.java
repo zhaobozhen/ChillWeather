@@ -32,8 +32,6 @@ public class AutoUpdateService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        updateWeather();
-
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         SharedPreferences settings = getApplicationContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
         String refreshFreq =  settings.getString("refresh_freq_drop_down", null);
@@ -50,6 +48,8 @@ public class AutoUpdateService extends Service {
         PendingIntent pi = PendingIntent.getService(this, 0, i, 0);
         manager.cancel(pi);
         manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtTime, pi);
+
+        updateWeather();
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -75,8 +75,9 @@ public class AutoUpdateService extends Service {
                             .getDefaultSharedPreferences(AutoUpdateService.this).edit();
                     editor.putString("weather", responseText);
                     editor.apply();
+                    WeatherActivity.isNeedRefresh = true;
+                    Utility.handleOnGoingNotification(getApplicationContext());
                 }
-                Utility.handleOnGoingNotification(getApplicationContext());
             }
         });
         Log.d("AutoUpdateService", "Service success.");

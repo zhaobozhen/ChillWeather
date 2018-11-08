@@ -55,6 +55,7 @@ public class WeatherActivity extends AppCompatActivity {
     public static String mWeatherId;
     public static Weather weather;
     public static boolean isNeedRefresh;
+    public static int mUpdateDay;
     public static boolean mOnGoingNotification;  //天气常驻通知栏
     public static boolean mRefreshService;  //后台刷新
     public static boolean mOnBingPicSwitch; //是否开启必应每日一图
@@ -118,7 +119,7 @@ public class WeatherActivity extends AppCompatActivity {
         mOnBingPicSwitch = settings.getBoolean("bing_update_switch", true);
 
         //如果开启后台刷新则取消每次开启刷新
-        isNeedRefresh = !settings.getBoolean("refresh_background_switch", false);
+        isNeedRefresh = true;
 
         navButton.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.START));
 
@@ -179,6 +180,7 @@ public class WeatherActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        Log.d("ONRESUME", "isNeedRefresh:"+isNeedRefresh);
         super.onResume();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -188,6 +190,7 @@ public class WeatherActivity extends AppCompatActivity {
         }
 
         String weatherString = prefs.getString("weather", null);
+
         if (weatherString != null) {
             weather = Objects.requireNonNull(Utility.handleWeatherResponse(weatherString));
             showWeatherInfo(weather);
@@ -334,11 +337,18 @@ public class WeatherActivity extends AppCompatActivity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String bingPic = prefs.getString("bing_pic", null);
         String customBgUriString = prefs.getString("custom_bg_uri", null);
+        if (weather != null) {
+            mUpdateDay = Integer.valueOf(weather.update.updateTime.substring(8, 10));
+        }
+
+        boolean isNextDay = mUpdateDay != Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        Log.d("DATE", "Today:"+Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + ". SubString:"+mUpdateDay);
+
         if ((customBgUriString != null) && !mOnBingPicSwitch) {
             Uri customBgUri = Uri.parse(customBgUriString);
             Glide.with(WeatherActivity.this).load(customBgUri).into(bingPicImg);
         } else {
-            if (!isNeedRefresh && bingPic != null) {
+            if (!isNextDay && bingPic != null) {
                 Glide.with(this).load(bingPic).into(bingPicImg);
             } else {
                 loadBingPic();
@@ -351,6 +361,7 @@ public class WeatherActivity extends AppCompatActivity {
      */
 
     private void loadBingPic() {
+        Log.d("loadBingPic", "BingUpdate");
         String requestBingPic = "https://cn.bing.com/HPImageArchive.aspx?format=js&n=1";
         HttpUtil.sendOkHttpRequest(requestBingPic, new Callback() {
             @Override
