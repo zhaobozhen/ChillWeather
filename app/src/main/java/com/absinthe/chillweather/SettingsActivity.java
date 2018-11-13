@@ -23,7 +23,7 @@ public class SettingsActivity extends AppCompatActivity {
         ActionBar actionBar =  getSupportActionBar();
         if(actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("设置");
+            actionBar.setTitle(getString(R.string.settings));
         }
 
         if (savedInstanceState == null) {

@@ -1,52 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ChillWeather</string>
-    <string name="air_quality">空气质量</string>
-    <string name="aqi_value">AQI指数</string>
-    <string name="pm2_5_value">PM2.5指数</string>
-    <string name="forecast_string">预报     </string>
-    <string name="life_suggestion">生活建议</string>
-    <string name="city_manage">城市管理</string>
-    <string name="others">其他</string>
-    <string name="settings">设置</string>
-    <string name="major">主要</string>
-    <string name="about">关于</string>
-    <string name="back">返回</string>
-    <string name="location">定位</string>
-    <string name="sun_duration">日照时间</string>
-    <string name="sun_rise">日出</string>
-    <string name="sun_set">日落</string>
-    <string name="search">搜索</string>
+    <string name="air_quality">Air Quality</string>
+    <string name="aqi_value">AQI Index</string>
+    <string name="pm2_5_value">PM2.5 Index</string>
+    <string name="forecast_string">Forecast</string>
+    <string name="life_suggestion">Life Suggestion</string>
+    <string name="city_manage">City Management</string>
+    <string name="others">Others</string>
+    <string name="settings">Settings</string>
+    <string name="major">Main</string>
+    <string name="about">About</string>
+    <string name="back">Back</string>
+    <string name="location">LOCATION</string>
+    <string name="sun_duration">Sunshine Period</string>
+    <string name="sun_rise">Sunrise</string>
+    <string name="sun_set">Sunset</string>
+    <string name="search">Search</string>
     <string name="background_pic">backgroundPic</string>
-    <string name="mal_title_about">关于</string>
-    <string name="weather_info">天气</string>
-    <string name="max">最高</string>
-    <string name="min">最低</string>
-    <string name="wind">风</string>
-    <string name="wind_direction">风向</string>
-    <string name="wind_power">风力</string>
-    <string name="humidity">湿度</string>
-    <string name="not_searched_this_city">没有查找到该城市。</string>
-    <string name="you_must_allow_all_permissions">You must allow all permissions to run the app</string>
-    <string name="unknown_errors">Unknown errors</string>
-    <string name="choose_city">选择城市</string>
-    <string name="located_success_and_tap_to_change">定位成功。</string>
-    <string name="located_failed">定位失败</string>
-    <string name="failed_to_acquire_weather_info">获取天气信息失败</string>
-    <string name="tap_again_to_quit">再按一次退出程序</string>
-    <string name="can_not_locate">暂时无法定位</string>
-    <string name="check_update">检查更新</string>
+    <string name="mal_title_about">About</string>
+    <string name="weather_info">Weather Info</string>
+    <string name="max">Max</string>
+    <string name="min">Min</string>
+    <string name="wind">Wind</string>
+    <string name="wind_direction">Wind Dirc</string>
+    <string name="wind_power">Wind Power</string>
+    <string name="humidity">Humidity</string>
+    <string name="not_searched_this_city">DID NOT FIND THE CITY.</string>
+    <string name="you_must_allow_all_permissions">You must allow all permissions to run the app.</string>
+    <string name="unknown_errors">Unknown errors.</string>
+    <string name="choose_city">Select city</string>
+    <string name="located_success_and_tap_to_change">LOCATED SUCCESS.</string>
+    <string name="located_failed">Located failed</string>
+    <string name="failed_to_acquire_weather_info">Failed to acquire weather info</string>
+    <string name="tap_again_to_quit">Tap again to quit</string>
+    <string name="can_not_locate">Unable to locate</string>
+    <string name="check_update">Check Update</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 
-    <string name="linear_recycler_text">Linear Recycler</string>
-    <string name="linear_empty_text">Linear Empty View</string>
-    <string name="grid_recycler_text">Grid Recycler</string>
-    <string name="recycler_no_data_text">无数据</string>
-    <string name="undo_text">撤销</string>
-    <string name="add_city">添加城市</string>
+    <string name="recycler_no_data_text">No data</string>
+    <string name="undo_text">Redo</string>
+    <string name="add_city">ADD CITY</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="customize_bg">自定义背景</string>
+    <string name="customize_bg">Customize background picture</string>
+    <string name="city_removed">CITY HAS REMOVED.</string>
+    <string name="move_success">MOVED SUCCESS</string>
+    <string name="on_locating">Locating……</string>
+    <string name="off">Off</string>
+    <string name="on_checking">Checking……</string>
+    <string name="tap_to_add_city">Add cities by tapping lower right.</string>
 
 </resources>

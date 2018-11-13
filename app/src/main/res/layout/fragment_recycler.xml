@@ -49,7 +49,7 @@
             android:layout_centerHorizontal="true"
             android:textAppearance="@android:style/TextAppearance.Large"
             android:textColor="@color/colorPrimary"
-            android:text="点击右下角添加城市"/>
+            android:text="@string/tap_to_add_city"/>
 
     </RelativeLayout>
 

@@ -39,7 +39,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         ListPreference listPreference;
         listPreference = (ListPreference) findPreference("day_weather_time_drop_down");
-        listPreference.setEntries(new CharSequence[]{"关闭", "6:00", "7:00", "8:00"});
+        listPreference.setEntries(new CharSequence[]{getString(R.string.off), "6:00", "7:00", "8:00"});
         listPreference.setEntryValues(new CharSequence[]{"0", "6", "7", "8"});
         if (listPreference.getValue() == null) {
             listPreference.setValueIndex(0);
@@ -47,7 +47,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         listPreference.setOnPreferenceChangeListener(this);
 
         listPreference = (ListPreference) findPreference("night_weather_time_drop_down");
-        listPreference.setEntries(new CharSequence[]{"关闭", "19:00", "20:00", "21:00"});
+        listPreference.setEntries(new CharSequence[]{getString(R.string.off), "19:00", "20:00", "21:00"});
         listPreference.setEntryValues(new CharSequence[]{"0", "19", "20", "21"});
         if (listPreference.getValue() == null) {
             listPreference.setValueIndex(0);

@@ -78,7 +78,7 @@ public class UpdateActivity extends AppCompatActivity {
     private void showProgressDialog() {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage("检查中……");
+            progressDialog.setMessage(getString(R.string.on_checking));
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.setCancelable(false);
         }

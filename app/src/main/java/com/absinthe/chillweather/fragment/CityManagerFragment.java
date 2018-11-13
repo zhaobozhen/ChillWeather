@@ -109,7 +109,7 @@ public class CityManagerFragment extends BaseFragment implements TencentLocation
         mAdapter.setDataChangeListener(new GestureAdapter.OnDataChangeListener<CityItem>() {
             @Override
             public void onItemRemoved(final CityItem item, final int position) {
-                final Snackbar undoSnack = Snackbar.make(view, "城市已删除。", Snackbar.LENGTH_SHORT);
+                final Snackbar undoSnack = Snackbar.make(view, getString(R.string.city_removed), Snackbar.LENGTH_SHORT);
                 undoSnack.setAction(R.string.undo_text, v -> mAdapter.undoLast());
                 undoSnack.show();
                 SharedPrefsStrListUtil.removeStrListItem(getContext(), "city", item.getName());
@@ -122,7 +122,7 @@ public class CityManagerFragment extends BaseFragment implements TencentLocation
 
             @Override
             public void onItemReorder(final CityItem item, final int fromPos, final int toPos) {
-                final Snackbar undoSnack = Snackbar.make(view, "移动成功", Snackbar.LENGTH_SHORT);
+                final Snackbar undoSnack = Snackbar.make(view, getString(R.string.move_success), Snackbar.LENGTH_SHORT);
                 undoSnack.setAction(R.string.undo_text, v -> mAdapter.undoLast());
                 undoSnack.show();
             }
@@ -221,7 +221,7 @@ public class CityManagerFragment extends BaseFragment implements TencentLocation
     private void showProgressDialog() {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(getContext());
-            progressDialog.setMessage("定位中……");
+            progressDialog.setMessage(getString(R.string.on_locating));
             progressDialog.setCanceledOnTouchOutside(false);
             progressDialog.setCancelable(false);
         }
