@@ -91,26 +91,26 @@ public class WeatherActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_weather);
         //初始化各个控件
-        weatherLayout = findViewById(R.id.weather_layout);
-        titleCity = findViewById(R.id.title_city);
-        degreeText = findViewById(R.id.degree_text);
-        feelDegreeText = findViewById(R.id.feel_degree_text);
-        weatherInfoText = findViewById(R.id.weather_info_text);
-        forecastLayout = findViewById(R.id.forecast_layout);
-        sunRiseText = findViewById(R.id.sun_rise);
-        sunSetText = findViewById(R.id.sun_set);
-        windDirectionText = findViewById(R.id.wind_direction);
-        windPowerText = findViewById(R.id.wind_power);
-        humidityText = findViewById(R.id.humidity);
+        weatherLayout = findViewById(R.id.sv_weather_info);
+        titleCity = findViewById(R.id.tv_title_city);
+        degreeText = findViewById(R.id.tv_degree);
+        feelDegreeText = findViewById(R.id.tv_feel_degree);
+        weatherInfoText = findViewById(R.id.tv_weather_info);
+        forecastLayout = findViewById(R.id.ll_forecast);
+        sunRiseText = findViewById(R.id.tv_sun_rise);
+        sunSetText = findViewById(R.id.tv_sun_set);
+        windDirectionText = findViewById(R.id.tv_wind_direction);
+        windPowerText = findViewById(R.id.tv_wind_power);
+        humidityText = findViewById(R.id.tv_humidity);
         sunView = findViewById(R.id.sun_view);
-        comfortText = findViewById(R.id.comfort_text);
-        dressingText = findViewById(R.id.dressing_text);
-        uvText = findViewById(R.id.uv_text);
-        bingPicImg = findViewById(R.id.bing_pic_img);
-        drawerLayout = findViewById(R.id.drawer_layout);
-        Button navButton = findViewById(R.id.nav_button);
+        comfortText = findViewById(R.id.tv_comfort);
+        dressingText = findViewById(R.id.tv_dressing);
+        uvText = findViewById(R.id.tv_ultraviolet);
+        bingPicImg = findViewById(R.id.iv_bing_pic);
+        drawerLayout = findViewById(R.id.dl_weather_drawer);
+        Button navButton = findViewById(R.id.btn_nav_menu);
 
-        swipeRefresh = findViewById(R.id.swipe_refresh);
+        swipeRefresh = findViewById(R.id.srl_swipe_refresh);
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
 
         SharedPreferences settings = getApplicationContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
@@ -124,7 +124,7 @@ public class WeatherActivity extends AppCompatActivity {
         navButton.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.START));
 
         //注册侧滑导航栏
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nv_weather_navigation);
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             Intent intent;
             switch (menuItem.getItemId()) {
@@ -268,10 +268,10 @@ public class WeatherActivity extends AppCompatActivity {
         for (Forecast forecast : weather.forecastList) {
             View view = LayoutInflater.from(this)
                     .inflate(R.layout.forecast_item, forecastLayout, false);
-            TextView dateText = view.findViewById(R.id.date_text);
-            TextView infoText = view.findViewById(R.id.info_text);
-            TextView maxMinText = view.findViewById(R.id.max_min_text);
-            ImageView weatherIcon = view.findViewById(R.id.weather_icon);
+            TextView dateText = view.findViewById(R.id.tv_forecast_date);
+            TextView infoText = view.findViewById(R.id.tv_forecast_info);
+            TextView maxMinText = view.findViewById(R.id.tv_max_min_degree);
+            ImageView weatherIcon = view.findViewById(R.id.iv_weather_icon);
 
             dateText.setText(Integer.valueOf(forecast.date.substring(5, 7)) + "月" + Integer.valueOf(forecast.date.substring(8, 10)) + "日");
             infoText.setText(forecast.dayCondition);
@@ -391,7 +391,7 @@ public class WeatherActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (drawerLayout.isDrawerOpen(findViewById(R.id.nav_view))) {
+            if (drawerLayout.isDrawerOpen(findViewById(R.id.nv_weather_navigation))) {
                 drawerLayout.closeDrawers();
             } else if ((System.currentTimeMillis() - mExitTime) > 2000) {
                 Toast.makeText(this, getString(R.string.tap_again_to_quit), Toast.LENGTH_SHORT).show();

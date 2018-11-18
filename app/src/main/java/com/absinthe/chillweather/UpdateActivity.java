@@ -42,7 +42,7 @@ public class UpdateActivity extends AppCompatActivity {
     @SuppressLint("SetJavaScriptEnabled")
     private void initWebView() {
         showProgressDialog();
-        WebView webView = findViewById(R.id.update_web_view);
+        WebView webView = findViewById(R.id.wv_update);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient() {
             @Override

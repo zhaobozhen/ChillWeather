@@ -7,9 +7,7 @@ import android.preference.PreferenceManager;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.absinthe.chillweather.fragment.CityManagerFragment;
 import com.absinthe.chillweather.util.DBManager;
-import com.absinthe.chillweather.util.SharedPrefsStrListUtil;
 
 import java.io.File;
 

@@ -6,7 +6,7 @@
     android:padding="@dimen/header_item_padding">
 
     <TextView
-        android:id="@+id/header_text"
+        android:id="@+id/tv_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/pink_500"

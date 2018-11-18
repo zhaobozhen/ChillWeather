@@ -17,7 +17,7 @@
         android:textColor="#fff"/>
 
     <LinearLayout
-        android:id="@+id/forecast_layout"
+        android:id="@+id/ll_forecast"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

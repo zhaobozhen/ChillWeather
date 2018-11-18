@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/choose_area_toolbar"
+        android:id="@+id/tb_choose_area"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
@@ -16,7 +16,7 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
         <TextView
-            android:id="@+id/title_text"
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -26,7 +26,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <ListView
-        android:id="@+id/list_view"
+        android:id="@+id/lv_choose_area"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

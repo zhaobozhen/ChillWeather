@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/ic_delete"
+        android:src="@drawable/btn_delete"
         tools:ignore="ContentDescription" />
 
 </RelativeLayout>

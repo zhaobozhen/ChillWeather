@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_locate"
-        android:icon="@drawable/ic_location"
+        android:icon="@drawable/btn_location"
         android:title="@string/location" />
     <item
         android:id="@+id/action_add_city"
-        android:icon="@drawable/ic_city_manage"
+        android:icon="@drawable/btn_city_manage"
         android:title="@string/add_city"/>
 </menu>

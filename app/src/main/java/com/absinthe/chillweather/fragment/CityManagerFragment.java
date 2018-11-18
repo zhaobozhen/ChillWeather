@@ -51,18 +51,18 @@ public class CityManagerFragment extends BaseFragment implements TencentLocation
 
     private CityAdapter mAdapter;
     public static int[] imgs =
-            {R.drawable.january,
-            R.drawable.february,
-            R.drawable.march,
-            R.drawable.april,
-            R.drawable.may,
-            R.drawable.june,
-            R.drawable.july,
-            R.drawable.august,
-            R.drawable.september,
-            R.drawable.october,
-            R.drawable.november,
-            R.drawable.december};
+            {R.drawable.bg_january,
+            R.drawable.bg_february,
+            R.drawable.bg_march,
+            R.drawable.bg_april,
+            R.drawable.bg_may,
+            R.drawable.bg_june,
+            R.drawable.bg_july,
+            R.drawable.bg_august,
+            R.drawable.bg_september,
+            R.drawable.bg_october,
+            R.drawable.bg_november,
+            R.drawable.bg_december};
     private TencentLocationManager mLocationManager;    //腾讯定位SDK
     private TencentLocationRequest request;
     private ProgressDialog progressDialog;
@@ -71,8 +71,8 @@ public class CityManagerFragment extends BaseFragment implements TencentLocation
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_recycler, container, false);
-        mRecyclerView = rootView.findViewById(R.id.recycler_view);
-        FabSpeedDial fabSpeedDial = rootView.findViewById(R.id.add_fab);
+        mRecyclerView = rootView.findViewById(R.id.rv_city_recycler_view);
+        FabSpeedDial fabSpeedDial = rootView.findViewById(R.id.fab_add);
         fabSpeedDial.setMenuListener(new SimpleMenuListenerAdapter() {
             @Override
             public boolean onMenuItemSelected(MenuItem menuItem) {
@@ -128,7 +128,7 @@ public class CityManagerFragment extends BaseFragment implements TencentLocation
             }
         });
 
-        final View emptyView = view.findViewById(R.id.empty_root);
+        final View emptyView = view.findViewById(R.id.rl_empty_root);
         mAdapter.setEmptyView(emptyView);
 
         mRecyclerView.setAdapter(mAdapter);

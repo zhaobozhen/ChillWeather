@@ -17,21 +17,21 @@
         android:textSize="20sp"/>
 
     <TextView
-        android:id="@+id/comfort_text"
+        android:id="@+id/tv_comfort"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:textColor="#fff"/>
 
     <TextView
-        android:id="@+id/dressing_text"
+        android:id="@+id/tv_dressing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:textColor="#fff"/>
 
     <TextView
-        android:id="@+id/uv_text"
+        android:id="@+id/tv_ultraviolet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"

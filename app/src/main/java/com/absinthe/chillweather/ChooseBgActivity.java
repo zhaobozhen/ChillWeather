@@ -1,7 +1,6 @@
 package com.absinthe.chillweather;
 
 import androidx.appcompat.app.AppCompatActivity;
-import moe.shizuku.preference.Preference;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -12,18 +11,14 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.absinthe.chillweather.fragment.SettingsFragment;
 import com.absinthe.chillweather.util.Glide4Engine;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 
 import java.util.List;
-
-import static org.litepal.LitePalApplication.getContext;
 
 public class ChooseBgActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_CHOOSE = 23;

@@ -4,7 +4,7 @@
         <menu>
             <item
                 android:id="@+id/city_manage"
-                android:icon="@drawable/ic_city_manage"
+                android:icon="@drawable/btn_city_manage"
                 android:title="@string/city_manage"/>
         </menu>
     </item>
@@ -13,19 +13,19 @@
         <menu>
             <item
                 android:id="@+id/customize_bg"
-                android:icon="@drawable/ic_customize_bg"
+                android:icon="@drawable/btn_customize_bg"
                 android:title="@string/customize_bg"/>
             <item
                 android:id="@+id/settings"
-                android:icon="@drawable/ic_setting"
+                android:icon="@drawable/btn_setting"
                 android:title="@string/settings"/>
             <item
                 android:id="@+id/check_update"
-                android:icon="@drawable/ic_check_update"
+                android:icon="@drawable/btn_check_update"
                 android:title="@string/check_update"/>
             <item
                 android:id="@+id/about"
-                android:icon="@drawable/ic_about"
+                android:icon="@drawable/btn_about"
                 android:title="@string/about"/>
         </menu>
     </item>

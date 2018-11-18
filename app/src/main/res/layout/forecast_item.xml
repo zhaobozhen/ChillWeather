@@ -6,7 +6,7 @@
     android:layout_margin="15dp">
 
     <TextView
-        android:id="@+id/date_text"
+        android:id="@+id/tv_forecast_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -15,7 +15,7 @@
         android:textColor="#fff"/>
 
     <TextView
-        android:id="@+id/info_text"
+        android:id="@+id/tv_forecast_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -25,15 +25,16 @@
         android:textColor="#fff"/>
 
     <ImageView
-        android:id="@+id/weather_icon"
+        android:id="@+id/iv_weather_icon"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:gravity="center" />
+        android:gravity="center"
+        android:contentDescription="@string/to_show_weather_icon" />
 
     <TextView
-        android:id="@+id/max_min_text"
+        android:id="@+id/tv_max_min_degree"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

@@ -6,19 +6,19 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/relative_recycler_view"
+        android:id="@+id/rl_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@+id/rv_city_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
     </RelativeLayout>
 
     <io.github.yavski.fabspeeddial.FabSpeedDial
-        android:id="@+id/add_fab"
+        android:id="@+id/fab_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
@@ -29,23 +29,23 @@
         app:miniFabTitleTextColor="?attr/colorPrimaryDark" />
 
     <RelativeLayout
-        android:id="@+id/empty_root"
+        android:id="@+id/rl_empty_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
 
         <ImageView
-            android:id="@+id/empty_image"
+            android:id="@+id/iv_empty_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_empty_list"
+            android:src="@drawable/bg_empty_list"
             android:layout_centerInParent="true"
             />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/empty_image"
+            android:layout_below="@id/iv_empty_image"
             android:layout_centerHorizontal="true"
             android:textAppearance="@android:style/TextAppearance.Large"
             android:textColor="@color/colorPrimary"

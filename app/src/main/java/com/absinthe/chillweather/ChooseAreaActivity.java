@@ -6,8 +6,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,7 +17,6 @@ import com.absinthe.chillweather.fragment.CityManagerFragment;
 import com.absinthe.chillweather.util.SharedPrefsStrListUtil;
 import com.google.android.material.snackbar.Snackbar;
 import com.wyt.searchbox.SearchFragment;
-import com.wyt.searchbox.custom.IOnSearchClickListener;
 
 import org.litepal.LitePal;
 
@@ -52,11 +49,11 @@ public class ChooseAreaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_area);
-        titleText = findViewById(R.id.title_text);
-        listView = findViewById(R.id.list_view);
+        titleText = findViewById(R.id.tv_title);
+        listView = findViewById(R.id.lv_choose_area);
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, dataList);
         listView.setAdapter(adapter);
-        Toolbar toolbar = findViewById(R.id.choose_area_toolbar);
+        Toolbar toolbar = findViewById(R.id.tb_choose_area);
 
         setSupportActionBar(toolbar);
 
