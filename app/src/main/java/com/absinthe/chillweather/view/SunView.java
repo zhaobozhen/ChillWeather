@@ -102,7 +102,7 @@ public class SunView extends View {
         mPathPath = new Path();
         // 渐变遮罩的画笔
         Paint shadePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        shadePaint.setColor(Color.parseColor("#1E000000"));
+        shadePaint.setColor(Color.parseColor("#8EFFFFFF"));
         shadePaint.setStyle(Paint.Style.FILL);
         mShadePaint = shadePaint;
         // 运动轨迹画笔

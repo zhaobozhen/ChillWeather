@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="15dp"
     android:background="@drawable/bg_border"
+    android:elevation="@dimen/card_elevation"
     android:orientation="vertical">
 
     <TextView
@@ -13,7 +14,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:text="@string/wind"
-        android:textColor="#fff"
+        android:textColor="@color/itemTextColor"
         android:textSize="20sp" />
 
     <LinearLayout
@@ -36,17 +37,17 @@
                 <TextView
                     android:id="@+id/tv_wind_direction"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:textColor="#fff"
+                    android:textColor="@color/itemTextColor"
                     android:textSize="30sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:text="@string/wind_direction"
-                    android:textColor="#fff" />
+                    android:textColor="@color/itemTextColor" />
             </LinearLayout>
 
         </RelativeLayout>
@@ -65,17 +66,17 @@
                 <TextView
                     android:id="@+id/tv_wind_power"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:textColor="#fff"
+                    android:textColor="@color/itemTextColor"
                     android:textSize="30sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:text="@string/wind_power"
-                    android:textColor="#fff" />
+                    android:textColor="@color/itemTextColor" />
             </LinearLayout>
 
         </RelativeLayout>
@@ -94,17 +95,17 @@
                 <TextView
                     android:id="@+id/tv_humidity"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:textColor="#fff"
+                    android:textColor="@color/itemTextColor"
                     android:textSize="30sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:text="@string/humidity"
-                    android:textColor="#fff" />
+                    android:textColor="@color/itemTextColor" />
             </LinearLayout>
 
         </RelativeLayout>

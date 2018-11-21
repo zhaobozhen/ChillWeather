@@ -302,22 +302,16 @@ public class WeatherActivity extends AppCompatActivity {
         // 设置当前时间
         sunView.setCurrentTime(hour, minute);
 
-        String comfort;
-        String dressing;
-        String ultraviolet;
         for (Suggestion suggestion : weather.suggestionList) {
             switch (suggestion.lifeType) {
                 case "comf":
-                    comfort = "舒适度：" + suggestion.detail;
-                    comfortText.setText(comfort);
+                    comfortText.setText(suggestion.detail);
                     break;
                 case "drsg":
-                    dressing = "穿衣指数：" + suggestion.detail;
-                    dressingText.setText(dressing);
+                    dressingText.setText(suggestion.detail);
                     break;
                 case "uv":
-                    ultraviolet = "紫外线指数：" + suggestion.detail;
-                    uvText.setText(ultraviolet);
+                    uvText.setText(suggestion.detail);
                     break;
                 default:
             }

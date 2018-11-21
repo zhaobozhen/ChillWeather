@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="15dp"
     android:background="@drawable/bg_border"
+    android:elevation="@dimen/card_elevation"
     android:orientation="vertical">
 
     <TextView
@@ -14,7 +15,7 @@
         android:layout_marginTop="15dp"
         android:textSize="20sp"
         android:text="@string/forecast_string"
-        android:textColor="#fff"/>
+        android:textColor="@color/itemTextColor"/>
 
     <LinearLayout
         android:id="@+id/ll_forecast"
