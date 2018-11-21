@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import com.absinthe.chillweather.RecyclerActivity;
+import com.absinthe.chillweather.WeatherActivity;
 
 import java.io.File;
 
@@ -35,6 +36,9 @@ public class InitSharedPreferences {
 
             Intent intent = new Intent(context, RecyclerActivity.class);
             context.startActivity(intent);
+            return;
         }
+        Intent intent = new Intent(context, WeatherActivity.class);
+        context.startActivity(intent);
     }
 }

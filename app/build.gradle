@@ -6,7 +6,7 @@ android {
         applicationId "com.absinthe.chillweather"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 578
+        versionCode 584
         versionName "1.0.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -50,7 +50,6 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.2.3'
 
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc2'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0'

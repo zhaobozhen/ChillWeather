@@ -15,11 +15,9 @@ import androidx.annotation.NonNull;
 import com.absinthe.chillweather.gson.BingPic;
 import com.absinthe.chillweather.gson.Suggestion;
 import com.absinthe.chillweather.service.AutoUpdateService;
-import com.absinthe.chillweather.util.GlideApp;
-import com.absinthe.chillweather.util.InitSharedPreferences;
 import com.absinthe.chillweather.view.SunView;
 import com.absinthe.chillweather.view.ViewFade;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.core.view.GravityCompat;
@@ -86,7 +84,6 @@ public class WeatherActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        InitSharedPreferences.init(this);
         initView();
     }
 
@@ -138,15 +135,15 @@ public class WeatherActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.dl_weather_drawer);
         Button navButton = findViewById(R.id.btn_nav_menu);
 
-        swipeRefresh = findViewById(R.id.srl_swipe_refresh);
-        swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
-
         SharedPreferences settings = getApplicationContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
         mOnGoingNotification =  settings.getBoolean("on_notification_switch", false);
         mRefreshService = settings.getBoolean("refresh_background_switch", false);
         mOnBingPicSwitch = settings.getBoolean("bing_update_switch", true);
 
         loadBackgroundPic();
+
+        swipeRefresh = findViewById(R.id.srl_swipe_refresh);
+        swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
 
         //如果开启后台刷新则取消每次开启刷新
         isNeedRefresh = true;
@@ -352,10 +349,9 @@ public class WeatherActivity extends AppCompatActivity {
             Glide.with(this).load(customBgUri).into(bingPicImg);
         } else {
             if (!isNextDay && bingPic != null) {
-                GlideApp.with(this)
+                Glide.with(this)
                         .load(bingPic)
-                        .placeholder(R.drawable.bg_splash)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .transition(DrawableTransitionOptions.withCrossFade())
                         .into(bingPicImg);
             } else {
                 loadBingPic();
@@ -386,10 +382,9 @@ public class WeatherActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
                 editor.putString("bing_pic", pic);
                 editor.apply();
-                runOnUiThread(() -> GlideApp.with(WeatherActivity.this)
+                runOnUiThread(() -> Glide.with(WeatherActivity.this)
                         .load(pic)
-                        .placeholder(R.drawable.bg_splash)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .transition(DrawableTransitionOptions.withCrossFade())
                         .into(bingPicImg));
             }
         });
