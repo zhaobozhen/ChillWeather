@@ -18,8 +18,7 @@ import java.io.InputStream;
  */
 
 public class DBManager {
-    private final int BUFFER_SIZE = 400000;
-    private static final String DB_NAME = "chill_weather.db"; //保存的数据库文件名
+    private static final String DB_NAME = "cities_data.db"; //保存的数据库文件名
     private static final String PACKAGE_NAME = "com.absinthe.chillweather";
     private static final String DB_PATH = "/data"
             + Environment.getDataDirectory().getAbsolutePath() + "/"
@@ -36,20 +35,21 @@ public class DBManager {
         this.database = this.openDatabase(DB_PATH + "/" + DB_NAME);
     }
 
-    private SQLiteDatabase openDatabase(String dbfile) {
+    private SQLiteDatabase openDatabase(String dbFile) {
         try {
-            if (!(new File(dbfile).exists())) { //判断数据库文件是否存在，若不存在则执行导入，否则直接打开数据库
-                InputStream is = this.context.getResources().openRawResource(R.raw.chill_weather); //欲导入的数据库
-                FileOutputStream fos = new FileOutputStream(dbfile);
+            if (!(new File(dbFile).exists())) { //判断数据库文件是否存在，若不存在则执行导入，否则直接打开数据库
+                InputStream is = this.context.getResources().openRawResource(R.raw.cities_data); //欲导入的数据库
+                FileOutputStream fos = new FileOutputStream(dbFile);
+                int BUFFER_SIZE = 400000;
                 byte[] buffer = new byte[BUFFER_SIZE];
-                int count = 0;
+                int count;
                 while ((count = is.read(buffer)) > 0) {
                     fos.write(buffer, 0, count);
                 }
                 fos.close();
                 is.close();
             }
-            return SQLiteDatabase.openOrCreateDatabase(dbfile, null);
+            return SQLiteDatabase.openOrCreateDatabase(dbFile, null);
         } catch (FileNotFoundException e) {
             Log.e("Database", "File not found");
             e.printStackTrace();

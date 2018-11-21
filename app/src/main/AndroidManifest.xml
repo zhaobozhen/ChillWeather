@@ -36,19 +36,18 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/Splashscreen"
         tools:ignore="GoogleAppIndexingWarning,RtlEnabled"
         tools:targetApi="donut">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".WeatherActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".WeatherActivity"
-            android:launchMode="singleTask" />
 
         <meta-data
             android:name="TencentMapSDK"
@@ -73,6 +72,14 @@
         <activity
             android:name=".SettingsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".UpdateActivity"
+            android:label="@string/check_update"
+            android:parentActivityName=".WeatherActivity"
+            android:theme="@style/AppTheme.CityList" />
+
+        <activity android:name=".ChooseBgActivity" />
 
         <service
             android:name=".service.AutoUpdateService"
@@ -130,13 +137,6 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name=".UpdateActivity"
-            android:label="@string/check_update"
-            android:parentActivityName=".WeatherActivity"
-            android:theme="@style/AppTheme.CityList" />
-
-        <activity android:name=".ChooseBgActivity" />
     </application>
 
 </manifest>

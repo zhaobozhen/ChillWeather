@@ -37,5 +37,8 @@
         <item name="backgroundCompat">?attr/selectableItemBackground</item>
     </style>
 
+    <style name="Splashscreen" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/splashscreen</item>
+    </style>
 
 </resources>

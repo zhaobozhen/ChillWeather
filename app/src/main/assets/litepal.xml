@@ -1,6 +1,6 @@
 <litepal>
 
-    <dbname value='chill_weather' />
+    <dbname value='cities_data' />
 
     <version value='1' />
 

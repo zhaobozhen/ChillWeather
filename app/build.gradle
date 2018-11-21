@@ -6,8 +6,8 @@ android {
         applicationId "com.absinthe.chillweather"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 543
-        versionName "1.0.2"
+        versionCode 578
+        versionName "1.0.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -30,8 +30,9 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
+
     implementation 'org.litepal.android:java:3.0.0'
-    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.0'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     implementation 'com.wenwenwen888:searchbox:1.0.0'
@@ -42,12 +43,15 @@ dependencies {
     implementation 'moe.shizuku.preference:preference-dialog-android:3.0.0'
     implementation 'moe.shizuku.preference:preference-simplemenu:3.0.0'
     implementation 'com.thesurix.gesturerecycler:gesture-recycler:1.6.0'
-    implementation 'com.jakewharton:butterknife:9.0.0-rc1'
+    implementation 'com.jakewharton:butterknife:9.0.0-rc2'
     implementation 'io.github.yavski:fab-speed-dial:1.0.6'
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
-    implementation 'com.zhihu.android:matisse:0.5.2-beta4'
+        implementation 'com.zhihu.android:matisse:0.5.2-beta4'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.3'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc1'
+
+    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
