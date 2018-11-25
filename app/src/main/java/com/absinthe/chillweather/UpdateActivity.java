@@ -33,7 +33,7 @@ public class UpdateActivity extends AppCompatActivity {
                     if (granted) {
                         initWebView();
                     } else {
-                        // Oups permission denied
+                        // Oops permission denied
                         Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
                     }
                 });

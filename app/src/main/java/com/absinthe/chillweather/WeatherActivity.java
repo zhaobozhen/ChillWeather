@@ -1,6 +1,8 @@
 package com.absinthe.chillweather;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.DownloadManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -16,6 +18,7 @@ import androidx.annotation.NonNull;
 import com.absinthe.chillweather.gson.BingPic;
 import com.absinthe.chillweather.gson.Suggestion;
 import com.absinthe.chillweather.service.AutoUpdateService;
+import com.absinthe.chillweather.util.UpdateUtil;
 import com.absinthe.chillweather.view.SunView;
 import com.absinthe.chillweather.view.ViewFade;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -42,6 +45,9 @@ import com.absinthe.chillweather.gson.Weather;
 import com.absinthe.chillweather.util.HttpUtil;
 import com.absinthe.chillweather.util.Utility;
 import com.bumptech.glide.Glide;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -185,8 +191,9 @@ public class WeatherActivity extends AppCompatActivity {
                     drawerLayout.closeDrawers();
                     break;
                 case R.id.check_update:
-                    intent = new Intent(WeatherActivity.this, UpdateActivity.class);
-                    startActivity(intent);
+//                    intent = new Intent(WeatherActivity.this, UpdateActivity.class);
+//                    startActivity(intent);
+                    checkUpdate();
                     drawerLayout.closeDrawers();
                     break;
             }
@@ -411,5 +418,53 @@ public class WeatherActivity extends AppCompatActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    public void checkUpdate() {
+        Toast.makeText(this, "正在检查更新...", Toast.LENGTH_SHORT).show();
+
+        String jsonUrl = "https://raw.githubusercontent.com/zhaobozhen/ChillWeather/master/app/src/main/assets/version.json";
+
+        HttpUtil.sendOkHttpRequest(jsonUrl, new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                e.printStackTrace();
+                runOnUiThread(() -> Toast.makeText(getApplicationContext(), "检查失败", Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                assert response.body() != null;
+                final String responseText = response.body().string();
+                Log.d("checkUpdate", "responseText:" + responseText);
+
+                int cloudVersionCode = UpdateUtil.handleVersionCodeResponse(responseText);
+                Log.d("checkUpdate", "CloudVersionCode:" + cloudVersionCode + ", versionCode:" + UpdateUtil.getVersionCode(getApplicationContext()));
+
+                runOnUiThread(() -> {
+                    if (cloudVersionCode == UpdateUtil.getVersionCode(getApplicationContext())) {
+                        Toast.makeText(getApplicationContext(), "已是最新版本。", Toast.LENGTH_SHORT).show();
+                    } else if (cloudVersionCode > UpdateUtil.getVersionCode(getApplicationContext())) {
+                        String versionName = UpdateUtil.handleVersionNameResponse(responseText);
+                        String downloadUrl = "https://github.com/zhaobozhen/ChillWeather/releases/download/"
+                                + versionName
+                                + "/app-release.apk";
+
+                        if (versionName != null) {
+                            //创建下载任务,downloadUrl就是下载链接
+                            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadUrl));
+                            //指定下载路径和下载文件名
+                            request.setDestinationInExternalPublicDir("/download/", null);
+                            //获取下载管理器
+                            DownloadManager downloadManager= (DownloadManager) getApplication().getSystemService(Context.DOWNLOAD_SERVICE);
+                            //将下载任务加入下载队列，否则不会进行下载
+                            downloadManager.enqueue(request);
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "似乎哪里出错了？", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
 }
