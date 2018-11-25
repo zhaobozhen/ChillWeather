@@ -250,16 +250,13 @@ public class SunView extends View {
             mCurrentProgress = 0f;
             final ValueAnimator animator = ValueAnimator.ofFloat(mCurrentProgress, mProgress);
             animator.setDuration((long) (2500*(mProgress-mCurrentProgress)));
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                    Object val = animator.getAnimatedValue();
-                    if (val instanceof Float){
-                        setProgress((Float) val);
-                        if ((Float)val == mProgress){
-                            // 保存当前的进度，下一次更新即可以从上次时间运动到当前时间
-                            mCurrentProgress = mProgress;
-                        }
+            animator.addUpdateListener(valueAnimator -> {
+                Object val = animator.getAnimatedValue();
+                if (val instanceof Float){
+                    setProgress((Float) val);
+                    if ((Float)val == mProgress){
+                        // 保存当前的进度，下一次更新即可以从上次时间运动到当前时间
+                        mCurrentProgress = mProgress;
                     }
                 }
             });

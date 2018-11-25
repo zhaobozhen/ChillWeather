@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 
@@ -111,7 +112,15 @@ public class WeatherActivity extends AppCompatActivity {
     public void initView() {
         //设置透明状态栏
         View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        } else {
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+        }
         getWindow().setStatusBarColor(Color.TRANSPARENT);
 
         setContentView(R.layout.activity_weather);
@@ -186,7 +195,7 @@ public class WeatherActivity extends AppCompatActivity {
 
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String CHANNEL_ID = "weather_channel";
             CharSequence name = "天气通知栏";
             String Description = "For my little honey.";
@@ -285,7 +294,7 @@ public class WeatherActivity extends AppCompatActivity {
         sunSetText.setText(weather.forecastList.get(0).sunset);
         windDirectionText.setText(weather.now.windDirection);
         windPowerText.setText(weather.now.windPower);
-        humidityText.setText(weather.now.humidity);
+        humidityText.setText(weather.now.humidity + "%");
 
         sunRiseText.setTypeface(typeface);
         sunSetText.setTypeface(typeface);

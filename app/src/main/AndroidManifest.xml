@@ -22,10 +22,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="com.absinthe.chillweather.permission.MIPUSH_RECEIVE" />
+    <uses-permission android:name="com.absinthe.${applicationId}.permission.MIPUSH_RECEIVE" />
 
     <permission
-        android:name="com.absinthe.chillweather.permission.MIPUSH_RECEIVE"
+        android:name="com.absinthe.${applicationId}.permission.MIPUSH_RECEIVE"
         android:protectionLevel="signature" />
 
     <application

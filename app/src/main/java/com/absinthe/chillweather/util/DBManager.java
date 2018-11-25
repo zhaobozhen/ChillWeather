@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.util.Log;
 
+import com.absinthe.chillweather.BuildConfig;
 import com.absinthe.chillweather.R;
 
 import java.io.File;
@@ -17,9 +18,9 @@ import java.io.InputStream;
  * 导入预置城市数据库
  */
 
-public class DBManager {
+class DBManager {
     private static final String DB_NAME = "cities_data.db"; //保存的数据库文件名
-    private static final String PACKAGE_NAME = "com.absinthe.chillweather";
+    private static final String PACKAGE_NAME = BuildConfig.APPLICATION_ID;
     private static final String DB_PATH = "/data"
             + Environment.getDataDirectory().getAbsolutePath() + "/"
             + PACKAGE_NAME + "/databases";  //在手机里存放数据库的位置
@@ -27,11 +28,11 @@ public class DBManager {
     private SQLiteDatabase database;
     private Context context;
 
-    public DBManager(Context context) {
+    DBManager(Context context) {
         this.context = context;
     }
 
-    public void openDatabase() {
+    void openDatabase() {
         this.database = this.openDatabase(DB_PATH + "/" + DB_NAME);
     }
 
@@ -60,7 +61,7 @@ public class DBManager {
         return null;
     }
 
-    public void closeDatabase() {
+    void closeDatabase() {
         this.database.close();
     }
 }

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <litepal>
 
     <dbname value='cities_data' />
@@ -5,9 +6,9 @@
     <version value='1' />
 
     <list>
-        <mapping class='com.absinthe.chillweather.db.Province' />
-        <mapping class='com.absinthe.chillweather.db.City' />
-        <mapping class='com.absinthe.chillweather.db.County' />
+        <mapping class='com.absinthe.${applicationId}.db.Province' />
+        <mapping class='com.absinthe.${applicationId}.db.City' />
+        <mapping class='com.absinthe.${applicationId}.db.County' />
     </list>
 
 </litepal>

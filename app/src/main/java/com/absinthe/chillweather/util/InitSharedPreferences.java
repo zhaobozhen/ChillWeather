@@ -5,22 +5,24 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.absinthe.chillweather.BuildConfig;
 import com.absinthe.chillweather.RecyclerActivity;
 import com.absinthe.chillweather.WeatherActivity;
 
 import java.io.File;
 
 public class InitSharedPreferences {
-    private static final String PACKAGE_NAME = "com.absinthe.chillweather";
+    private static final String PACKAGE_NAME = BuildConfig.APPLICATION_ID;
     private static final String DB_PATH = "/data"
             + Environment.getDataDirectory().getAbsolutePath() + "/"
             + PACKAGE_NAME + "/databases";  //在手机里存放数据库的位置
 
     public static void init(Context context) {
         //获取设置偏好数据
-
+        Log.d("Package_Path", PACKAGE_NAME);
         //获取天气偏好数据
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         if (prefs.getString("weather_id", null) == null) {
