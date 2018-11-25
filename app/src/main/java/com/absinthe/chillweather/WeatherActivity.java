@@ -1,11 +1,14 @@
 package com.absinthe.chillweather;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -45,6 +48,7 @@ import com.absinthe.chillweather.gson.Weather;
 import com.absinthe.chillweather.util.HttpUtil;
 import com.absinthe.chillweather.util.Utility;
 import com.bumptech.glide.Glide;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -191,9 +195,17 @@ public class WeatherActivity extends AppCompatActivity {
                     drawerLayout.closeDrawers();
                     break;
                 case R.id.check_update:
-//                    intent = new Intent(WeatherActivity.this, UpdateActivity.class);
-//                    startActivity(intent);
-                    checkUpdate();
+                    final RxPermissions rxPermissions = new RxPermissions(this);
+                    rxPermissions
+                            .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            .subscribe(granted -> {
+                                if (granted) {
+                                    checkUpdate();
+                                } else {
+                                    // Oops permission denied
+                                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                     drawerLayout.closeDrawers();
                     break;
             }
@@ -421,9 +433,10 @@ public class WeatherActivity extends AppCompatActivity {
     }
 
     public void checkUpdate() {
-        Toast.makeText(this, "正在检查更新...", Toast.LENGTH_SHORT).show();
-
         String jsonUrl = "https://raw.githubusercontent.com/zhaobozhen/ChillWeather/master/app/src/main/assets/version.json";
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+        Toast.makeText(this, "正在检查更新...", Toast.LENGTH_SHORT).show();
 
         HttpUtil.sendOkHttpRequest(jsonUrl, new Callback() {
             @Override
@@ -439,7 +452,7 @@ public class WeatherActivity extends AppCompatActivity {
                 Log.d("checkUpdate", "responseText:" + responseText);
 
                 int cloudVersionCode = UpdateUtil.handleVersionCodeResponse(responseText);
-                Log.d("checkUpdate", "CloudVersionCode:" + cloudVersionCode + ", versionCode:" + UpdateUtil.getVersionCode(getApplicationContext()));
+
 
                 runOnUiThread(() -> {
                     if (cloudVersionCode == UpdateUtil.getVersionCode(getApplicationContext())) {
@@ -450,16 +463,25 @@ public class WeatherActivity extends AppCompatActivity {
                                 + versionName
                                 + "/app-release.apk";
 
-                        if (versionName != null) {
-                            //创建下载任务,downloadUrl就是下载链接
-                            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadUrl));
-                            //指定下载路径和下载文件名
-                            request.setDestinationInExternalPublicDir("/download/", null);
-                            //获取下载管理器
-                            DownloadManager downloadManager= (DownloadManager) getApplication().getSystemService(Context.DOWNLOAD_SERVICE);
-                            //将下载任务加入下载队列，否则不会进行下载
-                            downloadManager.enqueue(request);
-                        }
+                        alertDialogBuilder.setTitle("发现新版本")
+                                .setMessage("当前版本:" + UpdateUtil.getVersionName(getApplicationContext()) + ", 最新版本:" + UpdateUtil.handleVersionNameResponse(responseText))
+                                .setNegativeButton(R.string.negative_button, (dialog, which) -> {
+
+                                })
+                                .setPositiveButton(R.string.positive_button, (dialog, which) -> {
+                                    if (versionName != null) {
+                                        //创建下载任务,downloadUrl就是下载链接
+                                        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadUrl));
+                                        //指定下载路径和下载文件名
+                                        request.setDestinationInExternalPublicDir("/download/", "update.apk");
+                                        //获取下载管理器
+                                        DownloadManager downloadManager = (DownloadManager) getApplication().getSystemService(Context.DOWNLOAD_SERVICE);
+                                        //将下载任务加入下载队列，否则不会进行下载
+                                        downloadManager.enqueue(request);
+                                    }
+                                });
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();//将dialog显示出来
                     } else {
                         Toast.makeText(getApplicationContext(), "似乎哪里出错了？", Toast.LENGTH_SHORT).show();
                     }

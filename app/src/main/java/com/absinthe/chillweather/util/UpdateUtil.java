@@ -27,7 +27,7 @@ public class UpdateUtil {
         return null;
     }
 
-    public static int getVersionCode(Context context){
+    public static int getVersionCode(Context context) {
         PackageManager packageManager = context.getPackageManager();
         PackageInfo packageInfo;
         String versionCode = "";
@@ -39,5 +39,19 @@ public class UpdateUtil {
             e.printStackTrace();
         }
         return Integer.valueOf(versionCode);
+    }
+
+    public static String getVersionName(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        PackageInfo packageInfo;
+        String versionName = "";
+
+        try {
+            packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+            versionName = packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return versionName;
     }
 }

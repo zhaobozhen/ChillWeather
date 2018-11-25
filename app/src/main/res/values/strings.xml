@@ -52,5 +52,7 @@
     <string name="on_checking">Checking……</string>
     <string name="tap_to_add_city">Add cities by tapping lower right.</string>
     <string name="to_show_weather_icon">To show weather icon.</string>
+    <string name="negative_button">Cancel</string>
+    <string name="positive_button">OK</string>
 
 </resources>

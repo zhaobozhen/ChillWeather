@@ -51,5 +51,7 @@
     <string name="off">關閉</string>
     <string name="on_checking">檢查中……</string>
     <string name="tap_to_add_city">點擊右下角添加城市</string>
+    <string name="negative_button">取消</string>
+    <string name="positive_button">好</string>
 
 </resources>
