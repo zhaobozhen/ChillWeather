@@ -474,6 +474,7 @@ public class WeatherActivity extends AppCompatActivity {
                                         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadUrl));
                                         //指定下载路径和下载文件名
                                         request.setDestinationInExternalPublicDir("/download/", "update.apk");
+                                        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
                                         //获取下载管理器
                                         DownloadManager downloadManager = (DownloadManager) getApplication().getSystemService(Context.DOWNLOAD_SERVICE);
                                         //将下载任务加入下载队列，否则不会进行下载
