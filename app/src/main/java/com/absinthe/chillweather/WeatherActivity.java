@@ -2,13 +2,9 @@ package com.absinthe.chillweather;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.DownloadManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -50,9 +46,6 @@ import com.absinthe.chillweather.util.Utility;
 import com.bumptech.glide.Glide;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.Calendar;
 
@@ -70,6 +63,7 @@ public class WeatherActivity extends AppCompatActivity {
     public static boolean mOnGoingNotification;  //天气常驻通知栏
     public static boolean mRefreshService;  //后台刷新
     public static boolean mOnBingPicSwitch; //是否开启必应每日一图
+    public static boolean mAutoUpdateCheck; //是否开启自动检查更新
 
     public SwipeRefreshLayout swipeRefresh;
     public DrawerLayout drawerLayout;
@@ -158,6 +152,7 @@ public class WeatherActivity extends AppCompatActivity {
         mOnGoingNotification =  settings.getBoolean("on_notification_switch", false);
         mRefreshService = settings.getBoolean("refresh_background_switch", false);
         mOnBingPicSwitch = settings.getBoolean("bing_update_switch", true);
+        mAutoUpdateCheck = settings.getBoolean("auto_update_check", false);
 
         loadBackgroundPic();
 
@@ -200,7 +195,7 @@ public class WeatherActivity extends AppCompatActivity {
                             .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                             .subscribe(granted -> {
                                 if (granted) {
-                                    checkUpdate();
+                                    UpdateUtil.checkUpdate(this, UpdateUtil.SHOW_TOAST);
                                 } else {
                                     // Oops permission denied
                                     Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
@@ -231,6 +226,10 @@ public class WeatherActivity extends AppCompatActivity {
         }
 
         swipeRefresh.setOnRefreshListener(() -> requestWeather(mWeatherId));
+
+        if (settings.getBoolean("auto_update_check", false)) {
+            UpdateUtil.checkUpdate(this, UpdateUtil.NOT_SHOW_TOAST);
+        }
     }
 
     /**
@@ -430,64 +429,5 @@ public class WeatherActivity extends AppCompatActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    public void checkUpdate() {
-        String jsonUrl = "https://raw.githubusercontent.com/zhaobozhen/ChillWeather/master/app/src/main/assets/version.json";
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-        Toast.makeText(this, "正在检查更新...", Toast.LENGTH_SHORT).show();
-
-        HttpUtil.sendOkHttpRequest(jsonUrl, new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                e.printStackTrace();
-                runOnUiThread(() -> Toast.makeText(getApplicationContext(), "检查失败", Toast.LENGTH_SHORT).show());
-            }
-
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                assert response.body() != null;
-                final String responseText = response.body().string();
-                Log.d("checkUpdate", "responseText:" + responseText);
-
-                int cloudVersionCode = UpdateUtil.handleVersionCodeResponse(responseText);
-
-
-                runOnUiThread(() -> {
-                    if (cloudVersionCode == UpdateUtil.getVersionCode(getApplicationContext())) {
-                        Toast.makeText(getApplicationContext(), "已是最新版本。", Toast.LENGTH_SHORT).show();
-                    } else if (cloudVersionCode > UpdateUtil.getVersionCode(getApplicationContext())) {
-                        String versionName = UpdateUtil.handleVersionNameResponse(responseText);
-                        String downloadUrl = "https://github.com/zhaobozhen/ChillWeather/releases/download/"
-                                + versionName
-                                + "/app-release.apk";
-
-                        alertDialogBuilder.setTitle("发现新版本")
-                                .setMessage("当前版本:" + UpdateUtil.getVersionName(getApplicationContext()) + ", 最新版本:" + UpdateUtil.handleVersionNameResponse(responseText))
-                                .setNegativeButton(R.string.negative_button, (dialog, which) -> {
-
-                                })
-                                .setPositiveButton(R.string.positive_button, (dialog, which) -> {
-                                    if (versionName != null) {
-                                        //创建下载任务,downloadUrl就是下载链接
-                                        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadUrl));
-                                        //指定下载路径和下载文件名
-                                        request.setDestinationInExternalPublicDir("/download/", "update.apk");
-                                        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                                        //获取下载管理器
-                                        DownloadManager downloadManager = (DownloadManager) getApplication().getSystemService(Context.DOWNLOAD_SERVICE);
-                                        //将下载任务加入下载队列，否则不会进行下载
-                                        downloadManager.enqueue(request);
-                                    }
-                                });
-                        AlertDialog alertDialog = alertDialogBuilder.create();
-                        alertDialog.show();//将dialog显示出来
-                    } else {
-                        Toast.makeText(getApplicationContext(), "似乎哪里出错了？", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
     }
 }

@@ -23,6 +23,7 @@ public class InitSharedPreferences {
     public static void init(Context context) {
         //获取设置偏好数据
         Log.d("Package_Path", PACKAGE_NAME);
+
         //获取天气偏好数据
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         if (prefs.getString("weather_id", null) == null) {
