@@ -121,6 +121,9 @@ public class UpdateUtil {
                                     editor.apply();
                                 })
                                 .setPositiveButton(R.string.positive_button, (dialog, which) -> {
+                                    SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(activity).edit();
+                                    editor.putBoolean("isUpdateIgnore", false);
+                                    editor.apply();
                                     if (versionName != null) {
                                         //创建下载任务,downloadUrl就是下载链接
                                         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadUrl));
