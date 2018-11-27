@@ -228,7 +228,10 @@ public class WeatherActivity extends AppCompatActivity {
         swipeRefresh.setOnRefreshListener(() -> requestWeather(mWeatherId));
 
         if (settings.getBoolean("auto_update_check", false)) {
-            UpdateUtil.checkUpdate(this, UpdateUtil.NOT_SHOW_TOAST);
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            if (!prefs.getBoolean("isUpdateIgnore", false)) {
+                UpdateUtil.checkUpdate(this, UpdateUtil.NOT_SHOW_TOAST);
+            }
         }
     }
 

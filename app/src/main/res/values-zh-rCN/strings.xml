@@ -53,5 +53,20 @@
     <string name="tap_to_add_city">点击右下角添加城市</string>
     <string name="negative_button">取消</string>
     <string name="positive_button">好</string>
+    <string name="neutral_button">忽略</string>
+    <string name="thirty_minutes">30分钟</string>
+    <string name="one_hour">1小时</string>
+    <string name="two_hours">2小时</string>
+    <string name="three_hours">3小时</string>
+    <string name="settings_notification_bar">通知栏</string>
+    <string name="settings_on_notification">启动通知栏</string>
+    <string name="settings_weather_notify">早晚天气提醒（施工中）</string>
+    <string name="settings_background_task">后台</string>
+    <string name="settings_refresh_weather_background">后台刷新天气</string>
+    <string name="settings_custom">自定义</string>
+    <string name="settings_auto_update_check">自动检查更新</string>
+    <string name="settings_bing_pic">必应每日一图</string>
+    <string name="settings_change_heweather_api">更换和风天气API Key</string>
+    <string name="settings_change_heweather_api_hint">如果不知道这是什么就不用更改</string>
 
 </resources>

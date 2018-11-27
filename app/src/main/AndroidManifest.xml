@@ -76,11 +76,6 @@
         <activity
             android:name=".SettingsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".UpdateActivity"
-            android:label="@string/check_update"
-            android:parentActivityName=".WeatherActivity"
-            android:theme="@style/AppTheme.CityList" />
         <activity android:name=".ChooseBgActivity" />
 
         <service

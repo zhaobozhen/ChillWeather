@@ -1,17 +1,23 @@
 package com.absinthe.chillweather.fragment;
 
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.absinthe.chillweather.BuildConfig;
 import com.absinthe.chillweather.R;
 import com.absinthe.chillweather.WeatherActivity;
 import com.absinthe.chillweather.service.AutoUpdateService;
+import com.absinthe.chillweather.util.UpdateUtil;
 import com.absinthe.chillweather.util.Utility;
+import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.tencent.map.geolocation.TencentLocationManager;
+import com.tencent.map.geolocation.TencentLocationRequest;
 
 import java.util.Objects;
 
@@ -55,7 +61,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         listPreference.setOnPreferenceChangeListener(this);
 
         listPreference = (ListPreference) findPreference("refresh_freq_drop_down");
-        listPreference.setEntries(new CharSequence[]{"30分钟", "1小时", "2小时", "3小时"});
+        listPreference.setEntries(new CharSequence[]{getString(R.string.thirty_minutes), getString(R.string.one_hour), getString(R.string.two_hours), getString(R.string.three_hours)});
         listPreference.setEntryValues(new CharSequence[]{"0", "1", "2", "3"});
         if (listPreference.getValue() == null) {
             listPreference.setValueIndex(0);
@@ -113,6 +119,20 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 WeatherActivity.mOnBingPicSwitch = !WeatherActivity.mOnBingPicSwitch;
                 WeatherActivity.isNeedRefresh = true;
                 break;
+            case "auto_update_check":
+                final RxPermissions rxPermissions = new RxPermissions(this);
+
+                rxPermissions
+                        .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        .subscribe(granted -> {
+                            if (granted) {
+                                // All requested permissions are granted
+                                UpdateUtil.checkUpdate(getActivity(), UpdateUtil.NOT_SHOW_TOAST);
+                            } else {
+                                // At least one permission is denied
+                                Toast.makeText(getContext(), getString(R.string.you_must_allow_all_permissions), Toast.LENGTH_SHORT).show();
+                            }
+                        });
         }
     }
 

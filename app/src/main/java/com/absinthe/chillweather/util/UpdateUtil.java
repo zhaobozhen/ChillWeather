@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -112,6 +114,11 @@ public class UpdateUtil {
                                 .setMessage("当前版本:" + UpdateUtil.getVersionName(activity) + ", 最新版本:" + UpdateUtil.handleVersionNameResponse(responseText))
                                 .setNegativeButton(R.string.negative_button, (dialog, which) -> {
 
+                                })
+                                .setNeutralButton(R.string.neutral_button, (dialog, which) -> {
+                                    SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(activity).edit();
+                                    editor.putBoolean("isUpdateIgnore", true);
+                                    editor.apply();
                                 })
                                 .setPositiveButton(R.string.positive_button, (dialog, which) -> {
                                     if (versionName != null) {

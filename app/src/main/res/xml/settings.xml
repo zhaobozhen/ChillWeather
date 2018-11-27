@@ -2,17 +2,17 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="通知栏">
+    <PreferenceCategory android:title="@string/settings_notification_bar">
 
         <SwitchPreference
             android:key="on_notification_switch"
-            android:title="启动通知栏"
+            android:title="@string/settings_on_notification"
             android:summaryOn="On"
             android:summaryOff="Off" />
 
         <SwitchPreference
             android:key="day_night_weather_switch"
-            android:title="早晚天气提醒（施工中）"
+            android:title="@string/settings_weather_notify"
             android:summaryOn="On"
             android:summaryOff="Off"/>
 
@@ -32,11 +32,11 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="后台">
+    <PreferenceCategory android:title="@string/settings_background_task">
 
         <SwitchPreference
             android:key="refresh_background_switch"
-            android:title="后台刷新天气"
+            android:title="@string/settings_refresh_weather_background"
             android:summaryOn="On"
             android:summaryOff="Off" />
 
@@ -50,27 +50,27 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="自定义">
+    <PreferenceCategory android:title="@string/settings_custom">
 
         <SwitchPreference
             android:key="auto_update_check"
-            android:title="自动检查更新"
+            android:title="@string/settings_auto_update_check"
             android:summaryOn="On"
             android:summaryOff="Off"
             android:defaultValue="false"/>
 
         <SwitchPreference
             android:key="bing_update_switch"
-            android:title="必应每日一图"
+            android:title="@string/settings_bing_pic"
             android:summaryOn="On"
             android:summaryOff="Off"
             android:defaultValue="true"/>
 
         <EditTextPreference
             android:key="change_weather_api_edit_text"
-            android:title="更换和风天气API Key"
+            android:title="@string/settings_change_heweather_api"
             android:summary="%s"
-            android:hint="如果不知道这是什么就不用更改"
+            android:hint="@string/settings_change_heweather_api_hint"
             android:singleLine="true"/>
 
     </PreferenceCategory>

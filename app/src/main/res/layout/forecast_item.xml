@@ -30,8 +30,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:gravity="center"
-        android:contentDescription="@string/to_show_weather_icon" />
+        android:gravity="center" />
 
     <TextView
         android:id="@+id/tv_max_min_degree"
