@@ -3,6 +3,8 @@ package com.absinthe.chillweather;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -11,14 +13,15 @@ import android.view.MenuItem;
 import com.absinthe.chillweather.fragment.SettingsFragment;
 
 public class SettingsActivity extends AppCompatActivity {
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("SettingsFragment", "Activity_onCreate");
         setContentView(R.layout.activity_settings);
+        ButterKnife.bind(this);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar =  getSupportActionBar();
         if(actionBar != null) {

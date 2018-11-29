@@ -71,7 +71,9 @@ public class CityManagerFragment extends BaseFragment implements TencentLocation
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_recycler, container, false);
+
         mRecyclerView = rootView.findViewById(R.id.rv_city_recycler_view);
+
         FabSpeedDial fabSpeedDial = rootView.findViewById(R.id.fab_add);
         fabSpeedDial.setMenuListener(new SimpleMenuListenerAdapter() {
             @Override

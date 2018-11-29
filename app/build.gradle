@@ -6,7 +6,7 @@ android {
         applicationId "com.absinthe.chillweather"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 609
+        versionCode 618
         versionName "1.0.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

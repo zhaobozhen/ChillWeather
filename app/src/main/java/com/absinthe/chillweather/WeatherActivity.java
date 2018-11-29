@@ -31,6 +31,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -49,6 +50,8 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import java.io.IOException;
 import java.util.Calendar;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -65,30 +68,77 @@ public class WeatherActivity extends AppCompatActivity {
     public static boolean mOnBingPicSwitch; //是否开启必应每日一图
     public static boolean mAutoUpdateCheck; //是否开启自动检查更新
 
-    public SwipeRefreshLayout swipeRefresh;
-    public DrawerLayout drawerLayout;
-    private ScrollView weatherLayout;
-    private TextView titleCity;
-    private TextView degreeText;
-    private TextView feelDegreeText;
-    private TextView weatherInfoText;
-    private LinearLayout forecastLayout;
-    private TextView sunRiseText;
-    private TextView sunSetText;
-    private TextView windDirectionText;
-    private TextView windPowerText;
-    private TextView humidityText;
-    private SunView sunView;
-    private TextView comfortText;
-    private TextView dressingText;
-    private TextView uvText;
-    private ImageView bingPicImg;
+    @BindView(R.id.srl_swipe_refresh)
+    SwipeRefreshLayout swipeRefresh;
+
+    @BindView(R.id.dl_weather_drawer)
+    DrawerLayout drawerLayout;
+
+    @BindView(R.id.sv_weather_info)
+    ScrollView weatherLayout;
+
+    @BindView(R.id.nv_weather_navigation)
+    NavigationView navigationView;
+
+    @BindView(R.id.tv_title_city)
+    TextView cityTitleText;
+
+    @BindView(R.id.tv_degree)
+    TextView degreeText;
+
+    @BindView(R.id.tv_feel_degree)
+    TextView feelDegreeText;
+
+    @BindView(R.id.tv_weather_info)
+    TextView weatherInfoText;
+
+    @BindView(R.id.ll_forecast)
+    LinearLayout forecastLayout;
+
+    @BindView(R.id.tv_sun_rise)
+    TextView sunRiseText;
+
+    @BindView(R.id.tv_sun_set)
+    TextView sunSetText;
+
+    @BindView(R.id.tv_wind_direction)
+    TextView windDirectionText;
+
+    @BindView(R.id.tv_wind_power)
+    TextView windPowerText;
+
+    @BindView(R.id.tv_humidity)
+    TextView humidityText;
+
+    @BindView(R.id.sun_view)
+    SunView sunView;
+
+    @BindView(R.id.tv_comfort)
+    TextView comfortText;
+
+    @BindView(R.id.tv_dressing)
+    TextView dressingText;
+
+    @BindView(R.id.tv_ultraviolet)
+    TextView uvText;
+
+    @BindView(R.id.iv_bing_pic)
+    ImageView bingPicImg;
+
+    @BindView(R.id.btn_nav_menu)
+    Button navButton;
+
+    View navHeaderLayout;
+    ImageView ivNavHeaderPic;
+
     private long mExitTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_weather);
 
+        ButterKnife.bind(this);
         initView();
     }
 
@@ -113,6 +163,7 @@ public class WeatherActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public void initView() {
         //设置透明状态栏
         View decorView = getWindow().getDecorView();
@@ -127,27 +178,6 @@ public class WeatherActivity extends AppCompatActivity {
         }
         getWindow().setStatusBarColor(Color.TRANSPARENT);
 
-        setContentView(R.layout.activity_weather);
-        //初始化各个控件
-        weatherLayout = findViewById(R.id.sv_weather_info);
-        titleCity = findViewById(R.id.tv_title_city);
-        degreeText = findViewById(R.id.tv_degree);
-        feelDegreeText = findViewById(R.id.tv_feel_degree);
-        weatherInfoText = findViewById(R.id.tv_weather_info);
-        forecastLayout = findViewById(R.id.ll_forecast);
-        sunRiseText = findViewById(R.id.tv_sun_rise);
-        sunSetText = findViewById(R.id.tv_sun_set);
-        windDirectionText = findViewById(R.id.tv_wind_direction);
-        windPowerText = findViewById(R.id.tv_wind_power);
-        humidityText = findViewById(R.id.tv_humidity);
-        sunView = findViewById(R.id.sun_view);
-        comfortText = findViewById(R.id.tv_comfort);
-        dressingText = findViewById(R.id.tv_dressing);
-        uvText = findViewById(R.id.tv_ultraviolet);
-        bingPicImg = findViewById(R.id.iv_bing_pic);
-        drawerLayout = findViewById(R.id.dl_weather_drawer);
-        Button navButton = findViewById(R.id.btn_nav_menu);
-
         SharedPreferences settings = getApplicationContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
         mOnGoingNotification =  settings.getBoolean("on_notification_switch", false);
         mRefreshService = settings.getBoolean("refresh_background_switch", false);
@@ -156,7 +186,6 @@ public class WeatherActivity extends AppCompatActivity {
 
         loadBackgroundPic();
 
-        swipeRefresh = findViewById(R.id.srl_swipe_refresh);
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
 
         //如果开启后台刷新则取消每次开启刷新
@@ -165,7 +194,6 @@ public class WeatherActivity extends AppCompatActivity {
         navButton.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.START));
 
         //注册侧滑导航栏
-        NavigationView navigationView = findViewById(R.id.nv_weather_navigation);
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             Intent intent;
             switch (menuItem.getItemId()) {
@@ -205,6 +233,32 @@ public class WeatherActivity extends AppCompatActivity {
                     break;
             }
             return true;
+        });
+
+        navHeaderLayout = navigationView.getHeaderView(0);
+        ivNavHeaderPic = navHeaderLayout.findViewById(R.id.iv_nav_header);
+
+        ivNavHeaderPic.setOnTouchListener((v, event) -> {
+            switch (event.getAction()) { //当前状态
+                case MotionEvent.ACTION_MOVE:
+                    break;
+                case MotionEvent.ACTION_DOWN:
+                    Glide.with(WeatherActivity.this)
+                            .load(R.drawable.bg_nav_header_pic_clicked)
+                            .into(ivNavHeaderPic);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    Glide.with(WeatherActivity.this)
+                            .load(R.drawable.bg_nav_header_pic)
+                            .into(ivNavHeaderPic);
+                    break;
+                default:
+                    Glide.with(WeatherActivity.this)
+                            .load(R.drawable.bg_nav_header_pic)
+                            .into(ivNavHeaderPic); //防止长按无法回弹
+                    break;
+            }
+            return true; //还回为true,说明事件已经完成了，不会再被其他事件监听器调用
         });
 
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -284,7 +338,7 @@ public class WeatherActivity extends AppCompatActivity {
         String weatherInfo = weather.now.info;
         Typeface typeface = Typeface.createFromAsset(getAssets(),"GoogleSans-Regular.ttf");
 
-        titleCity.setText(cityName);
+        cityTitleText.setText(cityName);
         degreeText.setText(degree);
         feelDegreeText.setText(feelDegree);
         weatherInfoText.setText(weatherInfo);

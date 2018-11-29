@@ -3,6 +3,8 @@ package com.absinthe.chillweather;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,14 +32,20 @@ public class ChooseAreaActivity extends AppCompatActivity {
     public static final int LEVEL_CITY = 1;
     public static final int LEVEL_COUNTY = 2;
 
-    private TextView titleText;
-    private ListView listView;
-    private ArrayAdapter adapter;
-    private List<String> dataList = new ArrayList<>();
+    @BindView(R.id.tv_title)
+    TextView titleText;
 
+    @BindView(R.id.lv_choose_area)
+    ListView listView;
+
+    @BindView(R.id.tb_choose_area)
+    Toolbar toolbar;
+
+    private List<String> dataList = new ArrayList<>();
     private List<Province> provinceList;    //省列表
     private List<City> cityList;    //市列表
     private List<County> countyList;    //县列表
+    private ArrayAdapter adapter;
 
     private Province selectedProvince;  //选中的省份
     private City selectedCity;  //选中的城市
@@ -49,12 +57,10 @@ public class ChooseAreaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_area);
-        titleText = findViewById(R.id.tv_title);
-        listView = findViewById(R.id.lv_choose_area);
+        ButterKnife.bind(ChooseAreaActivity.this);
+
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, dataList);
         listView.setAdapter(adapter);
-        Toolbar toolbar = findViewById(R.id.tb_choose_area);
-
         setSupportActionBar(toolbar);
 
         //城市搜索框
