@@ -39,7 +39,6 @@
         android:theme="@style/Splashscreen"
         tools:ignore="GoogleAppIndexingWarning,RtlEnabled"
         tools:targetApi="donut">
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,11 +46,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".WeatherActivity"
-            android:launchMode="singleTask">
-        </activity>
+            android:launchMode="singleTask"></activity>
 
         <meta-data
             android:name="TencentMapSDK"
@@ -133,7 +130,6 @@
                 <action android:name="com.xiaomi.mipush.ERROR" />
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>
