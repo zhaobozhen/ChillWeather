@@ -6,8 +6,8 @@ android {
         applicationId "com.absinthe.chillweather"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 622
-        versionName "1.0.6"
+        versionCode 624
+        versionName "1.0.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -29,7 +29,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
@@ -46,15 +46,15 @@ dependencies {
     implementation 'moe.shizuku.preference:preference-dialog-android:3.0.0'
     implementation 'moe.shizuku.preference:preference-simplemenu:3.0.0'
     implementation 'com.thesurix.gesturerecycler:gesture-recycler:1.6.0'
-    implementation 'com.jakewharton:butterknife:9.0.0-rc2'
+    implementation 'com.jakewharton:butterknife:10.0.0'
     implementation 'io.github.yavski:fab-speed-dial:1.0.6'
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
     implementation 'com.zhihu.android:matisse:0.5.2-beta4'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.3'
 
-    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc2'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
 
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 }
