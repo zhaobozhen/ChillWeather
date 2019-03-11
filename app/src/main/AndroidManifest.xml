@@ -38,7 +38,8 @@
         android:supportsRtl="true"
         android:theme="@style/Splashscreen"
         tools:ignore="GoogleAppIndexingWarning,RtlEnabled"
-        tools:targetApi="donut">
+        android:usesCleartextTraffic="true"
+        tools:targetApi="n">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,11 +49,15 @@
         </activity>
         <activity
             android:name=".WeatherActivity"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask" />
 
         <meta-data
             android:name="TencentMapSDK"
             android:value="NE6BZ-WLH6V-WLVPM-UGGQT-OZIUE-2EFR7" />
+
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1"/>
 
         <activity
             android:name=".RecyclerActivity"

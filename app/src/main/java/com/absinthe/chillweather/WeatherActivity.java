@@ -33,6 +33,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -258,7 +259,7 @@ public class WeatherActivity extends AppCompatActivity {
                             .into(ivNavHeaderPic); //防止长按无法回弹
                     break;
             }
-            return true; //还回为true,说明事件已经完成了，不会再被其他事件监听器调用
+            return true; //返回为true,说明事件已经完成了，不会再被其他事件监听器调用
         });
 
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
