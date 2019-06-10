@@ -1,17 +1,10 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="forecast_text_size">16sp</dimen>
     <dimen name="grid_expected_size">120dp</dimen>
-    <dimen name="item_margin_horizontal">24dp</dimen>
-    <dimen name="item_margin_vertical">8dp</dimen>
 
     <!-- Misc -->
-    <dimen name="logo_size">200dp</dimen>
-    <dimen name="main_text_size">36sp</dimen>
-    <dimen name="main_btn_height">80dp</dimen>
     <dimen name="card_corner_radius">4dp</dimen>
     <dimen name="card_elevation">6dp</dimen>
 
@@ -26,13 +19,9 @@
     <!-- Linear item -->
     <dimen name="linear_item_height">80dp</dimen>
     <dimen name="linear_text_width">100dp</dimen>
-    <dimen name="linear_text_padding">20dp</dimen>
 
     <!-- Grid item -->
-    <dimen name="grid_image_height">180dp</dimen>
-    <dimen name="grid_text_padding">10dp</dimen>
 
     <!-- Remove item -->
-    <dimen name="remove_item_icon_size">52dp</dimen>
     <dimen name="remove_item_padding">10dp</dimen>
 </resources>

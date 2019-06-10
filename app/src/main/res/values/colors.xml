@@ -6,7 +6,6 @@
 
     <color name="itemTextColor">#000000</color>
 
-    <color name="preference_fallback_accent_color">@color/colorPrimary</color>
     <color name="amber_500">#FFC107</color>
     <color name="pink_500">#e91e63</color>
     <color name="red_500">#f44336</color>

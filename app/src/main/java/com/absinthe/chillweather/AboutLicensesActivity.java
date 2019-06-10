@@ -24,12 +24,10 @@ public class AboutLicensesActivity extends MaterialAboutActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return false;
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
+        return false;
     }
 }

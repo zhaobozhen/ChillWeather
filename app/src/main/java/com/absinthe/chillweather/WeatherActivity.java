@@ -18,6 +18,7 @@ import com.absinthe.chillweather.gson.BingPic;
 import com.absinthe.chillweather.gson.Suggestion;
 import com.absinthe.chillweather.service.AutoUpdateService;
 import com.absinthe.chillweather.util.UpdateUtil;
+import com.absinthe.chillweather.util.WeatherAPI;
 import com.absinthe.chillweather.view.SunView;
 import com.absinthe.chillweather.view.ViewFade;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -33,7 +34,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -50,6 +50,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,9 +58,9 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+import static com.absinthe.chillweather.util.WeatherAPI.*;
+
 public class WeatherActivity extends AppCompatActivity {
-    public static final String WEATHER_API_URL = "https://free-api.heweather.com/s6/weather?location=";
-    public static String HEWEATHER_KEY = "&key=2be849896dec411faff5cdae2dae045a";
     public static String mWeatherId;
     public static Weather weather;
     public static boolean isNeedRefresh;
@@ -68,6 +69,8 @@ public class WeatherActivity extends AppCompatActivity {
     public static boolean mRefreshService;  //后台刷新
     public static boolean mOnBingPicSwitch; //是否开启必应每日一图
     public static boolean mAutoUpdateCheck; //是否开启自动检查更新
+
+    private String TAG = "WeatherActivity";
 
     @BindView(R.id.srl_swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
@@ -306,7 +309,7 @@ public class WeatherActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 assert response.body() != null;
-                final String responseText = response.body().string();
+                final String responseText = Objects.requireNonNull(response.body()).string();
                 weather = Utility.handleWeatherResponse(responseText);
                 runOnUiThread(() -> {
                     if (weather != null && "ok".equals(weather.status)) {
@@ -421,7 +424,7 @@ public class WeatherActivity extends AppCompatActivity {
         }
 
         boolean isNextDay = mUpdateDay != Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-        Log.d("DATE", "Today:"+Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + ". SubString:"+mUpdateDay);
+        Log.d(TAG, "Today:"+Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + ". SubString:"+mUpdateDay);
 
         if ((customBgUriString != null) && !mOnBingPicSwitch) {
             Uri customBgUri = Uri.parse(customBgUriString);
@@ -443,8 +446,8 @@ public class WeatherActivity extends AppCompatActivity {
      */
 
     private void loadBingPic() {
-        Log.d("loadBingPic", "BingUpdate");
-        String requestBingPic = "https://cn.bing.com/HPImageArchive.aspx?format=js&n=1";
+        Log.d(TAG, "BingUpdate");
+        String requestBingPic = WeatherAPI.requestBingPic;
         HttpUtil.sendOkHttpRequest(requestBingPic, new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -454,7 +457,7 @@ public class WeatherActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 assert response.body() != null;
-                final String content = response.body().string();
+                final String content = Objects.requireNonNull(response.body()).string();
                 final BingPic bingPic = Utility.handleBingPicResponse(content);
                 assert bingPic != null;
                 final String pic = "http://cn.bing.com" + bingPic.picUrl;
