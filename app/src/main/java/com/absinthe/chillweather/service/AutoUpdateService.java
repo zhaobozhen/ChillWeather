@@ -15,8 +15,10 @@ import com.absinthe.chillweather.WeatherActivity;
 import com.absinthe.chillweather.gson.Weather;
 import com.absinthe.chillweather.util.HttpUtil;
 import com.absinthe.chillweather.util.Utility;
+import com.absinthe.chillweather.util.WeatherAPI;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import okhttp3.Call;
@@ -32,6 +34,7 @@ public class AutoUpdateService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        updateWeather();
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         SharedPreferences settings = getApplicationContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
         String refreshFreq =  settings.getString("refresh_freq_drop_down", null);
@@ -49,15 +52,13 @@ public class AutoUpdateService extends Service {
         manager.cancel(pi);
         manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtTime, pi);
 
-        updateWeather();
-
         return super.onStartCommand(intent, flags, startId);
     }
 
     private void updateWeather() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         String weatherId = pref.getString("weather_id", null);
-        String weatherUrl = WeatherActivity.WEATHER_API_URL + weatherId + WeatherActivity.HEWEATHER_KEY;
+        String weatherUrl = WeatherAPI.WEATHER_API_URL + weatherId + WeatherAPI.HEWEATHER_KEY;
 
         HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
             @Override
@@ -68,7 +69,7 @@ public class AutoUpdateService extends Service {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                 assert response.body() != null;
-                String responseText = response.body().string();
+                String responseText = Objects.requireNonNull(response.body()).string();
                 Weather weather = Utility.handleWeatherResponse(responseText);
                 if (weather != null && "ok".equals(weather.status)) {
                     SharedPreferences.Editor editor = PreferenceManager

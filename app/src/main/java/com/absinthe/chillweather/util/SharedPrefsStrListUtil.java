@@ -17,9 +17,6 @@ public class SharedPrefsStrListUtil {
     /**
      * 存储数据(Int)
      *
-     * @param context
-     * @param key
-     * @param value
      */
     private static void putIntValue(Context context, String key, int value) {
         Editor sp = context.getSharedPreferences(SETTING, Context.MODE_PRIVATE)
@@ -31,9 +28,6 @@ public class SharedPrefsStrListUtil {
     /**
      * 存储数据(String)
      *
-     * @param context
-     * @param key
-     * @param value
      */
     private static void putStringValue(Context context, String key, String value) {
         Editor sp = context.getSharedPreferences(SETTING, Context.MODE_PRIVATE)
@@ -45,11 +39,6 @@ public class SharedPrefsStrListUtil {
     /**
      * 存储List<CityItem>
      *
-     * @param context
-     * @param key
-     *            List<CityItem>对应的key
-     * @param cityList
-     *            对应需要存储的List<CityItem>
      */
     public static void putStrListValue(Context context, String key,
                                        List<CityItem> cityList) {
@@ -82,11 +71,6 @@ public class SharedPrefsStrListUtil {
     /**
      * 取出数据（int)
      *
-     * @param context
-     * @param key
-     * @param defValue
-     *            默认值
-     * @return
      */
     private static int getIntValue(Context context, String key, int defValue) {
         SharedPreferences sp = context.getSharedPreferences(SETTING,
@@ -97,11 +81,6 @@ public class SharedPrefsStrListUtil {
     /**
      * 取出数据（String)
      *
-     * @param context
-     * @param key
-     * @param defValue
-     *            默认值
-     * @return
      */
     private static String getStringValue(Context context, String key,
                                          String defValue) {
@@ -113,10 +92,6 @@ public class SharedPrefsStrListUtil {
     /**
      * 取出List<String>
      *
-     * @param context
-     * @param key
-     *            List<String> 对应的key
-     * @return List<String>
      */
     public static List<CityItem> getStrListValue(Context context, String key) {
         List<CityItem> cityList = new ArrayList<CityItem>();
@@ -131,10 +106,6 @@ public class SharedPrefsStrListUtil {
 
     /**
      * 清空List<String>所有数据
-     *
-     * @param context
-     * @param key
-     *            List<String>对应的key
      */
     public static void removeStrList(Context context, String key) {
         int size = getIntValue(context, key + "Size", 0);
@@ -149,14 +120,6 @@ public class SharedPrefsStrListUtil {
         }
     }
 
-    /**
-     * @Description TODO 清空List<String>单条数据
-     * @param context
-     * @param key
-     *            List<String>对应的key
-     * @param str
-     *            List<String>中的元素String
-     */
     public static void removeStrListItem(Context context, String key, String str) {
         int size = getIntValue(context, key + "Size", 0);
         if (0 == size) {
@@ -178,8 +141,6 @@ public class SharedPrefsStrListUtil {
     /**
      * 清空对应key数据
      *
-     * @param context
-     * @param key
      */
     public static void remove(Context context, String key) {
         Editor sp = context.getSharedPreferences(SETTING, Context.MODE_PRIVATE)
@@ -191,7 +152,6 @@ public class SharedPrefsStrListUtil {
     /**
      * 清空所有数据
      *
-     * @param context
      */
     public static void clear(Context context) {
         Editor sp = context.getSharedPreferences(SETTING, Context.MODE_PRIVATE)

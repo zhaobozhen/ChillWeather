@@ -22,6 +22,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
     <uses-permission android:name="com.absinthe.${applicationId}.permission.MIPUSH_RECEIVE" />
 
     <permission
@@ -39,7 +40,7 @@
         android:theme="@style/Splashscreen"
         tools:ignore="GoogleAppIndexingWarning,RtlEnabled"
         android:usesCleartextTraffic="true"
-        tools:targetApi="n">
+        tools:targetApi="p">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,7 +50,9 @@
         </activity>
         <activity
             android:name=".WeatherActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask">
+        </activity>
+
 
         <meta-data
             android:name="TencentMapSDK"
@@ -57,7 +60,7 @@
 
         <meta-data
             android:name="android.max_aspect"
-            android:value="2.1"/>
+            android:value="2.4"/>
 
         <activity
             android:name=".RecyclerActivity"
@@ -68,10 +71,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".WeatherActivity" />
         </activity>
-        <activity android:name=".ChooseAreaActivity" />
+        <activity
+            android:name=".ChooseAreaActivity"
+            android:parentActivityName=".RecyclerActivity">
+        </activity>
         <activity
             android:name=".AboutActivity"
-            android:theme="@style/AppTheme.MaterialAboutActivity" />
+            android:theme="@style/AppTheme.MaterialAboutActivity" >
+        </activity>
         <activity
             android:name=".AboutLicensesActivity"
             android:theme="@style/AppTheme.MaterialAboutActivity" />

@@ -71,6 +71,7 @@ public class WeatherActivity extends AppCompatActivity {
     public static boolean mAutoUpdateCheck; //是否开启自动检查更新
 
     private String TAG = "WeatherActivity";
+    private long mExitTime;
 
     @BindView(R.id.srl_swipe_refresh)
     SwipeRefreshLayout swipeRefresh;
@@ -135,8 +136,6 @@ public class WeatherActivity extends AppCompatActivity {
     View navHeaderLayout;
     ImageView ivNavHeaderPic;
 
-    private long mExitTime;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -188,7 +187,7 @@ public class WeatherActivity extends AppCompatActivity {
         mOnBingPicSwitch = settings.getBoolean("bing_update_switch", true);
         mAutoUpdateCheck = settings.getBoolean("auto_update_check", false);
 
-        loadBackgroundPic();
+        //loadBackgroundPic();
 
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
 
@@ -430,12 +429,11 @@ public class WeatherActivity extends AppCompatActivity {
             Uri customBgUri = Uri.parse(customBgUriString);
             Glide.with(this).load(customBgUri).into(bingPicImg);
         } else {
-            if (!isNextDay && bingPic != null) {
-                Glide.with(this)
-                        .load(bingPic)
-                        .transition(DrawableTransitionOptions.withCrossFade())
-                        .into(bingPicImg);
-            } else {
+            Glide.with(this)
+                    .load(bingPic)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(bingPicImg);
+            if (isNextDay || bingPic == null) {
                 loadBingPic();
             }
         }

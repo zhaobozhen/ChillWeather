@@ -57,5 +57,6 @@
     <string name="settings_bing_pic">必應每日一圖</string>
     <string name="settings_change_heweather_api">更換和風天氣API Key</string>
     <string name="settings_change_heweather_api_hint">如果不知道這是什麼就不用更改</string>
+    <string name="shortcut_local_weather_short">本地天气</string>
 
 </resources>

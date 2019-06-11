@@ -15,6 +15,7 @@ import com.absinthe.chillweather.WeatherActivity;
 import com.absinthe.chillweather.service.AutoUpdateService;
 import com.absinthe.chillweather.util.UpdateUtil;
 import com.absinthe.chillweather.util.Utility;
+import com.absinthe.chillweather.util.WeatherAPI;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.map.geolocation.TencentLocationManager;
 import com.tencent.map.geolocation.TencentLocationRequest;
@@ -100,7 +101,7 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 Utility.handleOnGoingNotification(Objects.requireNonNull(getActivity()));
                 break;
             case "change_weather_api_edit_text":
-                WeatherActivity.HEWEATHER_KEY = Objects.requireNonNull(sharedPreferences.getString(key, null));
+                WeatherAPI.HEWEATHER_KEY = Objects.requireNonNull(sharedPreferences.getString(key, null));
                 break;
             case "refresh_background_switch":
                 if (sharedPreferences.getBoolean(key, false)) {

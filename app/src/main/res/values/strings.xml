@@ -29,6 +29,7 @@
     <string name="failed_to_acquire_weather_info">Failed to acquire weather info</string>
     <string name="tap_again_to_quit">Tap again to quit</string>
     <string name="check_update">Check Update</string>
+    <string name="shortcut_local_weather_short">Local Weather</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 

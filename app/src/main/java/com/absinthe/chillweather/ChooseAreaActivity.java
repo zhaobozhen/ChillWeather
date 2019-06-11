@@ -1,5 +1,9 @@
 package com.absinthe.chillweather;
 
+import android.content.Intent;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
+import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -94,6 +98,23 @@ public class ChooseAreaActivity extends AppCompatActivity {
                         countyList.get(i).getCountyName(),
                         countyList.get(i).getWeatherId(),
                         CityManagerFragment.imgs[new Random().nextInt(12)]);
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1) {
+                    ShortcutManager mShortcutManager = getSystemService(ShortcutManager.class);
+                    List<ShortcutInfo> infos = new ArrayList<>();
+                    Intent intent = new Intent(this, MainActivity.class);
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.putExtra("weather_id", countyList.get(i).getWeatherId());
+                    ShortcutInfo info = null;
+                    info = new ShortcutInfo.Builder(this, countyList.get(i).getWeatherId())
+                            .setShortLabel(countyList.get(i).getCountyName())
+                            .setIcon(Icon.createWithResource(this, R.drawable.ic_noti_logo_gray))
+                            .setIntent(intent)
+                            .build();
+                    infos.add(info);
+                    mShortcutManager.addDynamicShortcuts(infos);
+                }
+
                 finish();
             }
         });

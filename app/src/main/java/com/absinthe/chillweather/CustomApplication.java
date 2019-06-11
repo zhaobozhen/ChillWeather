@@ -42,6 +42,7 @@ public class CustomApplication extends Application {
             }
         };
         Logger.setLogger(this, newLogger);
+
     }
 
     private boolean shouldInit() {
@@ -56,4 +57,5 @@ public class CustomApplication extends Application {
         }
         return false;
     }
+
 }
