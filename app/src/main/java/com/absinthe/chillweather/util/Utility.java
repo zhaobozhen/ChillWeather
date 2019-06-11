@@ -5,13 +5,18 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Icon;
 import android.util.Log;
 
+import com.absinthe.chillweather.MainActivity;
 import com.absinthe.chillweather.R;
 import com.absinthe.chillweather.WeatherActivity;
 import com.absinthe.chillweather.gson.BingPic;
 import com.absinthe.chillweather.gson.Weather;
+import com.absinthe.chillweather.model.CityItem;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -19,6 +24,9 @@ import org.json.JSONObject;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -132,5 +140,26 @@ public class Utility {
                 return R.drawable.large_heavy_snow;
         }
         return 0;
+    }
+
+    public static void setShortcuts(Context context) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1) {
+            ShortcutManager shortcutManager = context.getSystemService(ShortcutManager.class);
+            List<ShortcutInfo> infos = new ArrayList<>();
+            List<CityItem> cities = SharedPrefsStrListUtil.getStrListValue(context, "city");
+            for (int i = 0; i < shortcutManager.getMaxShortcutCountPerActivity() && i < cities.size(); i++) {
+                Intent in = new Intent(context, MainActivity.class);
+                in.setAction(Intent.ACTION_VIEW);
+                in.putExtra("weather_id", cities.get(i).getWeatherId());
+                ShortcutInfo info = null;
+                info = new ShortcutInfo.Builder(context, cities.get(i).getWeatherId())
+                        .setShortLabel(cities.get(i).getName())
+                        .setIcon(Icon.createWithResource(context, R.drawable.ic_noti_logo_gray))
+                        .setIntent(in)
+                        .build();
+                infos.add(info);
+            }
+            shortcutManager.setDynamicShortcuts(infos);
+        }
     }
 }
