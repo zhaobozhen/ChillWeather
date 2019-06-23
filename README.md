@@ -10,10 +10,10 @@
 
 ## 屏幕快照
 <div align="center">
-<img src="https://github.com/zhaobozhen/chillweather/raw/master/sampledata/Screenshot_1.png" height="600px" alt="snap1" >  <img src="https://github.com/zhaobozhen/chillweather/raw/master/sampledata/Screenshot_2.png" height="600px" alt="snap2" >    
+<img src="https://github.com/zhaobozhen/chillweather/raw/master/sampledata/Screenshot_1.png" height="600px" alt="snap1" >           <img src="https://github.com/zhaobozhen/chillweather/raw/master/sampledata/Screenshot_2.png" height="600px" alt="snap2" >    
 </div>
 <div align="center">
-<img src="https://github.com/zhaobozhen/chillweather/raw/master/sampledata/Screenshot_3.png" height="600px" alt="snap3" >  <img src="https://github.com/zhaobozhen/chillweather/raw/master/sampledata/Screenshot_4.png" height="600px" alt="snap4" >    
+<img src="https://github.com/zhaobozhen/chillweather/raw/master/sampledata/Screenshot_3.png" height="600px" alt="snap3" >           <img src="https://github.com/zhaobozhen/chillweather/raw/master/sampledata/Screenshot_4.png" height="600px" alt="snap4" >    
 </div>
 
 
