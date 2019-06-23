@@ -10,7 +10,7 @@
 
 ## 屏幕快照
 <figure class="half">
-    <img src="https://github.com/zhaobozhen/chillweather/raw/master/sampledata/Screenshot_1.png">
+    <img src="https://sampledata/Screenshot_1.png">
     <img src="https://github.com/zhaobozhen/chillweather/raw/master/sampledata/Screenshot_2.png">
 </figure>
 <figure class="half">
