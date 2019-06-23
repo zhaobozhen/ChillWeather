@@ -9,9 +9,13 @@
 - 本程序开源，遵守Apache 2.0协议
 
 ## 屏幕快照
-![snap1](https://github.com/zhaobozhen/chillweather/raw/master/sampledata/Screenshot_1.png)![snap2](https://github.com/zhaobozhen/chillweather/raw/master/sampledata/Screenshot_2.png)
+<div align="center">
+<img src="https://github.com/zhaobozhen/chillweather/raw/master/sampledata/Screenshot_1.png" height="300px" alt="snap1" ><img src="https://github.com/zhaobozhen/chillweather/raw/master/sampledata/Screenshot_2.png" height="300px" alt="snap2" >    
+</div>
+<div align="center">
+<img src="https://github.com/zhaobozhen/chillweather/raw/master/sampledata/Screenshot_3.png" height="300px" alt="snap3" ><img src="https://github.com/zhaobozhen/chillweather/raw/master/sampledata/Screenshot_4.png" height="300px" alt="snap4" >    
+</div>
 
-![snap3](https://github.com/zhaobozhen/chillweather/raw/master/sampledata/Screenshot_3.png)![snap4](https://github.com/zhaobozhen/chillweather/raw/master/sampledata/Screenshot_4.png)
 
 ## License 开源协议
 
