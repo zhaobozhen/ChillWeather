@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import com.absinthe.chillweather.gson.BingPic;
 import com.absinthe.chillweather.gson.Suggestion;
 import com.absinthe.chillweather.service.AutoUpdateService;
+import com.absinthe.chillweather.util.Share;
 import com.absinthe.chillweather.util.UpdateUtil;
 import com.absinthe.chillweather.util.WeatherAPI;
 import com.absinthe.chillweather.view.SunView;
@@ -133,6 +134,9 @@ public class WeatherActivity extends AppCompatActivity {
     @BindView(R.id.btn_nav_menu)
     Button navButton;
 
+    @BindView(R.id.btn_share_weather)
+    Button shareButton;
+
     View navHeaderLayout;
     ImageView ivNavHeaderPic;
 
@@ -195,6 +199,7 @@ public class WeatherActivity extends AppCompatActivity {
         isNeedRefresh = true;
 
         navButton.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.START));
+        shareButton.setOnClickListener(v -> Share.shotShare(getApplicationContext(), getWindow().getDecorView()));
 
         //注册侧滑导航栏
         navigationView.setNavigationItemSelectedListener(menuItem -> {
@@ -240,6 +245,9 @@ public class WeatherActivity extends AppCompatActivity {
 
         navHeaderLayout = navigationView.getHeaderView(0);
         ivNavHeaderPic = navHeaderLayout.findViewById(R.id.iv_nav_header);
+        Glide.with(WeatherActivity.this)
+                .load(R.drawable.bg_nav_header_pic)
+                .into(ivNavHeaderPic);
 
         ivNavHeaderPic.setOnTouchListener((v, event) -> {
             switch (event.getAction()) { //当前状态
