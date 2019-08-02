@@ -3,41 +3,26 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="horizontal"
     android:layout_margin="15dp">
 
     <TextView
-        android:id="@+id/tv_forecast_date"
+        android:id="@+id/tv_forecast_date_and_info"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="3"
+        android:layout_gravity="start"
+        android:gravity="start"
+        android:layout_weight="1"
         android:textSize="@dimen/forecast_text_size"
         android:textColor="@color/itemTextColor"/>
 
-    <TextView
-        android:id="@+id/tv_forecast_info"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:textSize="@dimen/forecast_text_size"
-        android:textColor="@color/itemTextColor"/>
-
-    <ImageView
-        android:id="@+id/iv_weather_icon"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:gravity="center" />
 
     <TextView
         android:id="@+id/tv_max_min_degree"
         android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="3"
+        android:layout_gravity="end"
         android:gravity="end"
         android:textSize="@dimen/forecast_text_size"
         android:textColor="@color/itemTextColor"/>

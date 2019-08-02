@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -287,7 +288,9 @@ public class WeatherActivity extends AppCompatActivity {
             mChannel.setShowBadge(false);
             mChannel.setVibrationPattern(new long[]{0});
             mChannel.setSound(null, null);
-            manager.createNotificationChannel(mChannel);
+            if (manager != null) {
+                manager.createNotificationChannel(mChannel);
+            }
         }
 
         swipeRefresh.setOnRefreshListener(() -> requestWeather(mWeatherId));
@@ -358,20 +361,28 @@ public class WeatherActivity extends AppCompatActivity {
         feelDegreeText.setTypeface(typeface);
 
         forecastLayout.removeAllViews();
+
+        int iter = 0;
+        String[] date = {"今天", "明天", "后天"};
+
         for (Forecast forecast : weather.forecastList) {
             View view = LayoutInflater.from(this)
                     .inflate(R.layout.forecast_item, forecastLayout, false);
-            TextView dateText = view.findViewById(R.id.tv_forecast_date);
-            TextView infoText = view.findViewById(R.id.tv_forecast_info);
+            TextView dateAndConditionText = view.findViewById(R.id.tv_forecast_date_and_info);
             TextView maxMinText = view.findViewById(R.id.tv_max_min_degree);
-            ImageView weatherIcon = view.findViewById(R.id.iv_weather_icon);
 
-            dateText.setText(Integer.valueOf(forecast.date.substring(5, 7)) + "月" + Integer.valueOf(forecast.date.substring(8, 10)) + "日");
-            infoText.setText(forecast.dayCondition);
+            dateAndConditionText.setText(date[iter++] + "-" + forecast.dayCondition);
             maxMinText.setText(forecast.temperatureMax + "℃" + " / " + forecast.temperatureMin + "℃");
-            weatherIcon.setImageResource(Utility.WeatherIconSelector(forecast.dayCondition, Calendar.getInstance().get(Calendar.HOUR_OF_DAY)));
 
-            dateText.setTypeface(typeface);
+            Drawable image = getResources().getDrawable( Utility.WeatherIconSelector(forecast.dayCondition, Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) );
+            int h = maxMinText.getLineHeight();
+            int w = maxMinText.getLineHeight();
+
+            image.setBounds( 0, 0, h, w );
+            maxMinText.setCompoundDrawables(null , null, image, null );
+            maxMinText.setCompoundDrawablePadding(10);
+
+            dateAndConditionText.setTypeface(typeface);
             maxMinText.setTypeface(typeface);
 
             forecastLayout.addView(view);
