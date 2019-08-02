@@ -139,7 +139,7 @@ public class Utility {
             case "暴雪":
                 return R.drawable.large_heavy_snow;
         }
-        return 0;
+        return R.drawable.default_weather;
     }
 
     public static void setShortcuts(Context context) {
