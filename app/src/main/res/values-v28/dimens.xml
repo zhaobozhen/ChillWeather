@@ -1,0 +1,5 @@
+<resources>
+    <!-- Shadow -->
+    <dimen name="ambientShadowAlpha">0.039</dimen>
+    <dimen name="spotShadowAlpha">0.19</dimen>
+</resources>

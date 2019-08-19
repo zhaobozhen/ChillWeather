@@ -24,4 +24,8 @@
 
     <!-- Remove item -->
     <dimen name="remove_item_padding">10dp</dimen>
+
+    <!-- Shadow -->
+    <dimen name="ambientShadowAlpha">0.016</dimen>
+    <dimen name="spotShadowAlpha">0.08</dimen>
 </resources>
