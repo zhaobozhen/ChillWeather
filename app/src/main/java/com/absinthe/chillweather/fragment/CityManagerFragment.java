@@ -29,7 +29,6 @@ import android.content.pm.ShortcutManager;
 import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -48,6 +47,7 @@ import java.util.Random;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import io.github.yavski.fabspeeddial.FabSpeedDial;
@@ -132,7 +132,7 @@ public class CityManagerFragment extends BaseFragment implements TencentLocation
                     mShortcutManager.removeDynamicShortcuts(Collections.singletonList(item.getWeatherId()));
                 }
                 if (mAdapter.getItemCount() == 0) {
-                    SharedPreferences.Editor prefs = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
+                    SharedPreferences.Editor prefs = PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(getContext())).edit();
                     prefs.remove("weather_id");
                     prefs.apply();
                 }
@@ -161,7 +161,7 @@ public class CityManagerFragment extends BaseFragment implements TencentLocation
             @Override
             public boolean onItemClick(final CityItem item, final int position) {
                 // return true if the event is consumed
-                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(getActivity())).edit();
                 editor.putString("weather_id", item.getWeatherId());
                 editor.apply();
                 WeatherActivity.isNeedRefresh = true;
@@ -238,7 +238,9 @@ public class CityManagerFragment extends BaseFragment implements TencentLocation
                         .setIntent(intent)
                         .build();
                 infos.add(info);
-                mShortcutManager.addDynamicShortcuts(infos);
+                if (mShortcutManager != null) {
+                    mShortcutManager.addDynamicShortcuts(infos);
+                }
             }
         } else {
             Toast.makeText(getContext(), getString(R.string.located_failed), Toast.LENGTH_SHORT).show();
