@@ -105,8 +105,7 @@ public class ChooseAreaActivity extends AppCompatActivity {
                     Intent intent = new Intent(this, MainActivity.class);
                     intent.setAction(Intent.ACTION_VIEW);
                     intent.putExtra("weather_id", countyList.get(i).getWeatherId());
-                    ShortcutInfo info = null;
-                    info = new ShortcutInfo.Builder(this, countyList.get(i).getWeatherId())
+                    ShortcutInfo info = new ShortcutInfo.Builder(this, countyList.get(i).getWeatherId())
                             .setShortLabel(countyList.get(i).getCountyName())
                             .setIcon(Icon.createWithResource(this, R.drawable.ic_noti_logo_gray))
                             .setIntent(intent)

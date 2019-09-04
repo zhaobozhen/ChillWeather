@@ -232,8 +232,7 @@ public class CityManagerFragment extends BaseFragment implements TencentLocation
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 intent.setAction(Intent.ACTION_VIEW);
                 intent.putExtra("weather_id", countyList.get(i).getWeatherId());
-                ShortcutInfo info = null;
-                info = new ShortcutInfo.Builder(getActivity(), countyList.get(0).getWeatherId())
+                ShortcutInfo info = new ShortcutInfo.Builder(getActivity(), countyList.get(0).getWeatherId())
                         .setShortLabel(countyList.get(i).getCountyName())
                         .setIcon(Icon.createWithResource(getContext(), R.drawable.ic_noti_logo_gray))
                         .setIntent(intent)
