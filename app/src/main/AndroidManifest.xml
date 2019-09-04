@@ -142,6 +142,13 @@
                 <action android:name="com.xiaomi.mipush.ERROR" />
             </intent-filter>
         </receiver>
+        <!--闹钟接收广播-->
+        <receiver android:name=".receiver.AutoUpdateReceiver">
+            <intent-filter>
+                <action android:name="com.absinthe.TIMER_ACTION_REPEATING" />
+                <action android:name="com.absinthe.TIMER_ACTION" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

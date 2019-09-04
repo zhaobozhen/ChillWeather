@@ -40,7 +40,6 @@ import android.widget.Toast;
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -213,8 +212,9 @@ public class CityManagerFragment extends BaseFragment implements TencentLocation
         if (i == TencentLocation.ERROR_OK) {
             // 定位成功
             //从返回的定位数据中截取城市名
-            String str = tencentLocation.getDistrict();
+            String str = tencentLocation.getCity();
             str = str.substring(0, str.length()-1);
+            Log.d("CityManagerFragment", "Located city:"+str);
             mLocationManager.removeUpdates(this);
             List<County> countyList = LitePal.where("countyName = ?", str).find(County.class);
             SharedPrefsStrListUtil.putStrValueInList(getContext(),

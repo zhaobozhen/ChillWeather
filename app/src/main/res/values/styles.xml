@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:ambientShadowAlpha" tools:targetApi="lollipop">@dimen/ambientShadowAlpha</item>
+        <item name="android:spotShadowAlpha" tools:targetApi="lollipop">@dimen/spotShadowAlpha</item>
 
         <item name="preferenceTheme">@style/AppTheme.PreferenceTheme</item>
         <item name="android:windowContentOverlay">@null</item>

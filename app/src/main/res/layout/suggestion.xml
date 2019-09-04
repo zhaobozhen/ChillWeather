@@ -35,9 +35,9 @@
                 android:textColor="@color/itemTextColor"/>
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="30dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_comfort"/>
+                android:src="@drawable/ic_comfort" />
 
         </LinearLayout>
 
@@ -67,9 +67,10 @@
                 android:textColor="@color/itemTextColor"/>
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="30dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_dressing"/>
+                android:layout_gravity="start"
+                android:src="@drawable/ic_dressing" />
 
         </LinearLayout>
 
@@ -99,9 +100,10 @@
                 android:textColor="@color/itemTextColor"/>
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="30dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_uv"/>
+                android:layout_gravity="start"
+                android:src="@drawable/ic_uv" />
 
         </LinearLayout>
 
