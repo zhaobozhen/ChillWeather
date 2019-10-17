@@ -261,10 +261,6 @@ public class WeatherActivity extends AppCompatActivity {
                             .into(ivNavHeaderPic);
                     break;
                 case MotionEvent.ACTION_UP:
-                    Glide.with(WeatherActivity.this)
-                            .load(R.drawable.bg_nav_header_pic)
-                            .into(ivNavHeaderPic);
-                    break;
                 default:
                     Glide.with(WeatherActivity.this)
                             .load(R.drawable.bg_nav_header_pic)
