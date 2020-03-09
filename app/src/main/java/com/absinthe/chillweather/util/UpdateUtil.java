@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -131,7 +132,7 @@ public class UpdateUtil {
                                         //创建下载任务,downloadUrl就是下载链接
                                         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadUrl));
                                         //指定下载路径和下载文件名
-                                        request.setDestinationInExternalPublicDir("/download/", "ChillWeatherUpdate.apk");
+                                        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "ChillWeatherUpdate.apk");
                                         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
                                         //获取下载管理器
                                         DownloadManager downloadManager = (DownloadManager) activity.getSystemService(Context.DOWNLOAD_SERVICE);
