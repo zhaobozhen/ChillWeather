@@ -5,17 +5,13 @@ import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.graphics.drawable.Icon;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.absinthe.chillweather.databinding.ActivityChooseAreaBinding;
 import com.absinthe.chillweather.db.City;
 import com.absinthe.chillweather.db.County;
 import com.absinthe.chillweather.db.Province;
@@ -32,19 +28,12 @@ import java.util.Objects;
 import java.util.Random;
 
 public class ChooseAreaActivity extends AppCompatActivity {
+
     public static final int LEVEL_PROVINCE = 0;
     public static final int LEVEL_CITY = 1;
     public static final int LEVEL_COUNTY = 2;
 
-    @BindView(R.id.tv_title)
-    TextView titleText;
-
-    @BindView(R.id.lv_choose_area)
-    ListView listView;
-
-    @BindView(R.id.tb_choose_area)
-    Toolbar toolbar;
-
+    private ActivityChooseAreaBinding mBinding;
     private List<String> dataList = new ArrayList<>();
     private List<Province> provinceList;    //省列表
     private List<City> cityList;    //市列表
@@ -60,12 +49,12 @@ public class ChooseAreaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_choose_area);
-        ButterKnife.bind(ChooseAreaActivity.this);
+        mBinding = ActivityChooseAreaBinding.inflate(getLayoutInflater());
+        setContentView(mBinding.getRoot());
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, dataList);
-        listView.setAdapter(adapter);
-        setSupportActionBar(toolbar);
+        mBinding.lvChooseArea.setAdapter(adapter);
+        setSupportActionBar(mBinding.tbChooseArea);
 
         //城市搜索框
         searchFragment = SearchFragment.newInstance();
@@ -76,16 +65,16 @@ public class ChooseAreaActivity extends AppCompatActivity {
                 dataList.clear();
                 dataList.add(countyList.get(0).getCountyName());
                 adapter.notifyDataSetChanged();
-                listView.setSelection(0);
+                mBinding.lvChooseArea.setSelection(0);
                 currentLevel = LEVEL_COUNTY;
             } else {
-                Snackbar.make(listView, getString(R.string.not_searched_this_city), Snackbar.LENGTH_LONG).show();
+                Snackbar.make(mBinding.lvChooseArea, getString(R.string.not_searched_this_city), Snackbar.LENGTH_LONG).show();
             }
         });
 
         LitePal.initialize(getApplicationContext());
 
-        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+        mBinding.lvChooseArea.setOnItemClickListener((adapterView, view, i, l) -> {
             if (currentLevel == LEVEL_PROVINCE) {
                 selectedProvince = provinceList.get(i);
                 queryCities();
@@ -124,7 +113,7 @@ public class ChooseAreaActivity extends AppCompatActivity {
      * 查询全国所有的省，优先从数据库查询
      */
     private void queryProvinces() {
-        titleText.setText(getString(R.string.choose_city));
+        mBinding.tvTitle.setText(getString(R.string.choose_city));
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
@@ -134,7 +123,7 @@ public class ChooseAreaActivity extends AppCompatActivity {
             dataList.add(province.getProvinceName());
         }
         adapter.notifyDataSetChanged();
-        listView.setSelection(0);
+        mBinding.lvChooseArea.setSelection(0);
         currentLevel = LEVEL_PROVINCE;
     }
 
@@ -148,7 +137,7 @@ public class ChooseAreaActivity extends AppCompatActivity {
             dataList.add(city.getCityName());
         }
         adapter.notifyDataSetChanged();
-        listView.setSelection(0);
+        mBinding.lvChooseArea.setSelection(0);
         currentLevel = LEVEL_CITY;
     }
 
@@ -162,7 +151,7 @@ public class ChooseAreaActivity extends AppCompatActivity {
             dataList.add(county.getCountyName());
         }
         adapter.notifyDataSetChanged();
-        listView.setSelection(0);
+        mBinding.lvChooseArea.setSelection(0);
         currentLevel = LEVEL_COUNTY;
     }
 

@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_loading"
-        android:scaleType="centerCrop"
-        android:contentDescription="@string/background_pic" />
+        android:contentDescription="@string/background_pic"
+        android:scaleType="centerCrop" />
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/dl_weather_drawer"
@@ -30,20 +30,38 @@
                 android:id="@+id/sv_weather_info"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="none"
-                android:overScrollMode="never">
+                android:overScrollMode="never"
+                android:scrollbars="none">
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fitsSystemWindows="true">
-                    <include layout="@layout/title" />
-                    <include layout="@layout/now" />
-                    <include layout="@layout/forecast" />
-                    <include layout="@layout/sun_rise_set" />
-                    <include layout="@layout/wind_direction"/>
-                    <include layout="@layout/suggestion" />
+                    android:fitsSystemWindows="true"
+                    android:orientation="vertical">
+
+                    <include
+                        android:id="@+id/layout_title"
+                        layout="@layout/title" />
+
+                    <include
+                        android:id="@+id/layout_now"
+                        layout="@layout/now" />
+
+                    <include
+                        android:id="@+id/layout_forecast"
+                        layout="@layout/forecast" />
+
+                    <include
+                        android:id="@+id/layout_sun"
+                        layout="@layout/sun_rise_set" />
+
+                    <include
+                        android:id="@+id/layout_wind"
+                        layout="@layout/wind_direction" />
+
+                    <include
+                        android:id="@+id/layout_suggestion"
+                        layout="@layout/suggestion" />
 
                 </LinearLayout>
 
@@ -56,9 +74,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            app:menu="@menu/nav_menu"
             app:headerLayout="@layout/nav_header"
-            app:itemIconTint="@color/colorPrimary">
+            app:itemIconTint="@color/colorPrimary"
+            app:menu="@menu/nav_menu">
 
         </com.google.android.material.navigation.NavigationView>
 

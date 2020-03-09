@@ -1,21 +1,14 @@
 package com.absinthe.chillweather;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
-import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.Bundle;
 
-import com.absinthe.chillweather.model.CityItem;
-import com.absinthe.chillweather.util.InitSharedPreferences;
-import com.absinthe.chillweather.util.SharedPrefsStrListUtil;
-import com.absinthe.chillweather.util.Utility;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.absinthe.chillweather.util.InitSharedPreferences;
+import com.absinthe.chillweather.util.Utility;
 
 public class MainActivity extends AppCompatActivity {
 

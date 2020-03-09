@@ -53,6 +53,7 @@ public class CustomApplication extends Application {
         }
         String mainProcessName = getPackageName();
         int myPid = android.os.Process.myPid();
+        assert processInfos != null;
         for (ActivityManager.RunningAppProcessInfo info : processInfos) {
             if (info.pid == myPid && mainProcessName.equals(info.processName)) {
                 return true;

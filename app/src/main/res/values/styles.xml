@@ -9,7 +9,7 @@
         <item name="android:ambientShadowAlpha" tools:targetApi="lollipop">@dimen/ambientShadowAlpha</item>
         <item name="android:spotShadowAlpha" tools:targetApi="lollipop">@dimen/spotShadowAlpha</item>
 
-        <item name="preferenceTheme">@style/AppTheme.PreferenceTheme</item>
+<!--        <item name="preferenceTheme">@style/AppTheme.PreferenceTheme</item>-->
         <item name="android:windowContentOverlay">@null</item>
     </style>
 

@@ -18,20 +18,16 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.preference.PreferenceManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.absinthe.chillweather.databinding.ActivityWeatherBinding;
 import com.absinthe.chillweather.gson.BingPic;
 import com.absinthe.chillweather.gson.Forecast;
 import com.absinthe.chillweather.gson.Suggestion;
@@ -42,20 +38,16 @@ import com.absinthe.chillweather.util.Share;
 import com.absinthe.chillweather.util.UpdateUtil;
 import com.absinthe.chillweather.util.Utility;
 import com.absinthe.chillweather.util.WeatherAPI;
-import com.absinthe.chillweather.view.SunView;
 import com.absinthe.chillweather.view.ViewFade;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
-import com.google.android.material.navigation.NavigationView;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Objects;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -64,6 +56,8 @@ import static com.absinthe.chillweather.util.WeatherAPI.HEWEATHER_KEY;
 import static com.absinthe.chillweather.util.WeatherAPI.WEATHER_API_URL;
 
 public class WeatherActivity extends AppCompatActivity {
+
+    private ActivityWeatherBinding mBinding;
     public static String mWeatherId;
     public static Weather weather;
     public static boolean isNeedRefresh;
@@ -76,78 +70,15 @@ public class WeatherActivity extends AppCompatActivity {
     private String TAG = "WeatherActivity";
     private long mExitTime;
 
-    @BindView(R.id.srl_swipe_refresh)
-    SwipeRefreshLayout swipeRefresh;
-
-    @BindView(R.id.dl_weather_drawer)
-    DrawerLayout drawerLayout;
-
-    @BindView(R.id.sv_weather_info)
-    ScrollView weatherLayout;
-
-    @BindView(R.id.nv_weather_navigation)
-    NavigationView navigationView;
-
-    @BindView(R.id.tv_title_city)
-    TextView cityTitleText;
-
-    @BindView(R.id.tv_degree)
-    TextView degreeText;
-
-    @BindView(R.id.tv_feel_degree)
-    TextView feelDegreeText;
-
-    @BindView(R.id.tv_weather_info)
-    TextView weatherInfoText;
-
-    @BindView(R.id.ll_forecast)
-    LinearLayout forecastLayout;
-
-    @BindView(R.id.tv_sun_rise)
-    TextView sunRiseText;
-
-    @BindView(R.id.tv_sun_set)
-    TextView sunSetText;
-
-    @BindView(R.id.tv_wind_direction)
-    TextView windDirectionText;
-
-    @BindView(R.id.tv_wind_power)
-    TextView windPowerText;
-
-    @BindView(R.id.tv_humidity)
-    TextView humidityText;
-
-    @BindView(R.id.sun_view)
-    SunView sunView;
-
-    @BindView(R.id.tv_comfort)
-    TextView comfortText;
-
-    @BindView(R.id.tv_dressing)
-    TextView dressingText;
-
-    @BindView(R.id.tv_ultraviolet)
-    TextView uvText;
-
-    @BindView(R.id.iv_bing_pic)
-    ImageView bingPicImg;
-
-    @BindView(R.id.btn_nav_menu)
-    Button navButton;
-
-    @BindView(R.id.btn_share_weather)
-    Button shareButton;
-
-    View navHeaderLayout;
-    ImageView ivNavHeaderPic;
+    private View navHeaderLayout;
+    private ImageView ivNavHeaderPic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_weather);
+        mBinding = ActivityWeatherBinding.inflate(getLayoutInflater());
+        setContentView(mBinding.getRoot());
 
-        ButterKnife.bind(this);
         initView();
     }
 
@@ -163,9 +94,9 @@ public class WeatherActivity extends AppCompatActivity {
 
         if (isNeedRefresh) {
             loadBackgroundPic();
-            swipeRefresh.post(() -> {
-                swipeRefresh.setRefreshing(true);
-                weatherLayout.setVisibility(View.INVISIBLE);
+            mBinding.srlSwipeRefresh.post(() -> {
+                mBinding.srlSwipeRefresh.setRefreshing(true);
+                mBinding.svWeatherInfo.setVisibility(View.INVISIBLE);
                 requestWeather(mWeatherId);
             });
             isNeedRefresh = false;
@@ -188,44 +119,44 @@ public class WeatherActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(Color.TRANSPARENT);
 
         SharedPreferences settings = getApplicationContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
-        mOnGoingNotification =  settings.getBoolean("on_notification_switch", false);
+        mOnGoingNotification = settings.getBoolean("on_notification_switch", false);
         mRefreshService = settings.getBoolean("refresh_background_switch", false);
         mOnBingPicSwitch = settings.getBoolean("bing_update_switch", true);
         mAutoUpdateCheck = settings.getBoolean("auto_update_check", false);
 
         //loadBackgroundPic();
 
-        swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
+        mBinding.srlSwipeRefresh.setColorSchemeResources(R.color.colorPrimary);
 
         //如果开启后台刷新则取消每次开启刷新
         isNeedRefresh = true;
 
-        navButton.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.START));
-        shareButton.setOnClickListener(v -> Share.shotShare(getApplicationContext(), getWindow().getDecorView()));
+        mBinding.layoutTitle.btnNavMenu.setOnClickListener(view -> mBinding.dlWeatherDrawer.openDrawer(GravityCompat.START));
+        mBinding.layoutTitle.btnShareWeather.setOnClickListener(v -> Share.shotShare(getApplicationContext(), getWindow().getDecorView()));
 
         //注册侧滑导航栏
-        navigationView.setNavigationItemSelectedListener(menuItem -> {
+        mBinding.nvWeatherNavigation.setNavigationItemSelectedListener(menuItem -> {
             Intent intent;
             switch (menuItem.getItemId()) {
                 case R.id.city_manage:
                     intent = new Intent(WeatherActivity.this, RecyclerActivity.class);
                     startActivity(intent);
-                    drawerLayout.closeDrawers();
+                    mBinding.dlWeatherDrawer.closeDrawers();
                     break;
                 case R.id.customize_bg:
                     intent = new Intent(WeatherActivity.this, ChooseBgActivity.class);
                     startActivity(intent);
-                    drawerLayout.closeDrawers();
+                    mBinding.dlWeatherDrawer.closeDrawers();
                     break;
                 case R.id.about:
                     intent = new Intent(WeatherActivity.this, AboutActivity.class);
                     startActivity(intent);
-                    drawerLayout.closeDrawers();
+                    mBinding.dlWeatherDrawer.closeDrawers();
                     break;
                 case R.id.settings:
                     intent = new Intent(WeatherActivity.this, SettingsActivity.class);
                     startActivity(intent);
-                    drawerLayout.closeDrawers();
+                    mBinding.dlWeatherDrawer.closeDrawers();
                     break;
                 case R.id.check_update:
                     final RxPermissions rxPermissions = new RxPermissions(this);
@@ -239,13 +170,13 @@ public class WeatherActivity extends AppCompatActivity {
                                     Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
                                 }
                             });
-                    drawerLayout.closeDrawers();
+                    mBinding.dlWeatherDrawer.closeDrawers();
                     break;
             }
             return true;
         });
 
-        navHeaderLayout = navigationView.getHeaderView(0);
+        navHeaderLayout = mBinding.nvWeatherNavigation.getHeaderView(0);
         ivNavHeaderPic = navHeaderLayout.findViewById(R.id.iv_nav_header);
         Glide.with(WeatherActivity.this)
                 .load(R.drawable.bg_nav_header_pic)
@@ -290,7 +221,7 @@ public class WeatherActivity extends AppCompatActivity {
             }
         }
 
-        swipeRefresh.setOnRefreshListener(() -> requestWeather(mWeatherId));
+        mBinding.srlSwipeRefresh.setOnRefreshListener(() -> requestWeather(mWeatherId));
 
         if (settings.getBoolean("auto_update_check", false)) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -334,7 +265,7 @@ public class WeatherActivity extends AppCompatActivity {
                 });
             }
         });
-        swipeRefresh.setRefreshing(false);
+        mBinding.srlSwipeRefresh.setRefreshing(false);
     }
 
     /**
@@ -347,79 +278,79 @@ public class WeatherActivity extends AppCompatActivity {
         String degree = weather.now.temperature + "℃";
         String feelDegree = "体感 " + weather.now.feelTemperature + "℃";
         String weatherInfo = weather.now.info;
-        Typeface typeface = Typeface.createFromAsset(getAssets(),"GoogleSans-Regular.ttf");
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "GoogleSans-Regular.ttf");
 
-        cityTitleText.setText(cityName);
-        degreeText.setText(degree);
-        feelDegreeText.setText(feelDegree);
-        weatherInfoText.setText(weatherInfo);
+        mBinding.layoutTitle.tvTitleCity.setText(cityName);
+        mBinding.layoutNow.tvDegree.setText(degree);
+        mBinding.layoutNow.tvFeelDegree.setText(feelDegree);
+        mBinding.layoutNow.tvWeatherInfo.setText(weatherInfo);
 
-        degreeText.setTypeface(typeface);
-        feelDegreeText.setTypeface(typeface);
+        mBinding.layoutNow.tvDegree.setTypeface(typeface);
+        mBinding.layoutNow.tvFeelDegree.setTypeface(typeface);
 
-        forecastLayout.removeAllViews();
+        mBinding.layoutForecast.llForecast.removeAllViews();
 
         int iter = 0;
         String[] date = {"今天", "明天", "后天"};
 
         for (Forecast forecast : weather.forecastList) {
             View view = LayoutInflater.from(this)
-                    .inflate(R.layout.forecast_item, forecastLayout, false);
+                    .inflate(R.layout.forecast_item, mBinding.layoutForecast.llForecast, false);
             TextView dateAndConditionText = view.findViewById(R.id.tv_forecast_date_and_info);
             TextView maxMinText = view.findViewById(R.id.tv_max_min_degree);
 
             dateAndConditionText.setText(date[iter++] + "-" + forecast.dayCondition);
             maxMinText.setText(forecast.temperatureMax + "℃" + " / " + forecast.temperatureMin + "℃");
 
-            Drawable image = getResources().getDrawable( Utility.WeatherIconSelector(forecast.dayCondition, Calendar.getInstance().get(Calendar.HOUR_OF_DAY)) );
+            Drawable image = getResources().getDrawable(Utility.WeatherIconSelector(forecast.dayCondition, Calendar.getInstance().get(Calendar.HOUR_OF_DAY)));
             int h = maxMinText.getLineHeight();
             int w = maxMinText.getLineHeight();
 
-            image.setBounds( 0, 0, h, w );
-            maxMinText.setCompoundDrawables(null , null, image, null );
+            image.setBounds(0, 0, h, w);
+            maxMinText.setCompoundDrawables(null, null, image, null);
             maxMinText.setCompoundDrawablePadding(10);
 
             dateAndConditionText.setTypeface(typeface);
             maxMinText.setTypeface(typeface);
 
-            forecastLayout.addView(view);
+            mBinding.layoutForecast.llForecast.addView(view);
         }
-        sunRiseText.setText(weather.forecastList.get(0).sunrise);
-        sunSetText.setText(weather.forecastList.get(0).sunset);
-        windDirectionText.setText(weather.now.windDirection);
-        windPowerText.setText(weather.now.windPower);
-        humidityText.setText(weather.now.humidity + "%");
+        mBinding.layoutSun.tvSunRise.setText(weather.forecastList.get(0).sunrise);
+        mBinding.layoutSun.tvSunSet.setText(weather.forecastList.get(0).sunset);
+        mBinding.layoutWind.tvWindDirection.setText(weather.now.windDirection);
+        mBinding.layoutWind.tvWindPower.setText(weather.now.windPower);
+        mBinding.layoutWind.tvHumidity.setText(weather.now.humidity + "%");
 
-        sunRiseText.setTypeface(typeface);
-        sunSetText.setTypeface(typeface);
-        windPowerText.setTypeface(typeface);
-        humidityText.setTypeface(typeface);
+        mBinding.layoutSun.tvSunRise.setTypeface(typeface);
+        mBinding.layoutSun.tvSunSet.setTypeface(typeface);
+        mBinding.layoutWind.tvWindPower.setTypeface(typeface);
+        mBinding.layoutWind.tvHumidity.setTypeface(typeface);
 
-        sunView.setSunrise(Integer.valueOf(weather.forecastList.get(0).sunrise.substring(0, 2)),
-                Integer.valueOf(weather.forecastList.get(0).sunrise.substring(3)));
-        sunView.setSunset(Integer.valueOf(weather.forecastList.get(0).sunset.substring(0, 2)),
-                Integer.valueOf(weather.forecastList.get(0).sunrise.substring(3)));
+        mBinding.layoutSun.sunView.setSunrise(Integer.parseInt(weather.forecastList.get(0).sunrise.substring(0, 2)),
+                Integer.parseInt(weather.forecastList.get(0).sunrise.substring(3)));
+        mBinding.layoutSun.sunView.setSunset(Integer.parseInt(weather.forecastList.get(0).sunset.substring(0, 2)),
+                Integer.parseInt(weather.forecastList.get(0).sunrise.substring(3)));
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
         // 设置当前时间
-        sunView.setCurrentTime(hour, minute);
+        mBinding.layoutSun.sunView.setCurrentTime(hour, minute);
 
         for (Suggestion suggestion : weather.suggestionList) {
             switch (suggestion.lifeType) {
                 case "comf":
-                    comfortText.setText(suggestion.detail);
+                    mBinding.layoutSuggestion.tvComfort.setText(suggestion.detail);
                     break;
                 case "drsg":
-                    dressingText.setText(suggestion.detail);
+                    mBinding.layoutSuggestion.tvDressing.setText(suggestion.detail);
                     break;
                 case "uv":
-                    uvText.setText(suggestion.detail);
+                    mBinding.layoutSuggestion.tvUltraviolet.setText(suggestion.detail);
                     break;
                 default:
             }
         }
-        ViewFade.fadeIn(weatherLayout, 0F, 1F, 150);
+        ViewFade.fadeIn(mBinding.svWeatherInfo, 0F, 1F, 150);
         Utility.handleOnGoingNotification(getApplicationContext());
 
         if (mRefreshService) {
@@ -435,21 +366,21 @@ public class WeatherActivity extends AppCompatActivity {
         String updateDate = prefs.getString("update_date", null);
 
         if (updateDate != null) {
-            mUpdateDay = Integer.valueOf(updateDate.substring(8, 10));
+            mUpdateDay = Integer.parseInt(updateDate.substring(8, 10));
         }
 
         boolean isNextDay = mUpdateDay != Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-        Log.d(TAG, "Today:"+Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + ". SubString:"+mUpdateDay);
+        Log.d(TAG, "Today:" + Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + ". SubString:" + mUpdateDay);
 
         if ((customBgUriString != null) && !mOnBingPicSwitch) {
             Uri customBgUri = Uri.parse(customBgUriString);
-            Glide.with(this).load(customBgUri).into(bingPicImg);
+            Glide.with(this).load(customBgUri).into(mBinding.ivBingPic);
         } else {
             Glide.with(this)
                     .load(bingPic)
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .into(bingPicImg);
+                    .into(mBinding.ivBingPic);
             if (isNextDay || bingPic == null) {
                 loadBingPic();
             }
@@ -498,8 +429,8 @@ public class WeatherActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (drawerLayout.isDrawerOpen(findViewById(R.id.nv_weather_navigation))) {
-                drawerLayout.closeDrawers();
+            if (mBinding.dlWeatherDrawer.isDrawerOpen(findViewById(R.id.nv_weather_navigation))) {
+                mBinding.dlWeatherDrawer.closeDrawers();
             } else if ((System.currentTimeMillis() - mExitTime) > 2000) {
                 Toast.makeText(this, getString(R.string.tap_again_to_quit), Toast.LENGTH_SHORT).show();
                 mExitTime = System.currentTimeMillis();
