@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
+<androidx.preference.PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="@string/settings_notification_bar">
@@ -16,20 +16,6 @@
             android:summaryOn="On"
             android:summaryOff="Off"/>
 
-        <SimpleMenuPreference
-            android:key="day_weather_time_drop_down"
-            android:title="早晨通知时间（施工中）"
-            android:summary="%s"
-            android:enabled="false"
-            android:shouldDisableView="true"/>
-
-        <SimpleMenuPreference
-            android:key="night_weather_time_drop_down"
-            android:title="傍晚通知时间（施工中）"
-            android:summary="%s"
-            android:enabled="false"
-            android:shouldDisableView="true"/>
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_background_task">
@@ -39,14 +25,6 @@
             android:title="@string/settings_refresh_weather_background"
             android:summaryOn="On"
             android:summaryOff="Off" />
-
-
-        <SimpleMenuPreference
-            android:key="refresh_freq_drop_down"
-            android:title="刷新频率"
-            android:summary="%s"
-            android:enabled="false"
-            android:shouldDisableView="true"/>
 
     </PreferenceCategory>
 
@@ -75,4 +53,4 @@
 
     </PreferenceCategory>
 
-</PreferenceScreen>
+</androidx.preference.PreferenceScreen>

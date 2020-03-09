@@ -8,8 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:ambientShadowAlpha" tools:targetApi="lollipop">@dimen/ambientShadowAlpha</item>
         <item name="android:spotShadowAlpha" tools:targetApi="lollipop">@dimen/spotShadowAlpha</item>
-
-<!--        <item name="preferenceTheme">@style/AppTheme.PreferenceTheme</item>-->
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
@@ -34,10 +32,6 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-    <style name="AppTheme.PreferenceTheme" parent="PreferenceThemeOverlay">
-        <item name="accentColorCompat">@color/colorAccent</item>
-        <item name="backgroundCompat">?attr/selectableItemBackground</item>
-    </style>
 
     <style name="Splashscreen" parent="AppTheme">
         <item name="android:windowBackground">@drawable/splashscreen</item>

@@ -6,18 +6,13 @@ import android.widget.TextView;
 import com.absinthe.chillweather.R;
 import com.thesurix.gesturerecycler.GestureViewHolder;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-
 public class HeaderViewHolder extends GestureViewHolder {
 
-    @BindView(R.id.tv_header)
     TextView mHeaderText;
 
     HeaderViewHolder(final View view) {
         super(view);
-        ButterKnife.bind(this, view);
+        mHeaderText = view.findViewById(R.id.tv_header);
     }
 
     @Override

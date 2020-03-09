@@ -2,14 +2,16 @@ package com.absinthe.chillweather.fragment;
 
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.absinthe.chillweather.BuildConfig;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+
 import com.absinthe.chillweather.R;
 import com.absinthe.chillweather.WeatherActivity;
 import com.absinthe.chillweather.service.AutoUpdateService;
@@ -20,58 +22,15 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.Objects;
 
-import moe.shizuku.preference.ListPreference;
-import moe.shizuku.preference.Preference;
-import moe.shizuku.preference.PreferenceFragment;
-
-/**
- * An example of the usage of {@link PreferenceFragment}.
- */
-
-public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener, Preference.OnPreferenceChangeListener {
+public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener, Preference.OnPreferenceChangeListener {
 
     private static final String TAG = SettingsFragment.class.getSimpleName();
 
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
         Log.d(TAG, "onCreate");
-        getPreferenceManager().setDefaultPackages(new String[]{BuildConfig.APPLICATION_ID + "."});
-
-        getPreferenceManager().setSharedPreferencesName("settings");
-        getPreferenceManager().setSharedPreferencesMode(Context.MODE_PRIVATE);
 
         setPreferencesFromResource(R.xml.settings, null);
-
-        ListPreference listPreference;
-        listPreference = (ListPreference) findPreference("day_weather_time_drop_down");
-        listPreference.setEntries(new CharSequence[]{getString(R.string.off), "6:00", "7:00", "8:00"});
-        listPreference.setEntryValues(new CharSequence[]{"0", "6", "7", "8"});
-        if (listPreference.getValue() == null) {
-            listPreference.setValueIndex(0);
-        }
-        listPreference.setOnPreferenceChangeListener(this);
-
-        listPreference = (ListPreference) findPreference("night_weather_time_drop_down");
-        listPreference.setEntries(new CharSequence[]{getString(R.string.off), "19:00", "20:00", "21:00"});
-        listPreference.setEntryValues(new CharSequence[]{"0", "19", "20", "21"});
-        if (listPreference.getValue() == null) {
-            listPreference.setValueIndex(0);
-        }
-        listPreference.setOnPreferenceChangeListener(this);
-
-        listPreference = (ListPreference) findPreference("refresh_freq_drop_down");
-        listPreference.setEntries(new CharSequence[]{getString(R.string.thirty_minutes), getString(R.string.one_hour), getString(R.string.two_hours), getString(R.string.three_hours)});
-        listPreference.setEntryValues(new CharSequence[]{"0", "1", "2", "3"});
-        if (listPreference.getValue() == null) {
-            listPreference.setValueIndex(0);
-        }
-        listPreference.setOnPreferenceChangeListener(this);
-    }
-
-    @Override
-    public DividerDecoration onCreateItemDecoration() {
-        return new CategoryDivideDividerDecoration();
-        //return new DefaultDividerDecoration();
     }
 
     @Override

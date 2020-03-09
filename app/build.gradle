@@ -6,8 +6,8 @@ android {
         applicationId "com.absinthe.chillweather"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 686
-        versionName "1.1.2"
+        versionCode 700
+        versionName "1.2.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -35,7 +35,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
-//    implementation "androidx.preference:preference:1.1.0"
+    implementation "androidx.preference:preference:1.1.0"
     implementation 'com.google.android.material:material:1.2.0-alpha05'
 
     implementation 'org.litepal.android:java:3.0.0'
@@ -46,9 +46,6 @@ dependencies {
     implementation 'com.github.daniel-stoneuk:material-about-library:2.4.2'
     implementation 'com.mikepenz:iconics-core:3.1.0'
     implementation 'com.mikepenz:community-material-typeface:3.1.0-rc02@aar'
-    implementation 'moe.shizuku.preference:preference:3.0.0'
-    implementation 'moe.shizuku.preference:preference-dialog-android:3.0.0'
-    implementation 'moe.shizuku.preference:preference-simplemenu:3.0.0'
     implementation 'com.thesurix.gesturerecycler:gesture-recycler:1.8.0'
     implementation 'io.github.yavski:fab-speed-dial:1.0.6'
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'

@@ -12,34 +12,25 @@ import com.thesurix.gesturerecycler.GestureViewHolder;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 public class CityViewHolder extends GestureViewHolder {
 
     private static final int SELECT_DURATION_IN_MS = 250;
 
-    @BindView(R.id.manage_city_text)
     TextView mCityText;
-
-    @BindView(R.id.city_image)
     ImageView mCityPicture;
-
-    @BindView(R.id.mont_drag)
     ImageView mItemDrag;
-
-    @Nullable
-    @BindView(R.id.foreground)
     View mForegroundView;
-
-    @Nullable
-    @BindView(R.id.month_background_stub)
     ViewStub mBackgroundView;
 
     CityViewHolder(final View view) {
         super(view);
-        ButterKnife.bind(this, view);
+        mCityText = view.findViewById(R.id.manage_city_text);
+        mCityPicture = view.findViewById(R.id.city_image);
+        mItemDrag = view.findViewById(R.id.mont_drag);
+        mForegroundView = view.findViewById(R.id.foreground);
+        mBackgroundView = view.findViewById(R.id.month_background_stub);
     }
 
     @Nullable
